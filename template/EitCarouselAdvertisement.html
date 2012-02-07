@@ -1,0 +1,34 @@
+<lib name='jquery'/>
+<h2>{=$oAuthName}</h2>
+<msgqueue />
+<form  method="post" name="Carousel">
+	<label>轮播名称:<input type="text" name="Carousel_name" value="{=$arrCarouselAdvertisement['Carousel_name']}"/> </label><br/><br/>
+	<label><input type="hidden" name="hide_text" value="{=$arrCarouselAdvertisement['Carousel_name']}"/></label>
+<foreach for="$arrCarouselAdvertisement" key='sKeyPath' item='arrcItemList'>
+	<foreach for="$arrcItemList" key='sKeyPaths' item='arrcItemLists'>
+		<div class='advertisement'>
+			<label>广告:
+				<select name="advertisement_select[]" >
+					<foreach for="$arrAdvertisementSelect" key='sKeyPath' item='arrItemSelectList'>
+						<option value="{=$arrItemSelectList['name']}" {=$sKeyPaths==$arrItemSelectList['name'] ? 'selected':''}>{=$arrItemSelectList['name']}</option>
+					</foreach>
+				</select>
+			</label>&nbsp;&nbsp;&nbsp;
+			<label>权重:<input type="text" name="random_text[]" value="{=$arrcItemLists['random']}"/></label>&nbsp;&nbsp;&nbsp;&nbsp;
+			<label>启用:<input type="checkbox" name="run_checkbox[]"  checked="{=$arrcItemLists['run']}=='on'?'true':'false'"/></label>		
+		</div>
+	</foreach>
+</foreach>
+	<a id='addAdvertisement' href='#'>添加</a><br/><br/><br/>
+	<input type="submit" name="" value="保存" />
+</form>
+<script>
+jquery(function(){
+	//添加按钮功能
+	jquery('#addAdvertisement').click(function(){
+		var advertisementForm = jquery(".advertisement").last().clone();
+		jquery(this).before(advertisementForm);
+		return false;
+	});
+});
+</script>

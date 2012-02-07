@@ -1,0 +1,13 @@
+<Extension>
+
+	<name>advertisement</name>
+	<version>0.1</version>
+	<title>广告设置</title>
+	
+ 
+	<class>org.opencomb.advertisement.Advertisement</class>
+	<package folder="/class" namespace="org.opencomb.advertisement" />
+  
+	<template folder="/template" />
+	
+</Extension>
