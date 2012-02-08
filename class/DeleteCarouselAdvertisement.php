@@ -28,15 +28,10 @@ class DeleteCarouselAdvertisement extends ControlPanel
 	public function process()
 	{	
 		$aid=$this->params->get('aid');
-		//$arrDeleteCarouselAdvertisement=array();
 		$aSetting = Extension::flyweight('advertisement')->setting();
-		$aSetting->deleteItem('/'.'some',$aid);
+		$aSetting->deleteItem('/'.'multipage',$aid);
 		$this->viewDeleteCarousel->createMessage(Message::error,"轮播广告%s 删除成功",$aid);
-		/*
-		$akey=$aSetting->key('/'.'some',true);
-		$arrDeleteCarouselAdvertisement=$akey->item($aid,array());
-		$aSetting->hasItem('/'.'some',$aid);
-		*/
+
 	}
 	
 }

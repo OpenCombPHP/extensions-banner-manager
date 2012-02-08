@@ -30,14 +30,7 @@ class DeleteAdvertisement extends ControlPanel
 		$aid=$this->params->get('aid');
 		$arrAdvertisement=array();
 		$aSetting = Extension::flyweight('advertisement')->setting();
-		$aSetting->deleteItem('/'.'one',$aid);
+		$aSetting->deleteItem('/'.'single',$aid);
 		$this->viewDeleteAd->createMessage(Message::error,"广告%s 删除成功",$aid);
-		/*
-		$akey=$aSetting->key('/'.'one',true);
-		$arrAdvertisement=$akey->item($aid,array());
-		$aSetting->hasItem('/'.'one',$aid);
-		*/
-			
 	}
-	
 }
