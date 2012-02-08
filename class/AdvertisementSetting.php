@@ -1,4 +1,4 @@
-<?php
+<?php 
 namespace org\opencomb\advertisement ;
 
 use org\jecat\framework\verifier\Length;
