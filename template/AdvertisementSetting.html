@@ -6,25 +6,31 @@
 	<tr>
 		<th>名称</th>
 		<th>类型</th>
+		<th>widget</th>
 		<th>删除</th>
 		<th>编辑</th>	
 	</tr>
 	<tbody>
-	<foreach for="$arrAdvertisement" key='sKeyPath' item='arrcItemList'>
+	<foreach for="$arrAdvertisement" key='sKeyPath' item='arrAItemList'>
 	<tr>
-		<td>{=$arrcItemList['name']}</td>
-		<td>{=$arrcItemList['type']}</td>
-		<td><a href="?c=org.opencomb.advertisement.DeleteAdvertisement&aid={=$arrcItemList['name']}">删除</a></td>
-		<td><a href="?c=org.opencomb.advertisement.EditAdvertisement&aid={=$arrcItemList['name']}">编辑</a></td>
+		<td>{=$arrAItemList['name']}</td>
+		<td>{=$arrAItemList['type']}</td>
+		<td>&lt;widget class='advertisment' attr.name="{=$arrAItemList['name']}" attr.type="{=$arrAItemList['type']}" /></td>
+		<td><a href="?c=org.opencomb.advertisement.DeleteAdvertisement&aid={=$arrAItemList['name']}">删除</a></td>
+		<td><a href="?c=org.opencomb.advertisement.EditAdvertisement&aid={=$arrAItemList['name']}">编辑</a></td>
 	</tr>
 	</foreach>
-	<foreach for="$arrCarousel" key='sKeyPath' item='arrcItemList'>
+	<foreach for="$arrCarousel" key='sKeyPath' item='arrCItemList'>
 	<tr>
-		<td>{=$arrcItemList['Carousel_name']}</td>
-		<td>{=$arrcItemList['type']}</td>
-		<td><a href="?c=org.opencomb.advertisement.DeleteCarouselAdvertisement&aid={=$arrcItemList['Carousel_name']}">删除</a></td>
-		<td><a href="?c=org.opencomb.advertisement.EditCarouselAdvertisement&aid={=$arrcItemList['Carousel_name']}">编辑</a></td>
+		<td>{=$arrCItemList['Carousel_name']}</td>
+		<td>{=$arrCItemList['type']}</td>
+		<td>&lt;widget class='advertisment' attr.name="{=$arrCItemList['Carousel_name']}" attr.type="{=$arrCItemList['type']}" /></td>
+		<td><a href="?c=org.opencomb.advertisement.DeleteCarouselAdvertisement&aid={=$arrCItemList['Carousel_name']}">删除</a></td>
+		<td><a href="?c=org.opencomb.advertisement.EditCarouselAdvertisement&aid={=$arrCItemList['Carousel_name']}">编辑</a></td>
 	</tr>
-	</foreach>	
-	</tbody>
+	</foreach>
+	<tr>	
+		<td><a href="?c=org.opencomb.advertisement.AdvertisementTest">广告练习</a></td>
+	</tr>	
+	</tbody>	
 </table>

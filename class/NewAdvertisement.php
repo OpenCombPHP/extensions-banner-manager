@@ -71,15 +71,20 @@ class NewAdvertisement extends ControlPanel
 								'id'=>'code_text',
 								'class'=>'text',
 								'type'=>'multiple',
-								'title'=>'title',
+								'title'=>'手写代码区域',
 								'disabled'=>'disabled',
 						),
 						array(
 								'id'=>'style_text',
 								'class'=>'text',
 								'type'=>'multiple',
-								'title'=>'title',
+								'title'=>'样式',
 						),
+						array(
+								'id'=>'forward_text',
+								'class'=>'text',
+								'title'=>'广告条转',
+						)
 				)
 			)
 		);
@@ -96,6 +101,7 @@ class NewAdvertisement extends ControlPanel
 			
 			$this->viewNewAd->loadWidgets ( $this->params );
 			$sName=$this->viewNewAd->widget('name_text')->value();
+			$sForward=trim($this->viewNewAd->widget('forward_text')->value());
 			
 	
 			if(empty($sName))
@@ -109,6 +115,14 @@ class NewAdvertisement extends ControlPanel
 			{
 				$this->viewNewAd->createMessage(Message::error,"名称%s 重名",$sName);
 				return;
+			}
+			
+			if(empty($sForward))
+			{
+				$sKey="广告跳转链接";
+				$this->viewNewAd->createMessage(Message::error,"%s 不能为空",$sKey);
+				return;
+			
 			}
 			
 			
@@ -146,8 +160,6 @@ class NewAdvertisement extends ControlPanel
 						return;
 					}
 				}
-				
-				
 			}
 			else if($this->viewNewAd->widget('code_radio')->isChecked())
 			{
@@ -158,7 +170,6 @@ class NewAdvertisement extends ControlPanel
 					$this->viewNewAd->createMessage(Message::error,"%s 不能为空",$skey);
 					return;
 				}
-			
 			}
 			$arrABV=array(
 					'name'=>trim($this->viewNewAd->widget('name_text')->value()),
@@ -173,7 +184,8 @@ class NewAdvertisement extends ControlPanel
 					'optionradio'=>$this->viewNewAd->widget('option_radio')->isChecked(),
 					'coderadio'=>$this->viewNewAd->widget('code_radio')->isChecked(),
 					'style'=>$this->viewNewAd->widget('style_text')->value(),
-						);
+					'forward'=>$this->viewNewAd->widget('forward_text')->value(),
+						);		
 			$aSetting->setItem('/'.'single',trim($this->viewNewAd->widget('name_text')->value()),$arrABV);
 			$sName="成功";
 			$this->viewNewAd->createMessage(Message::success,"新建告广%s ",$sName);

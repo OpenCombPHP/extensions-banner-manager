@@ -17,32 +17,32 @@ function disableImage()
 }
 function disableUrl() 
 {
-	document.getElementById('url_text').removeAttribute("disabled");
 	document.getElementById('image_file').disabled="disabled";
+	document.getElementById('url_text').removeAttribute("disabled");
 	document.getElementById('image_radio').checked=false;
 }
 function disableOption() 
 {
+document.getElementById('code_radio').checked=false;
+document.getElementById('image_radio').checked=true;
 document.getElementById('code_text').disabled="disabled";
 document.getElementById('title_text').removeAttribute("disabled");
 document.getElementById('image_radio').removeAttribute("disabled");
 document.getElementById('image_file').removeAttribute("disabled");
 document.getElementById('url_radio').removeAttribute("disabled");
-document.getElementById('url_text').removeAttribute("disabled");
-document.getElementById('window_checkbox').removeAttribute("disabled");
-document.getElementById('code_radio').checked=false;
+document.getElementById('url_text').disabled("disabled");
 }
 function disableCode() 
 {
+document.getElementById('option_radio').checked=false;
+document.getElementById('image_radio').checked=false;
+document.getElementById('url_radio').checked=false;
 document.getElementById('title_text').disabled="disabled";
 document.getElementById('image_radio').disabled="disabled";
 document.getElementById('image_file').disabled="disabled";
 document.getElementById('url_radio').disabled="disabled";
 document.getElementById('url_text').disabled="disabled";
-document.getElementById('window_checkbox').disabled="disabled";
 document.getElementById('code_text').removeAttribute("disabled");
-document.getElementById('option_radio').checked=false;
-
 }
 </script>
 <form enctype="multipart/form-data"  method="post">
@@ -52,7 +52,6 @@ document.getElementById('option_radio').checked=false;
 		
 		<label><widget id="image_radio"/>图片:<widget id="image_file" /></label><br/>
 		<label><widget id="url_radio"/>链接:<widget id="url_text" /></label><br/>
-		<label><widget id="window_checkbox" />新窗口</label><br/>
 		<label><widget id="option_radio" /></label>
 	</div>
 	<hr/>
@@ -62,8 +61,15 @@ document.getElementById('option_radio').checked=false;
 		<label><widget id="code_text" /></label><br/>
 	</div>
 	<hr/>
+	<div id="div_setup">
+		<label><widget id="window_checkbox" />新窗口</label><br/>
+		<label>广告链接:<widget id="forward_text" /></label><br/>
+	</div>
+	<hr/>
+	<div id="div_style">
 		<label>样式:</label><br/>
 		<label><widget id="style_text" /></label><br/>
 		<input type="submit" value="保存" />
+	</div>
 
 </form>

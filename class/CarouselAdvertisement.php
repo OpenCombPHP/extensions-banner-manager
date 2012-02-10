@@ -40,13 +40,13 @@ class CarouselAdvertisement extends ControlPanel
 			$sCarousel_name=$this->params['Carousel_name'];
 			if(empty($sCarousel_name))
 				{
-					$skey="轮播名称";
+					$skey="随机播放名称";
 					$this->viewCarouselAd->createMessage(Message::error,"%s 不能为空",$skey) ;
 					return;
 				
 				}
 			else if($akey->hasItem($sCarousel_name)){
-					$this->viewCarouselAd->createMessage(Message::error,"轮播名称%s 已存在",$sCarousel_name);
+					$this->viewCarouselAd->createMessage(Message::error,"随机播放名称%s 已存在",$sCarousel_name);
 					return;
 				}
 			$this->params['advertisement_select[]'];
@@ -65,28 +65,44 @@ class CarouselAdvertisement extends ControlPanel
 			
 			foreach($this->params['random_text'] as $key=>$value)
 			{
-				if(!preg_match('/^\d{1,35}$/',(int)$value))
+				if(!preg_match('/^\+?[1-9][0-9]*$/',(int)$value))
 				{
 					$skey="权重值";
-					$this->viewCarouselAd->createMessage(Message::error,"%s 为一位以上的数字",$skey) ;
+					$this->viewCarouselAd->createMessage(Message::error,"%s 为一位以上非零的数字",$skey) ;
 					return;
 				}
 				$arrRandom[]=$value;
 			};
 			
-			foreach($this->params['run_checkbox'] as $key=>$value)
+			
+			if(!empty($this->params['run_checkbox']))
 			{
-				$arrRun[]=$value;
-			};
+				foreach($this->params['run_checkbox'] as $key=>$value)
+				{
+					$arrRun[]=$value;
+				};
+			}
 			
 	
-			for($i=0;$i<count($arrAdvertisement);$i++) {
-					$akey=$aSetting->key('/'.'single',true);
-					$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['advertisement_url']=$akey->item($arrAdvertisement[$i],array());										
-					$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['random']=$arrRandom[$i];
-					$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['run']=$arrRun[$i];
-					$arrCarouselAdvertisement['type']='轮播';
-					$arrCarouselAdvertisement['Carousel_name']=$sCarousel_name;
+			for($i=0;$i<count($arrAdvertisement);$i++) 
+			{
+				$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['run']='off';
+				if(!empty($this->params['run_checkbox']))
+				{
+					$h=$i+1;
+					for($j=0;$j<count($arrRun);$j++)
+					{
+						if($arrRun[$j]==$h)
+						{
+							$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['run']='on';
+						}
+					}
+				}
+				$akey=$aSetting->key('/'.'single',true);
+				$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['advertisement_url']=$akey->item($arrAdvertisement[$i],array());										
+				$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['random']=$arrRandom[$i];
+				$arrCarouselAdvertisement['type']='随机播放';
+				$arrCarouselAdvertisement['Carousel_name']=$sCarousel_name;
 			};
 			$aSetting->setItem('/'.'multipage',$sCarousel_name,$arrCarouselAdvertisement);
 		}	

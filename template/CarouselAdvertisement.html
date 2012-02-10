@@ -12,7 +12,7 @@
 			</select>
 		</label>&nbsp;&nbsp;
 		<label>权重:<input type="text" size="5" name="random_text[]" /></label>&nbsp;&nbsp;&nbsp;&nbsp;
-		<label>启用:<input type="checkbox" name="run_checkbox[]" /></label>		
+		<label>启用:<input class="advertisement_enable" type="checkbox" name="run_checkbox[]" value="1" /></label>		
 	</div>
 	<a id='addAdvertisement' href='#'>添加</a><br/><br/><br/>
 	<input type="submit" name="" value="保存" />
@@ -22,6 +22,8 @@ jquery(function(){
 	//添加按钮功能
 	jquery('#addAdvertisement').click(function(){
 		var advertisementForm = jquery(".advertisement").last().clone();
+		var advertisementEnable = advertisementForm.find('.advertisement_enable');
+		advertisementEnable.val(parseInt(advertisementEnable.val())+1);
 		jquery(this).before(advertisementForm);
 		return false;
 	});

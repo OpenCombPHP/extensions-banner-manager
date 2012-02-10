@@ -1,5 +1,6 @@
 <?php 
 namespace org\opencomb\advertisement ;
+use org\jecat\framework\bean\BeanFactory;
 
 use org\opencomb\platform\ext\Extension ;
 use org\jecat\framework\lang\aop\AOP;
@@ -15,6 +16,7 @@ class Advertisement extends Extension
 	 */
 	public function load()
 	{
+		BeanFactory::singleton()->registerBeanClass("org\\opencomb\\advertisement\\widget\\Advertisment",'advertisment') ;
 		//AOP::singleton()->register('org\\opencomb\\advertisement\\MainMenuAspect') ;
 		// todo ...
 		
