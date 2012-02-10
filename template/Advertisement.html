@@ -1,0 +1,21 @@
+<html>
+<head>
+<if '$theWidget->style()'>
+	{=$theWidget->style()}
+</if>
+</head>
+<body>
+<div>
+<a href="{=$theWidget->forward()}"  target="{=$theWidget->window()}" ><img class="small" src="{=$theWidget->img()}" /></a>
+<if '$theWidget->code()'>
+{=$theWidget->code()}
+</if>
+</div>
+</body>
+</html>
+
+
+
+
+
+
