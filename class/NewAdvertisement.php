@@ -185,6 +185,7 @@ class NewAdvertisement extends ControlPanel
 						);		
 			$aSetting->setItem('/'.'advertis',trim($this->viewNewAd->widget('advertis_name_text')->value()),$arrABV);
 			$sSuccess="成功";
+			$this->viewNewAd->hideForm ();
 			$this->viewNewAd->createMessage(Message::success,"新建告广%s ",$sSuccess);
 		};	
 	}

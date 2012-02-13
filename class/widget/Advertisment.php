@@ -8,6 +8,7 @@ use org\jecat\framework\mvc\model\IModel;
 use org\jecat\framework\mvc\view\widget\Widget;
 use org\opencomb\platform\ext\Extension;
 
+
 /**
  * @wiki /Advertisement/控件/广告
  * 
@@ -236,6 +237,7 @@ class Advertisment extends Widget {
 		}
 		else 
 		{
+			
 			return;
 		}
 		parent::display($aUI, $aVariables,$aDevice);

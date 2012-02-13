@@ -157,6 +157,7 @@ class EditCarouselAdvertisement extends ControlPanel
 				};
 				$aSetting->deleteItem('/'.'advertis',$sName);
 				$aSetting->setItem('/'.'advertis',$sName,$arrCarouselAdvertisement);
+				$this->viewEditCarouselAdvertisement->hideForm ();
 				$this->viewEditCarouselAdvertisement->createMessage(Message::success,"随机播放广告%s 编辑成功",$sName);
 			}
 			else if($aMkey->hasItem($sName)){
@@ -187,6 +188,7 @@ class EditCarouselAdvertisement extends ControlPanel
 				};
 				$aSetting->deleteItem('/'.'advertis',$this->params['hide_text']);
 				$aSetting->setItem('/'.'advertis',$sName,$arrCarouselAdvertisement);
+				$this->viewEditCarouselAdvertisement->hideForm ();
 				$this->viewEditCarouselAdvertisement->createMessage(Message::success,"随机播放广告%s 编辑成功",$sName);	
 			}
 		}	

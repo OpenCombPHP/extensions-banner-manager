@@ -254,6 +254,7 @@ class EditAdvertisement extends ControlPanel
 						}
 						$aSetting->deleteItem('/'.'advertis',trim($this->viewEditAd->widget('name_text')->value()));
 						$aSetting->setItem('/'.'advertis',trim($this->viewEditAd->widget('name_text')->value()),$arrABV);
+						$this->viewEditAd->hideForm ();
 						$this->viewEditAd->createMessage(Message::success,"编辑广告%s 成功",$sName);
 					}else if($this->viewEditAd->widget('code_radio')->isChecked()) {
 						$arrABV=array(
@@ -274,6 +275,7 @@ class EditAdvertisement extends ControlPanel
 						);
 						$aSetting->deleteItem('/'.'advertis',trim($this->viewEditAd->widget('name_text')->value()));
 						$aSetting->setItem('/'.'advertis',trim($this->viewEditAd->widget('name_text')->value()),$arrABV);
+						$this->viewEditAd->hideForm ();
 						$this->viewEditAd->createMessage(Message::success,"编辑广告%s 成功",$sName);
 					}
 				}else if($akey->hasItem($this->viewEditAd->widget('name_text')->value()))
@@ -304,6 +306,7 @@ class EditAdvertisement extends ControlPanel
 						}
 						$aSetting->deleteItem('/'.'advertis',trim($this->viewEditAd->widget('name_text')->value()));
 						$aSetting->setItem('/'.'advertis',trim($this->viewEditAd->widget('name_text')->value()),$arrABV);
+						$this->viewEditAd->hideForm ();
 						$this->viewEditAd->createMessage(Message::success,"编辑广告%s 成功",$sName);
 					}else if($this->viewEditAd->widget('code_radio')->isChecked()) {
 						$arrABV=array(
@@ -324,6 +327,7 @@ class EditAdvertisement extends ControlPanel
 						);
 						$aSetting->deleteItem('/'.'advertis',trim($this->viewEditAd->widget('name_text')->value()));
 						$aSetting->setItem('/'.'advertis',trim($this->viewEditAd->widget('name_text')->value()),$arrABV);
+						$this->viewEditAd->hideForm ();
 						$this->viewEditAd->createMessage(Message::success,"编辑广告%s 成功",$sName);
 					}
 				};

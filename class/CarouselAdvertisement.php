@@ -122,8 +122,10 @@ class CarouselAdvertisement extends ControlPanel
 				$arrCarouselAdvertisement['classtype2']='DeleteCarouselAdvertisement';
 				$arrCarouselAdvertisement['name']=$sName;
 			};
+			
 			$aSetting->setItem('/'.'advertis',$sName,$arrCarouselAdvertisement);
-		}	
-		
+			$this->viewCarouselAd->hideForm();
+			$this->viewCarouselAd->createMessage(Message::success,"随机播放广告%s 创建成功",$sName);
+		}		
 	}	
 }

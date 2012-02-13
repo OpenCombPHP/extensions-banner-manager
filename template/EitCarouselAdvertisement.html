@@ -8,13 +8,12 @@
 		 <div class='advertisement'>
 			<label>广告:
 				<select name="advertisement_select[]" >
-				{? var_dump($arrItemList['advertisement_url']['name']);} 
 					<foreach for="$arrAdvertisementSelect" key='sKeyPath' item='arrItemSelectList'>
 						<option value="{=$arrItemSelectList['name']}" {=$arrItemList['advertisement_url']['name']==$arrItemSelectList['name'] ? 'selected':''}>{=$arrItemSelectList['name']}</option>
 					</foreach>
 				</select>
 			</label>&nbsp;&nbsp;&nbsp;
-			<label>权重:<input type="text" name="random_text[]" value={=$arrItemList['random']}/></label>&nbsp;&nbsp;&nbsp;&nbsp;
+			<label>权重:<input type="text" size="5" name="random_text[]" value={=$arrItemList['random']}/></label>&nbsp;&nbsp;&nbsp;&nbsp;
 			<label>启用:<input type="checkbox" name="run_checkbox[]" value="{=$arrItemList['advertisement_url']['name']}" {=$arrItemList['run']=='on' ? 'checked':''} /></label>		
 		</div>	
 </foreach>

@@ -36,7 +36,10 @@ class DeleteAdvertisement extends ControlPanel
 		{
 			$file->delete();
 		}
+		else {
+			return;
+		}
 		$aSetting->deleteItem('/'.'advertis',$aid);
-		$this->viewDeleteAd->createMessage(Message::error,"广告%s 删除成功",$aid);
+		$this->viewDeleteAd->createMessage(Message::success,"广告%s 删除成功",$aid);
 	}
 }
