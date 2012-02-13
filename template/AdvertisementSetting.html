@@ -15,18 +15,9 @@
 	<tr>
 		<td>{=$arrAItemList['name']}</td>
 		<td>{=$arrAItemList['type']}</td>
-		<td>&lt;widget class='advertisment' attr.name="{=$arrAItemList['name']}" attr.type="{=$arrAItemList['type']}" /></td>
-		<td><a href="?c=org.opencomb.advertisement.DeleteAdvertisement&aid={=$arrAItemList['name']}">删除</a></td>
-		<td><a href="?c=org.opencomb.advertisement.EditAdvertisement&aid={=$arrAItemList['name']}">编辑</a></td>
-	</tr>
-	</foreach>
-	<foreach for="$arrCarousel" key='sKeyPath' item='arrCItemList'>
-	<tr>
-		<td>{=$arrCItemList['Carousel_name']}</td>
-		<td>{=$arrCItemList['type']}</td>
-		<td>&lt;widget class='advertisment' attr.name="{=$arrCItemList['Carousel_name']}" attr.type="{=$arrCItemList['type']}" /></td>
-		<td><a href="?c=org.opencomb.advertisement.DeleteCarouselAdvertisement&aid={=$arrCItemList['Carousel_name']}">删除</a></td>
-		<td><a href="?c=org.opencomb.advertisement.EditCarouselAdvertisement&aid={=$arrCItemList['Carousel_name']}">编辑</a></td>
+		<td>&lt;widget class='advertisment' attr.name="{=$arrAItemList['name']}" /></td>
+		<td><a href="?c=org.opencomb.advertisement.{=$arrAItemList['classtype2']}&aid={=$arrAItemList['name']}">删除</a></td>
+		<td><a href="?c=org.opencomb.advertisement.{=$arrAItemList['classtype']}&aid={=$arrAItemList['name']}">编辑</a></td>
 	</tr>
 	</foreach>
 	<tr>	

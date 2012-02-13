@@ -19,28 +19,18 @@ class AdvertisementSetting extends ControlPanel
 					'class' => 'view' 
 					),
 		);
-		
 		return $arrBean;
 	}
 	
 	public function process()
 	{	
 		$aSetting = Extension::flyweight('advertisement')->setting();
-		$akey=$aSetting->key('/'.'single',true);
-		$aSingle=$aSetting->itemIterator('/'.'single');
+		$akey=$aSetting->key('/'.'advertis',true);
+		$aSingle=$aSetting->itemIterator('/'.'advertis');
 		$arrAdvertisement=array();
 		foreach ($aSingle as $key=>$value) {
 			$arrAdvertisement[]=$akey->item($value,array());
 		}
 		$this->viewAdvertisementSetting->variables()->set('arrAdvertisement',$arrAdvertisement) ;
-
-		
-		$akey=$aSetting->key('/'.'multipage',true);
-		$aMultipage=$aSetting->itemIterator('/'.'multipage');
-		$arrCarousel=array();
-		foreach ($aMultipage as $key=>$value) {
-			$arrCarousel[]=$akey->item($value,array());
-		}
-		$this->viewAdvertisementSetting->variables()->set('arrCarousel',$arrCarousel) ;
 	}
 }

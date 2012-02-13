@@ -29,8 +29,7 @@ class DeleteCarouselAdvertisement extends ControlPanel
 	{	
 		$aid=$this->params->get('aid');
 		$aSetting = Extension::flyweight('advertisement')->setting();
-		$aSetting->deleteItem('/'.'multipage',$aid);
+		$aSetting->deleteItem('/'.'advertis',$aid);
 		$this->viewDeleteCarousel->createMessage(Message::error,"轮播广告%s 删除成功",$aid);
-	}
-	
+	}	
 }

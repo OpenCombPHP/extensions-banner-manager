@@ -17,8 +17,7 @@ class DeleteAdvertisement extends ControlPanel
 		$arrBean = array(
 			'view:deleteAd' => array(
 				'template' => 'DeleteAdvertisement.html' ,
-				'class' => 'form' ,
-						
+				'class' => 'form' ,	
 				)
 			);
 		return $arrBean;
@@ -30,14 +29,14 @@ class DeleteAdvertisement extends ControlPanel
 		$aid=$this->params->get('aid');
 		$arrAdvertisement=array();
 		$aSetting = Extension::flyweight('advertisement')->setting();
-		$akey=$aSetting->key('/'.'single',true);
+		$akey=$aSetting->key('/'.'advertis',true);
 		$arrOldABV=$akey->item($aid,array());
 		$file=Extension::flyweight('advertisement')->publicFolder()->findFile($arrOldABV['image']);
 		if($file->exists())
 		{
 			$file->delete();
 		}
-		$aSetting->deleteItem('/'.'single',$aid);
+		$aSetting->deleteItem('/'.'advertis',$aid);
 		$this->viewDeleteAd->createMessage(Message::error,"广告%s 删除成功",$aid);
 	}
 }

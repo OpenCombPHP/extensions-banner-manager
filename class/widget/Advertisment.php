@@ -28,12 +28,6 @@ use org\opencomb\platform\ext\Extension;
  * |必选
  * |广告空间的信息来源
  * |-- --
- * |type
- * |string
- * |‘普通’
- * |可选
- * |判断广告和随机广告的来源，“普通”为广告，“随机播放”为随机广告
- * |-- --
  * |template
  * |string
  * |'Advertisement.html'
@@ -74,22 +68,11 @@ use org\opencomb\platform\ext\Extension;
  * 
  */
 class Advertisment extends Widget {
-	/*
-	public function __construct($sName = '', $sTemplate = '', $sImage = '', $sUrl = '', $sWindow = '', $sCode = '', $sStyle='') {
-		
-		parent::__construct ( $sId, 'advertisement:Advertisement.html',$sTitle, $aView );
-	}
-	*/
 	private $sCode='';
 	private $sStyle='';
 	private $sImg='';
 	
 	public function __construct($aUserModel=null, $sId = '', $sTitle = null,  IView $aView = null) {
-		/*
-		if($aUserModel){
-			$this->setModel($aUserModel);
-		}
-		*/
 		parent::__construct ( $sId, 'advertisement:Advertisement.html',$sTitle, $aView );
 	}
 	/**
@@ -178,87 +161,83 @@ class Advertisment extends Widget {
 	
 	public function display(UI $aUI,IHashTable $aVariables=null,IOutputStream $aDevice=null)
 	{
-		if($this->attribute('type')=="普通")	
-		{
-			if($sName = $this->attribute('name')){
-				$this->setName($sName);
-				$aSetting = Extension::flyweight('advertisement')->setting();
-				$aSkey=$aSetting->key('/'.'single',true);
-				if($aSkey->hasItem($sName))
-				{
-					$arrAdvertisement=$aSkey->item($sName,array());
-					if($arrAdvertisement['coderadio'])
+		$sName = $this->attribute('name');
+		$aSetting = Extension::flyweight('advertisement')->setting();
+		$akey=$aSetting->key('/'.'advertis',true);
+		
+		if($akey->hasItem($sName))
+		{	
+			$arrAdvertisement=array();
+			$arrAdvertisement=$akey->item($sName,array());		
+			if($arrAdvertisement['type']=='普通')
+			{
+				
+				if($arrAdvertisement['coderadio'])
 					{
 						$this->setCode($arrAdvertisement['code']);
 					}
-					else {
-						if($arrAdvertisement['image']=='#') {
-							$this->setImg($arrAdvertisement['url']);
-						}
-						else {
-							$this->setImg($arrAdvertisement['image']);
-						}			
-					}
-					$this->setForward($arrAdvertisement['forward']);
-					$this->setWindow($arrAdvertisement['window']);;
-				}
 				else 
-				{
-					return;
-				}
-			}
-		}else if($this->attribute('type')=="随机播放") {
-			$sName = $this->attribute('name');
-			$arrCarouselImg=array();
-			$aSetting = Extension::flyweight('advertisement')->setting();
-			$aMkey=$aSetting->key('/'.'multipage',true);
-			if($aMkey->hasItem($sName))
-			{
-				$arrCarousel=$aMkey->item($sName,array());
-				foreach ($arrCarousel['advertisements'] as $key=>$value)
-				{
-					if($value['run']=='on')
-					{
-						$sUrl=$value['advertisement_url']['name'];
-						$iNum=(int)$value['random'];
-						
-						for($i=0;$i<$iNum;$i++)
-						{
-							$arrCarouselImg[]=$sUrl;
-						}
-					}
-				}
-				if(count($arrCarouselImg)==0)
-				{
-					return;
-				}
-				
-				$sAdvertisementName=$arrCarouselImg[array_rand($arrCarouselImg)];
-				$aSetting = Extension::flyweight('advertisement')->setting();
-				$aSkey=$aSetting->key('/'.'single',true);
-				$arrAdvertisement=$aSkey->item($sAdvertisementName,array());
-				if($arrAdvertisement['coderadio'])
-				{
-					$this->setCode($arrAdvertisement['code']);
-				}
-				else if($arrAdvertisement['optionradio'])
 				{
 					if($arrAdvertisement['image']=='#') {
 						$this->setImg($arrAdvertisement['url']);
 					}
 					else {
 						$this->setImg($arrAdvertisement['image']);
+					}			
+				}
+				$this->setForward($arrAdvertisement['forward']);
+				$this->setWindow($arrAdvertisement['window']);
+			}
+			else 
+			{
+				$arrCarousel=$akey->item($sName,array());
+				$arrCarouselImg=array();
+				foreach ($arrCarousel['advertisements'] as $key=>$value)
+				{
+					if($value['run']=='on')
+					{
+						$sUrl=$value['advertisement_url']['name'];
+						$iNum=(int)$value['random'];
+				
+						for($i=0;$i<$iNum;$i++)
+						{
+							$arrCarouselImg[]=$sUrl;
+						}
+					}
+				}
+				
+				if(count($arrCarouselImg)==0)
+				{
+					return;
+				}
+				
+				$sAdvertisementName=$arrCarouselImg[array_rand($arrCarouselImg)];
+				
+				$aSetting = Extension::flyweight('advertisement')->setting();
+				$akey=$aSetting->key('/'.'advertis',true);
+				$arrAdvertisement=$akey->item($sAdvertisementName,array());
+				if($arrAdvertisement['coderadio'])
+				{
+				$this->setCode($arrAdvertisement['code']);
+				}
+				else if($arrAdvertisement['optionradio'])
+				{
+					if($arrAdvertisement['image']=='#') {
+					$this->setImg($arrAdvertisement['url']);
+					}
+					else {
+					$this->setImg($arrAdvertisement['image']);
 					}
 				}
 				$this->setForward($arrAdvertisement['forward']);
 				$this->setWindow($arrAdvertisement['window']);
-				$this->setStyle($arrAdvertisement['style']);
+				$this->setStyle($arrAdvertisement['style']);				
 			}
-			else 
-			{
-				return;
-			}
-		} 
+		}
+		else 
+		{
+			return;
+		}
 		parent::display($aUI, $aVariables,$aDevice);
 	}	
 }

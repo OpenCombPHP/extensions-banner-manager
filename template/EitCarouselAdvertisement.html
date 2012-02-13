@@ -2,14 +2,15 @@
 <h2>{=$oAuthName}</h2>
 <msgqueue />
 <form  method="post" name="Carousel">
-	<label>轮播名称:<input type="text" name="Carousel_name" value="{=$arrCarouselAdvertisement['Carousel_name']}"/> </label><br/><br/>
-	<label><input type="hidden" name="hide_text" value="{=$arrCarouselAdvertisement['Carousel_name']}"/></label>
+	<label>轮播名称:<input type="text" name="name" value="{=$arrCarouselAdvertisement['name']}"/> </label><br/><br/>
+	<label><input type="hidden" name="hide_text" value="{=$arrCarouselAdvertisement['name']}"/></label>
 <foreach for="$arrCarouselAdvertisement['advertisements']" key='sKeyPath' item='arrItemList'>
 		 <div class='advertisement'>
 			<label>广告:
 				<select name="advertisement_select[]" >
+				{? var_dump($arrItemList['advertisement_url']['name']);} 
 					<foreach for="$arrAdvertisementSelect" key='sKeyPath' item='arrItemSelectList'>
-						<option value="{=$arrItemList['advertisement_url']['name']}" {=$arrItemList['advertisement_url']['name']==$arrItemSelectList['name'] ? 'selected':''}>{=$arrItemSelectList['name']}</option>
+						<option value="{=$arrItemSelectList['name']}" {=$arrItemList['advertisement_url']['name']==$arrItemSelectList['name'] ? 'selected':''}>{=$arrItemSelectList['name']}</option>
 					</foreach>
 				</select>
 			</label>&nbsp;&nbsp;&nbsp;

@@ -25,43 +25,59 @@ class CarouselAdvertisement extends ControlPanel
 	public function process()
 	{	
 		$aSetting = Extension::flyweight('advertisement')->setting();
-		$akey=$aSetting->key('/'.'single',true);
-		$aSingle=$aSetting->itemIterator('/'.'single');
+		$akey=$aSetting->key('/'.'advertis',true);
+		$aAdvertisements=$aSetting->itemIterator('/'.'advertis');
 		$arrAdvertisementSelect=array();
-		foreach ($aSingle as $key=>$value) {
-			$arrAdvertisementSelect[]=$akey->item($value,array());
+		$arrAdvertisement=array();
+		foreach ($aAdvertisements as $key=>$value) {
+			$arrAdvertisement=$akey->item($value,array());
+			if($arrAdvertisement['type']=='普通') {
+				$arrAdvertisementSelect[]=$arrAdvertisement['name'];
+			}
 		};
 		$this->viewCarouselAd->variables()->set('arrAdvertisementSelect',$arrAdvertisementSelect) ;
 	
 		
 		if($this->viewCarouselAd->isSubmit()){
 			$aSetting = Extension::flyweight('advertisement')->setting();
-			$akey=$aSetting->key('/'.'multipage',true);
-			$sCarousel_name=$this->params['Carousel_name'];
-			if(empty($sCarousel_name))
+			$akey=$aSetting->key('/'.'advertis',true);
+			$sName=$this->params['Carousel_name'];
+			if(empty($sName))
 				{
 					$skey="随机播放名称";
 					$this->viewCarouselAd->createMessage(Message::error,"%s 不能为空",$skey) ;
 					return;
 				
 				}
-			else if($akey->hasItem($sCarousel_name)){
-					$this->viewCarouselAd->createMessage(Message::error,"随机播放名称%s 已存在",$sCarousel_name);
+			else if($akey->hasItem($sName)){
+					$this->viewCarouselAd->createMessage(Message::error,"随机播放名称%s 已存在",$sName);
 					return;
 				}
-			$this->params['advertisement_select[]'];
-			$this->params['random_text'];
-			$this->params['run_checkbox[]'];
 			$arrAdvertisement=array();
 			$arrRandom=array();
 			$arrRun=array();
 			$arrCarouselAdvertisement=array();
+			
+			for($i=0;$i<count($this->params['advertisement_select']);$i++)
+			{
+				for($j=$i+1;$j<count($this->params['advertisement_select'])-$i;$j++)
+				{
+				if($this->params['advertisement_select'][$i]==$this->params['advertisement_select'][$j])
+					{
+						$this->viewCarouselAd->createMessage(Message::error,"广告名称%s 重名",$this->params['advertisement_select'][$i]);
+						return;
+					}
+				}
+			}
 			
 			foreach ($this->params['advertisement_select'] as $key=>$value)
 			{
 				$arrAdvertisement[]=$value;
 		
 			};
+			
+			
+			
 			
 			foreach($this->params['random_text'] as $key=>$value)
 			{
@@ -98,13 +114,16 @@ class CarouselAdvertisement extends ControlPanel
 						}
 					}
 				}
-				$akey=$aSetting->key('/'.'single',true);
+				$akey=$aSetting->key('/'.'advertis',true);
 				$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['advertisement_url']=$akey->item($arrAdvertisement[$i],array());										
 				$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['random']=$arrRandom[$i];
 				$arrCarouselAdvertisement['type']='随机播放';
-				$arrCarouselAdvertisement['Carousel_name']=$sCarousel_name;
+				$arrCarouselAdvertisement['classtype']='EditCarouselAdvertisement';
+				$arrCarouselAdvertisement['classtype2']='DeleteCarouselAdvertisement';
+				$arrCarouselAdvertisement['name']=$sName;
 			};
-			$aSetting->setItem('/'.'multipage',$sCarousel_name,$arrCarouselAdvertisement);
+			$aSetting->setItem('/'.'advertis',$sName,$arrCarouselAdvertisement);
 		}	
+		
 	}	
 }

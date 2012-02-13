@@ -19,7 +19,7 @@ class NewAdvertisement extends ControlPanel
 				'class' => 'form' ,
 				'widgets'=>array(
 						 array(
-								'id'=>'name_text',
+								'id'=>'advertis_name_text',
 								'class'=>'text',
 								'title'=>'广告名称',		
 						),
@@ -94,26 +94,25 @@ class NewAdvertisement extends ControlPanel
 	public function process()
 	{	
 		$aSetting = Extension::flyweight('advertisement')->setting();
-		$akey=$aSetting->key('/'.'single',true);
+		$akey=$aSetting->key('/'.'advertis',true);
 		if ($this->viewNewAd->isSubmit ( $this->params ))
 		{
 			
 			
 			$this->viewNewAd->loadWidgets ( $this->params );
-			$sName=$this->viewNewAd->widget('name_text')->value();
+			$sAdvertisName=$this->viewNewAd->widget('advertis_name_text')->value();
 			$sForward=trim($this->viewNewAd->widget('forward_text')->value());
 			
 	
-			if(empty($sName))
+			if(empty($sAdvertisName))
 			{
 				$sKey="广告名称";
 				$this->viewNewAd->createMessage(Message::error,"%s 不能为空",$sKey);
-				return;
-				
+				return;	
 			}
-			else if($akey->hasItem($this->viewNewAd->widget('name_text')->value()))
+			else if($akey->hasItem($this->viewNewAd->widget('advertis_name_text')->value()))
 			{
-				$this->viewNewAd->createMessage(Message::error,"名称%s 重名",$sName);
+				$this->viewNewAd->createMessage(Message::error,"名称%s 重名",$sAdvertisName);
 				return;
 			}
 			
@@ -122,7 +121,6 @@ class NewAdvertisement extends ControlPanel
 				$sKey="广告跳转链接";
 				$this->viewNewAd->createMessage(Message::error,"%s 不能为空",$sKey);
 				return;
-			
 			}
 			
 			
@@ -130,12 +128,10 @@ class NewAdvertisement extends ControlPanel
 			{
 				$sTitle=$this->viewNewAd->widget('title_text')->value();
 				if(empty($sTitle))
-				{
-					
+				{		
 					$skey="文本名称";
 					$this->viewNewAd->createMessage(Message::error,"%s 不能为空",$skey);
-					return;
-					
+					return;	
 				}
 				
 				if($this->viewNewAd->widget('image_radio')->isChecked())
@@ -147,7 +143,6 @@ class NewAdvertisement extends ControlPanel
 						$this->viewNewAd->createMessage(Message::error,"%s 不能为空",$skey);
 						return;
 					}
-					
 				}
 				
 				if($this->viewNewAd->widget('url_radio')->isChecked())
@@ -172,12 +167,14 @@ class NewAdvertisement extends ControlPanel
 				}
 			}
 			$arrABV=array(
-					'name'=>trim($this->viewNewAd->widget('name_text')->value()),
+					'name'=>trim($this->viewNewAd->widget('advertis_name_text')->value()),
 					'title'=>trim($this->viewNewAd->widget('title_text')->value()),
 					'image'=>trim($this->viewNewAd->widget('image_file')->getFileUrl()),
 					'url'=>trim($this->viewNewAd->widget('url_text')->value()),
 					'window'=>$this->viewNewAd->widget('window_checkbox')->value()==1?'_blank':'_self',
 					'type'=>'普通',
+					'classtype'=>'EditAdvertisement',
+					'classtype2'=>'DeleteAdvertisement',
 					'code'=>$this->viewNewAd->widget('code_text')->value(),
 					'imageradio'=>$this->viewNewAd->widget('image_radio')->isChecked(),
 					'urlradio'=>$this->viewNewAd->widget('url_radio')->isChecked(),
@@ -186,9 +183,9 @@ class NewAdvertisement extends ControlPanel
 					'style'=>$this->viewNewAd->widget('style_text')->value(),
 					'forward'=>$this->viewNewAd->widget('forward_text')->value(),
 						);		
-			$aSetting->setItem('/'.'single',trim($this->viewNewAd->widget('name_text')->value()),$arrABV);
-			$sName="成功";
-			$this->viewNewAd->createMessage(Message::success,"新建告广%s ",$sName);
+			$aSetting->setItem('/'.'advertis',trim($this->viewNewAd->widget('advertis_name_text')->value()),$arrABV);
+			$sSuccess="成功";
+			$this->viewNewAd->createMessage(Message::success,"新建告广%s ",$sSuccess);
 		};	
 	}
 }

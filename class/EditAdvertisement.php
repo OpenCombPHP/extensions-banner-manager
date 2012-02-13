@@ -108,8 +108,7 @@ class EditAdvertisement extends ControlPanel
 		$aid=$this->params->get('aid');
 		$arrAdvertisement=array();
 		$aSetting = Extension::flyweight('advertisement')->setting();
-		$aSetting->itemIterator('/'.'single');
-		$akey=$aSetting->key('/'.'single',true);
+		$akey=$aSetting->key('/'.'advertis',true);
 		$arrAdvertisement=$akey->item($aid,array());
 		$this->viewEditAd->widget('name_text')->setValue($arrAdvertisement['name']);
 		$this->viewEditAd->widget('hide_text')->setValue($arrAdvertisement['name']);
@@ -129,7 +128,6 @@ class EditAdvertisement extends ControlPanel
 			$this->viewEditAd->widget('image_file')->setDisabled("disabled");
 		}
 		if($arrAdvertisement['imageradio']=="true") {
-			echo
 			$this->viewEditAd->widget('url_text')->setDisabled("disabled");
 		}
 		
@@ -194,9 +192,7 @@ class EditAdvertisement extends ControlPanel
 				
 					if($this->viewEditAd->widget('url_radio')->isChecked())
 					{
-						$flag=1;
-						echo $flag;
-						$akey=$aSetting->key('/'.'single',true);
+						$akey=$aSetting->key('/'.'advertis',true);
 						$arrOldABV=$akey->item($this->viewEditAd->widget('hide_text')->value(),array());
 						$file=Extension::flyweight('advertisement')->publicFolder()->findFile($arrOldABV['image']);
 						if($arrOldABV['image']!='#') {
@@ -243,6 +239,8 @@ class EditAdvertisement extends ControlPanel
 								'url'=>trim($this->viewEditAd->widget('url_text')->value()),
 								'window'=>$this->viewEditAd->widget('window_checkbox')->value()==1?'_blank':'_self',
 								'type'=>'普通',
+								'classtype'=>'EditAdvertisement',
+								'classtype2'=>'DeleteAdvertisement',
 								'code'=>$this->viewEditAd->widget('code_text')->value(),
 								'imageradio'=>$this->viewEditAd->widget('image_radio')->isChecked(),
 								'urlradio'=>$this->viewEditAd->widget('url_radio')->isChecked(),
@@ -254,8 +252,8 @@ class EditAdvertisement extends ControlPanel
 						if($this->viewEditAd->widget('url_radio')->isChecked()) {
 							$arrABV['image']='#';
 						}
-						$aSetting->deleteItem('/'.'single',trim($this->viewEditAd->widget('name_text')->value()));
-						$aSetting->setItem('/'.'single',trim($this->viewEditAd->widget('name_text')->value()),$arrABV);
+						$aSetting->deleteItem('/'.'advertis',trim($this->viewEditAd->widget('name_text')->value()));
+						$aSetting->setItem('/'.'advertis',trim($this->viewEditAd->widget('name_text')->value()),$arrABV);
 						$this->viewEditAd->createMessage(Message::success,"编辑广告%s 成功",$sName);
 					}else if($this->viewEditAd->widget('code_radio')->isChecked()) {
 						$arrABV=array(
@@ -265,6 +263,7 @@ class EditAdvertisement extends ControlPanel
 								'url'=>'',
 								'window'=>$this->viewEditAd->widget('window_checkbox')->value()==1?'_blank':'_self',
 								'type'=>'普通',
+								'classtype'=>'EditAdvertisement',
 								'code'=>$this->viewEditAd->widget('code_text')->value(),
 								'imageradio'=>'false',
 								'urlradio'=>'false',
@@ -273,8 +272,8 @@ class EditAdvertisement extends ControlPanel
 								'style'=>$this->viewEditAd->widget('style_text')->value(),
 								'forward'=>$this->viewEditAd->widget('forward_text')->value(),
 						);
-						$aSetting->deleteItem('/'.'single',trim($this->viewEditAd->widget('name_text')->value()));
-						$aSetting->setItem('/'.'single',trim($this->viewEditAd->widget('name_text')->value()),$arrABV);
+						$aSetting->deleteItem('/'.'advertis',trim($this->viewEditAd->widget('name_text')->value()));
+						$aSetting->setItem('/'.'advertis',trim($this->viewEditAd->widget('name_text')->value()),$arrABV);
 						$this->viewEditAd->createMessage(Message::success,"编辑广告%s 成功",$sName);
 					}
 				}else if($akey->hasItem($this->viewEditAd->widget('name_text')->value()))
@@ -291,6 +290,7 @@ class EditAdvertisement extends ControlPanel
 								'url'=>trim($this->viewEditAd->widget('url_text')->value()),
 								'window'=>$this->viewEditAd->widget('window_checkbox')->value()==1?'_blank':'_self',
 								'type'=>'普通',
+								'classtype'=>'EditAdvertisement',
 								'code'=>$this->viewEditAd->widget('code_text')->value(),
 								'imageradio'=>$this->viewEditAd->widget('image_radio')->isChecked(),
 								'urlradio'=>$this->viewEditAd->widget('url_radio')->isChecked(),
@@ -302,8 +302,8 @@ class EditAdvertisement extends ControlPanel
 						if($this->viewEditAd->widget('url_radio')->isChecked()) {
 							$arrABV['image']='#';
 						}
-						$aSetting->deleteItem('/'.'single',trim($this->viewEditAd->widget('name_text')->value()));
-						$aSetting->setItem('/'.'single',trim($this->viewEditAd->widget('name_text')->value()),$arrABV);
+						$aSetting->deleteItem('/'.'advertis',trim($this->viewEditAd->widget('name_text')->value()));
+						$aSetting->setItem('/'.'advertis',trim($this->viewEditAd->widget('name_text')->value()),$arrABV);
 						$this->viewEditAd->createMessage(Message::success,"编辑广告%s 成功",$sName);
 					}else if($this->viewEditAd->widget('code_radio')->isChecked()) {
 						$arrABV=array(
@@ -313,6 +313,7 @@ class EditAdvertisement extends ControlPanel
 								'url'=>'',
 								'window'=>$this->viewEditAd->widget('window_checkbox')->value()==1?'_blank':'_self',
 								'type'=>'普通',
+								'classtype'=>'EditAdvertisement',
 								'code'=>$this->viewEditAd->widget('code_text')->value(),
 								'imageradio'=>false,
 								'urlradio'=>false,
@@ -321,8 +322,8 @@ class EditAdvertisement extends ControlPanel
 								'style'=>$this->viewEditAd->widget('style_text')->value(),
 								'forward'=>$this->viewEditAd->widget('forward_text')->value(),
 						);
-						$aSetting->deleteItem('/'.'single',trim($this->viewEditAd->widget('name_text')->value()));
-						$aSetting->setItem('/'.'single',trim($this->viewEditAd->widget('name_text')->value()),$arrABV);
+						$aSetting->deleteItem('/'.'advertis',trim($this->viewEditAd->widget('name_text')->value()));
+						$aSetting->setItem('/'.'advertis',trim($this->viewEditAd->widget('name_text')->value()),$arrABV);
 						$this->viewEditAd->createMessage(Message::success,"编辑广告%s 成功",$sName);
 					}
 				};
