@@ -31,7 +31,7 @@ class DeleteAdvertisement extends ControlPanel
 		$aSetting = Extension::flyweight('advertisement')->setting();
 		$akey=$aSetting->key('/'.'advertis',true);
 		$arrOldABV=$akey->item($aid,array());
-		$file=Extension::flyweight('advertisement')->publicFolder()->findFile($arrOldABV['image']);
+		$file=Extension::flyweight('advertisement')->filesFolder()->findFile($arrOldABV['image']);
 		if($file->exists())
 		{
 			$file->delete();

@@ -39,7 +39,7 @@ class EditAdvertisement extends ControlPanel
 						array(
 								'id'=>'image_file',
 								'class'=>'file',
-								'folder'=>Extension::flyWeight('advertisement')->publicFolder()->path().'/advertisement_img',
+								'folder'=>Extension::flyWeight('advertisement')->filesFolder()->path().'/advertisement_img',
 						),
 						array(
 								'id'=>'url_text',
@@ -194,7 +194,7 @@ class EditAdvertisement extends ControlPanel
 					{
 						$akey=$aSetting->key('/'.'advertis',true);
 						$arrOldABV=$akey->item($this->viewEditAd->widget('hide_text')->value(),array());
-						$file=Extension::flyweight('advertisement')->publicFolder()->findFile($arrOldABV['image']);
+						$file=Extension::flyweight('advertisement')->filesFolder()->findFile($arrOldABV['image']);
 						if($arrOldABV['image']!='#') {
 							if($file->exists())
 							{

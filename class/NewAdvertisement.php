@@ -32,7 +32,7 @@ class NewAdvertisement extends ControlPanel
 								'id'=>'image_file',
 								'class'=>'file',
 								'type'=>'folder',
-								'folder'=>Extension::flyWeight('advertisement')->publicFolder()->path().'/advertisement_img',
+								'folder'=>Extension::flyWeight('advertisement')->filesFolder()->path().'/advertisement_img',
 								'title'=>'图片',
 						),
 						array(
