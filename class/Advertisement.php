@@ -33,7 +33,7 @@ class Advertisement extends Extension
 	 * @advice around
 	 * @for pointcutCreateBeanConfig
 	 */
-	private function buildControlPanelMenu()
+	static public function buildControlPanelMenu()
 	{
 		$arrConfig['items']['system']['menu']['items']['platform-manage']['menu']['items']['oauth-menu'] = array (
 				'title'=>'OAuth' ,
