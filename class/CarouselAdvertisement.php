@@ -29,30 +29,35 @@ class CarouselAdvertisement extends ControlPanel
 		$aAdvertisements=$aSetting->itemIterator('/'.'advertis');
 		$arrAdvertisementSelect=array();
 		$arrAdvertisement=array();
-		foreach ($aAdvertisements as $key=>$value) {
+		
+		foreach($aAdvertisements as $key=>$value) 
+		{
 			$arrAdvertisement=$akey->item($value,array());
 			if($arrAdvertisement['type']=='普通') {
-				$arrAdvertisementSelect[]=$arrAdvertisement['name'];
+				$arrAdvertisementSelect[]=$arrAdvertisement;
 			}
 		};
+		//var_dump($arrAdvertisementSelect);exit;
 		$this->viewCarouselAd->variables()->set('arrAdvertisementSelect',$arrAdvertisementSelect) ;
-	
 		
-		if($this->viewCarouselAd->isSubmit()){
+		
+		if($this->viewCarouselAd->isSubmit())
+		{
 			$aSetting = Extension::flyweight('advertisement')->setting();
 			$akey=$aSetting->key('/'.'advertis',true);
 			$sName=$this->params['Carousel_name'];
+			
 			if(empty($sName))
-				{
+			{
 					$skey="随机播放名称";
 					$this->viewCarouselAd->createMessage(Message::error,"%s 不能为空",$skey) ;
 					return;
 				
-				}
+			}
 			else if($akey->hasItem($sName)){
 					$this->viewCarouselAd->createMessage(Message::error,"随机播放名称%s 已存在",$sName);
 					return;
-				}
+			}
 			$arrAdvertisement=array();
 			$arrRandom=array();
 			$arrRun=array();

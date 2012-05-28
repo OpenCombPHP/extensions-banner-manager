@@ -33,12 +33,20 @@ class Advertisement extends Extension
 	 * @advice around
 	 * @for pointcutCreateBeanConfig
 	 */
-	private function buildControlPanelMenu()
+	static public function buildControlPanelMenu(array & $arrConfig)
 	{
-		$arrConfig['items']['system']['menu']['items']['platform-manage']['menu']['items']['oauth-menu'] = array (
-				'title'=>'OAuth' ,
-				'link' => '?c=org.opencomb.oauth.controlPanel.OAuthSetting' ,
-				'query' => 'c=org.opencomb.oauth.controlPanel.OAuthSetting' ,
+		$arrConfig['item:CMS']['item:advertisement'] = array (
+			'title'=>'广告设置',
+			'link'=>'?c=org.opencomb.advertisement.AdvertisementSetting',
+			'query'=>array(
+					'c=org.opencomb.advertisement.AdvertisementSetting'
+				   ,'c=org.opencomb.advertisement.EditAdvertisement'
+				   ,'c=org.opencomb.advertisement.EditCarouselAdvertisement'
+				   ,'c=org.opencomb.advertisement.DeleteAdvertisement'
+				   ,'c=org.opencomb.advertisement.DeleteCarouselAdvertisement'
+				   ,'c=org.opencomb.advertisement.NewAdvertisement'
+				   ,'c=org.opencomb.advertisement.CarouselAdvertisement'
+			)
 		);
 	}
 }

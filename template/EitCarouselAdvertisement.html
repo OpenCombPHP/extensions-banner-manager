@@ -2,23 +2,23 @@
 <h2>{=$oAuthName}</h2>
 <msgqueue />
 <form  method="post" name="Carousel">
-	<label>轮播名称:<input type="text" name="name" value="{=$arrCarouselAdvertisement['name']}"/> </label><br/><br/>
-	<label><input type="hidden" name="hide_text" value="{=$arrCarouselAdvertisement['name']}"/></label>
-<foreach for="$arrCarouselAdvertisement['advertisements']" key='sKeyPath' item='arrItemList'>
-		 <div class='advertisement'>
-			<label>广告:
-				<select name="advertisement_select[]" >
-					<foreach for="$arrAdvertisementSelect" key='sKeyPath' item='arrItemSelectList'>
-						<option value="{=$arrItemSelectList['name']}" {=$arrItemList['advertisement_url']['name']==$arrItemSelectList['name'] ? 'selected':''}>{=$arrItemSelectList['name']}</option>
-					</foreach>
-				</select>
-			</label>&nbsp;&nbsp;&nbsp;
-			<label>权重:<input type="text" size="5" name="random_text[]" value={=$arrItemList['random']}/></label>&nbsp;&nbsp;&nbsp;&nbsp;
-			<label>启用:<input type="checkbox" name="run_checkbox[]" value="{=$arrItemList['advertisement_url']['name']}" {=$arrItemList['run']=='on' ? 'checked':''} /></label>		
-		</div>	
-</foreach>
+	<label>轮播名称:{=$arrCarouselAdvertisement['name']}</label><br/><br/>
+	<foreach for="$arrCarouselAdvertisement['advertisements']" key='sKeyPath' item='arrItemList'>
+			 <div class='advertisement'>
+				<label>广告:
+					<select name="advertisement_select[]" >
+						<foreach for="$arrAdvertisementSelect" key='sKeyPath' item='singleAdName'>
+							<option value="{=$singleAdName}" {=$arrItemList['advertisement_url']['name']==$singleAdName ? 'selected':''}>{=$singleAdName}</option>
+						</foreach>
+					</select>
+				</label>&nbsp;&nbsp;&nbsp;
+				<label>权重:<input type="text" size="5" name="random_text[]" value={=$arrItemList['random']}/></label>&nbsp;&nbsp;&nbsp;&nbsp;
+				<label>启用:<input type="checkbox" name="run_checkbox[]" value="{=$arrItemList['advertisement_url']['name']}" {=$arrItemList['run']=='on' ? 'checked':''} /></label>		
+			</div>	
+	</foreach>
 	<a id='addAdvertisement' href='#'>添加</a><br/><br/><br/>
 	<input type="submit" name="" value="保存" />
+	<input type="hidden" name="randName" value={=$randName}/>
 </form>
 <script>
 jquery(function(){

@@ -1,6 +1,7 @@
 <h2>广告设置</h2>
 <msgqueue />
-<a href="?c=org.opencomb.advertisement.NewAdvertisement">新建广告</a> | 
+<widget new='advertisment' attr.name="lunbo" />
+<a href="?c=org.opencomb.advertisement.NewAdvertisement">新建广告</a> 
 <a href="?c=org.opencomb.advertisement.CarouselAdvertisement">新建轮播广告</a>
 <table>
 	<tr>
@@ -8,6 +9,7 @@
 		<th>类型</th>
 		<th>widget</th>
 		<th>删除</th>
+		<th>|</th>
 		<th>编辑</th>	
 	</tr>
 	<tbody>
@@ -15,13 +17,11 @@
 	<tr>
 		<td>{=$arrAItemList['name']}</td>
 		<td>{=$arrAItemList['type']}</td>
-		<td>&lt;widget class='advertisment' attr.name="{=$arrAItemList['name']}" /></td>
+		<td>&lt;widget new='advertisment' attr.name="{=$arrAItemList['name']}" /></td>
 		<td><a href="?c=org.opencomb.advertisement.{=$arrAItemList['classtype2']}&aid={=$arrAItemList['name']}">删除</a></td>
+		<td>|</td>
 		<td><a href="?c=org.opencomb.advertisement.{=$arrAItemList['classtype']}&aid={=$arrAItemList['name']}">编辑</a></td>
 	</tr>
 	</foreach>
-	<tr>	
-		<td><a href="?c=org.opencomb.advertisement.AdvertisementTest">广告练习</a></td>
-	</tr>	
 	</tbody>	
 </table>
