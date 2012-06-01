@@ -9,6 +9,8 @@ use org\opencomb\advertisement\aspect\AdapterManager;
 use org\opencomb\platform\system\PlatformSerializer;
 use org\jecat\framework\ui\xhtml\weave\Patch;
 use org\jecat\framework\ui\xhtml\weave\WeaveManager;
+use org\jecat\framework\mvc\controller\Controller ;
+use org\jecat\framework\util\EventManager;
 
 class Advertisement extends Extension 
 {
@@ -49,4 +51,59 @@ class Advertisement extends Extension
 			)
 		);
 	}
+	
+	
+// 	public function initRegisterEvent(EventManager $aEventMgr)
+// 	{
+// 		$aSetting = Extension::flyweight('advertisement')->setting();
+// 		$aViewAd=$aSetting->itemIterator('/'.'viewAd');
+// // 		foreach($aViewAd as $key=>$value)
+// // 		{	echo $value.'d';
+// 			$aEventMgr->registerEventHandle(
+// 					'org\\jecat\\framework\\mvc\\controller\\Controller '
+// 					, Controller::beforeBuildBean
+// 					, ''
+// 					, array(__CLASS__,'setViewAdvertisement')
+// 					, 'org\\opencomb\\localizer\\LangSetting'
+// 			);
+// 		//}
+// 	}
+	
+	public function initRegisterEvent(EventManager $aEventMgr)
+	{
+		$aSetting = Extension::flyweight('advertisement')->setting();
+		$aViewAd=$aSetting->itemIterator('/'.'viewAd');
+		foreach($aViewAd as $key=>$value)
+		{
+			$arrControllerAdName = explode('_',$value);
+			$aEventMgr->registerEventHandle(
+					'org\\jecat\\framework\\mvc\\controller\\Controller'
+					, Controller::beforeBuildBean
+					, array(__CLASS__,'setViewAdvertisement')
+					, null
+					, str_replace('.', '\\', $arrControllerAdName[0])
+			
+			);
+		}
+
+	}
+	
+	static public function setViewAdvertisement($aObject,&$arrConfig,&$sNamespace,&$aBeanFactory)
+	{
+		$aSetting = Extension::flyweight('advertisement')->setting();
+		$aViewAd=$aSetting->itemIterator('/'.'viewAd');
+		foreach($aViewAd as $key=>$value)
+		{
+			$arrControllerAdName = explode('_',$value);
+			if($arrControllerAdName[0]==str_replace('\\', '.', get_class($aObject)))
+			{	
+				$arrConfig['view:'.$arrControllerAdName[1]] = array(
+						"template"=> "advertisement:ViewAdvertisement.html",
+						'vars'=> array('adName'=>$arrControllerAdName[1]),
+						"class"=> "view",
+				);
+			}
+		}//var_dump($arrConfig);exit;
+	}
+	
 }
