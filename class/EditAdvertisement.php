@@ -235,7 +235,7 @@ class EditAdvertisement extends ControlPanel
 						$arrABV['url'] = '';
 					}
 					$arrABV['code'] = $arrOldABV['code'];
-					$aSetting->setItem('/'.'advertis',trim($this->viewEditAd->widget('$sEditAdName')->value()),$arrABV);
+					$aSetting->setItem('/'.'advertis',$sEditAdName,$arrABV);
 					$this->viewEditAd->hideForm ();
 					$this->viewEditAd->createMessage(Message::success,"编辑广告%s 成功",$sEditAdName);
 					$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
@@ -270,7 +270,7 @@ class EditAdvertisement extends ControlPanel
 					}
 					$aSetting->deleteItem('/'.'advertis',$sEditOldAdName);
 					$arrABV['code'] = $arrOldABV['code'];
-					$aSetting->setItem('/'.'advertis',trim($this->viewEditAd->widget('name_text')->value()),$arrABV);
+					$aSetting->setItem('/'.'advertis',$sEditAdName,$arrABV);
 					$this->viewEditAd->createMessage(Message::success,"编辑广告%s 成功",$sEditAdName);
 					$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
 				}
@@ -301,7 +301,7 @@ class EditAdvertisement extends ControlPanel
 					$arrABV = $arrOldABV;
 					$arrABV['code'] = $sCode;
 					$aSetting->deleteItem('/'.'advertis',$sEditOldAdName);
-					$aSetting->setItem('/'.'advertis',trim($this->viewEditAd->widget('name_text')->value()),$arrABV);
+					$aSetting->setItem('/'.'advertis',$sEditAdName,$arrABV);
 					$this->viewEditAd->createMessage(Message::success,"编辑广告%s 成功",$sEditAdName);
 					$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',10);
 				}

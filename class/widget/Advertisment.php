@@ -173,11 +173,11 @@ class Advertisment extends Widget {
 			if($arrAdvertisement['type']=='普通')
 			{
 				
-				if($arrAdvertisement['coderadio'])
-					{
+				if($arrAdvertisement['displaytype']=='code')
+				{
 						$this->setCode($arrAdvertisement['code']);
-					}
-				else 
+				}
+				else if($arrAdvertisement['displaytype']=='pic')
 				{
 					if($arrAdvertisement['image']=='#') {
 						$this->setImg($arrAdvertisement['url']);
