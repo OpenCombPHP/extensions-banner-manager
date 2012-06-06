@@ -1,5 +1,5 @@
 <?php
-namespace org\opencomb\advertisement ;
+namespace org\opencomb\bannermt ;
 
 use org\jecat\framework\verifier\Length;
 
@@ -29,7 +29,7 @@ class DeleteAdvertisement extends ControlPanel
 		$aid=$this->params->get('aid');
 		$this->deleteCarouselChild($aid);
 		$arrAdvertisement=array();
-		$aSetting = Extension::flyweight('advertisement')->setting();
+		$aSetting = Extension::flyweight('bannermanagement')->setting();
 		$aViewAdSingle=$aSetting->itemIterator('/'.'viewAd');
 		//删除视图广告
 		foreach ($aViewAdSingle as $key=>$value) 
@@ -45,7 +45,7 @@ class DeleteAdvertisement extends ControlPanel
 		
 		$akey=$aSetting->key('/'.'advertis',true);
 		$arrOldABV=$akey->item($aid,array());
-		$file=Extension::flyweight('advertisement')->filesFolder()->findFile($arrOldABV['image']);
+		$file=Extension::flyweight('bannermanagement')->filesFolder()->findFile($arrOldABV['image']);
 		//var_dump($file);exit;
 		if(!empty($file))
 		{	echo "dd";
@@ -64,7 +64,7 @@ class DeleteAdvertisement extends ControlPanel
 	
 	public function deleteCarouselChild($aid)
 	{
-		$aSetting = Extension::flyweight('advertisement')->setting();
+		$aSetting = Extension::flyweight('bannermanagement')->setting();
 		$aKey=$aSetting->key('/'.'advertis',true);
 		$arrCarousel = array();
 		foreach($aKey->itemIterator() as $key=>$value)

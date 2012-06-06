@@ -3,34 +3,42 @@
 <msgqueue />
 <form  method="post" name="Carousel">
 	<label>轮播名称:{=$arrCarouselAdvertisement['name']}</label><br/><br/>
-	<foreach for="$arrCarouselAdvertisement['advertisements']" key='sKeyPath' item='arrItemList'>
-			 <div class='advertisement'>
-				<label>广告:
-					<select name="advertisement_select[]" >
-						<foreach for="$arrAdvertisementSelect" key='sKeyPath' item='singleAdName'>
-							<option value="{=$singleAdName}" {=$arrItemList['advertisement_url']['name']==$singleAdName ? 'selected':''}>{=$singleAdName}</option>
-						</foreach>
-					</select>
-				</label>&nbsp;&nbsp;&nbsp;
-				<label>权重:<input type="text" size="5" name="random_text[]" value={=$arrItemList['random']}/></label>&nbsp;&nbsp;&nbsp;&nbsp;
-				<label>启用:<input type="checkbox" name="run_checkbox[]" value="{=$arrItemList['advertisement_url']['name']}" {=$arrItemList['run']=='on' ? 'checked':''} /></label>		
-			</div>	
-	</foreach>
-	<if "{=count($arrCarouselAdvertisement['advertisements']})!=0">
-			<a id='addAdvertisement' href='#'>添加</a><br/><br/><br/>
-		<else/>
-			<div class='advertisement' id="advertisement">
-					<select name="advertisement_select[]" >
-						<foreach for="$arrAdvertisementSelect" key='sKeyPath' item='singleAdName'>
-							<option value="{=$singleAdName}">{=$singleAdName}</option>
-						</foreach>
-					</select>
-				<label>权重:<input type="text" size="5" name="random_text[]" /></label>&nbsp;&nbsp;&nbsp;&nbsp;
-				<label>启用:<input type="checkbox" name="run_checkbox[]" /></label>		
-			</div>	
-			<a id='addAdvertisement' href='#'>添加</a><br/><br/><br/>
-	</if>
-	
+	<if "{=$sHave}==1">
+	<div style="display:{=$sHave==1 ? '' :'none'}">
+		<foreach for="$arrCarouselAdvertisement['advertisements']" key='sKeyPath' item='arrItemList'>
+				 <div class='advertisement'>
+					<label>广告:
+						<select name="advertisement_select[]" >
+							<foreach for="$arrAdvertisementSelect" key='sKeyPath' item='singleAdName'>
+								<option value="{=$singleAdName}" {=$arrItemList['advertisement_url']['name']==$singleAdName ? 'selected':''}>{=$singleAdName}</option>
+							</foreach>
+						</select>
+					</label>&nbsp;&nbsp;&nbsp;
+					<label>权重:<input type="text" size="5" name="random_text[]" value={=$arrItemList['random']}/></label>&nbsp;&nbsp;&nbsp;&nbsp;
+					<label>启用:<input  class="advertisement_enable" type="checkbox" name="run_checkbox[]" value="{=$sRunCount++}" {=$arrItemList['run']=='on' ? 'checked':''} /></label>		
+				</div>		
+		</foreach>
+		<a id='addAdvertisement' href='#'>添加</a>
+		<a id='deleteAdvertisement' href='#'>删除</a><br/><br/><br/>
+	</div>
+	<else/>
+		<div style="display:{=$sHave==1 ? 'none' :''}">
+		<label>广告被删除，请添加</label><br/><br/>
+		<div class='advertisement'>
+			<label>广告:
+				<select name="advertisement_select[]">
+					<foreach for="$arrAdvertisementSelect" key='sKeyPath' item='arrcItemList'>
+						<option value="{=$arrcItemList['name']}" size='10px'>{=$arrcItemList['name']}</option>
+					</foreach>
+				</select>
+			</label>&nbsp;&nbsp;
+			<label>权重:<input type="text" size="5" name="random_text[]" /></label>&nbsp;&nbsp;&nbsp;&nbsp;
+			<label>启用:<input class="advertisement_enable" type="checkbox" name="run_checkbox[]" value="1" /></label>		
+		</div>
+		<a id='addAdvertisementhave' href='#'>添加</a>
+		<a id='deleteAdvertisement' href='#'>删除</a><br/><br/><br/>
+		</div>	
+	</if>	
 	
 	<input type="submit" name="" value="保存" />
 	<input type="hidden" name="randName" value={=$randName}/>
@@ -40,6 +48,8 @@ jquery(function(){
 	//添加按钮功能
 	jquery('#addAdvertisement').click(function(){
 		var advertisementForm = jquery(".advertisement").last().clone();
+		var advertisementEnable = advertisementForm.find('.advertisement_enable');
+		advertisementEnable.val(parseInt(advertisementEnable.val())+1);
 		jquery(this).before(advertisementForm);
 		return false;
 	});
@@ -47,10 +57,23 @@ jquery(function(){
 
 jquery(function(){
 	//添加按钮功能
-	jquery('#addAdvertisement').click(function(){
+	jquery('#addAdvertisementhave').click(function(){
 		var advertisementForm = jquery(".advertisement").last().clone();
+		var advertisementEnable = advertisementForm.find('.advertisement_enable');
+		advertisementEnable.val(parseInt(advertisementEnable.val())+1);
 		jquery(this).before(advertisementForm);
 		return false;
+	});
+});
+jquery(function(){
+	//添加按钮功能
+	jquery('#deleteAdvertisement').click(function(){
+		if(jquery('.advertisement').length>1)
+		{
+			var advertisementForm = jquery(".advertisement").last().remove();
+			return false;
+		}
+
 	});
 });
 </script>

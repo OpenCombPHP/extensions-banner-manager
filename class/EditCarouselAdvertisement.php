@@ -1,5 +1,5 @@
 <?php
-namespace org\opencomb\advertisement ;
+namespace org\opencomb\bannermt ;
 
 use org\jecat\framework\verifier\Length;
 
@@ -28,7 +28,7 @@ class EditCarouselAdvertisement extends ControlPanel
 	public function process()
 	{	
 		//页面初始化
-		$aSetting = Extension::flyweight('advertisement')->setting();
+		$aSetting = Extension::flyweight('bannermanagement')->setting();
 		$aSkey=$aSetting->key('/'.'advertis',true);
 		$aSingle=$aSetting->itemIterator('/'.'advertis');
 		
@@ -42,7 +42,6 @@ class EditCarouselAdvertisement extends ControlPanel
 			{
 				$arrAdvertisementSelect[]=$arrAdvertisment['name'];
 			}
-			
 		};
 		$this->viewEditCarouselAdvertisement->variables()->set('arrAdvertisementSelect',$arrAdvertisementSelect) ;
 		
@@ -51,6 +50,16 @@ class EditCarouselAdvertisement extends ControlPanel
 		$aMkey=$aSetting->key('/'.'advertis',true);
 		$aid=$this->params->get('aid');
 		$arrCarouselAdvertisement=$aMkey->item($aid,array());
+		if(count($arrCarouselAdvertisement['advertisements'])!=0)
+		{
+			$sHave = 1 ;
+			$this->viewEditCarouselAdvertisement->variables()->set('sHave',$sHave);
+		}else {
+			$sHave = 0 ;
+			$this->viewEditCarouselAdvertisement->variables()->set('sHave',$sHave);
+		}
+		$sRunCount = 1;
+		$this->viewEditCarouselAdvertisement->variables()->set('sRunCount',$sRunCount);
 		$this->viewEditCarouselAdvertisement->variables()->set('arrCarouselAdvertisement',$arrCarouselAdvertisement);
 		$this->viewEditCarouselAdvertisement->variables()->set('randName',$aid);
 		
@@ -68,6 +77,7 @@ class EditCarouselAdvertisement extends ControlPanel
 			$arrRun=array();
 			$arrCarouselAdvertisement=array();
 			
+			//var_dump($this->params['advertisement_select']);exit;
 			for($i=0;$i<count($this->params['advertisement_select']);$i++)
 			{
 				for($j=$i+1;$j<count($this->params['advertisement_select'])-$i;$j++)
@@ -111,11 +121,22 @@ class EditCarouselAdvertisement extends ControlPanel
 			for($i=0;$i<count($arrAdvertisement);$i++)
 			{
 				$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['run']='off';
+// 				if(!empty($this->params['run_checkbox']))
+// 				{
+// 					for($j=0;$j<count($arrRun);$j++)
+// 					{
+// 						if($arrRun[$j]==$arrAdvertisement[$i])
+// 						{
+// 							$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['run']='on';
+// 						}
+// 					}
+// 				}
 				if(!empty($this->params['run_checkbox']))
 				{
+					$h=$i+1;
 					for($j=0;$j<count($arrRun);$j++)
 					{
-						if($arrRun[$j]==$arrAdvertisement[$i])
+						if($arrRun[$j]==$h)
 						{
 							$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['run']='on';
 						}

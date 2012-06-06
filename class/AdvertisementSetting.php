@@ -1,5 +1,5 @@
 <?php 
-namespace org\opencomb\advertisement ;
+namespace org\opencomb\bannermt ;
 
 use org\jecat\framework\verifier\Length;
 
@@ -25,7 +25,7 @@ class AdvertisementSetting extends ControlPanel
 	
 	public function process()
 	{	
-		$aSetting = Extension::flyweight('advertisement')->setting();
+		$aSetting = Extension::flyweight('bannermanagement')->setting();
 		$akey=$aSetting->key('/'.'advertis',true);
 		$aSingle=$aSetting->itemIterator('/'.'advertis');
 		$arrAdvertisement=array();
@@ -58,14 +58,14 @@ class AdvertisementSetting extends ControlPanel
 				return;
 			}
 			
-			$aSetting = Extension::flyweight('advertisement')->setting();
+			$aSetting = Extension::flyweight('bannermanagement')->setting();
 			//$sControllerName=str_replace('.','\\\\\\\\',$sControllerName);
 			$aSetting->setItem('/viewAd', $sControllerName.'_'.$sAdvertisementName, array('adName'=>$sAdvertisementName));
 		}
 		
 		if($this->params['dAdname'])
 		{
-			$aSingleViewAd = Extension::flyweight('advertisement')->setting();//$aSetting->itemIterator();
+			$aSingleViewAd = Extension::flyweight('bannermanagement')->setting();//$aSetting->itemIterator();
 			$aSingleViewAd->deleteItem('/'.'viewAd',$this->params['dAdname']);
 		}
 	}

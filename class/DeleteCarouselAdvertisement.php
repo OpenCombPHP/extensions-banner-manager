@@ -1,5 +1,5 @@
 <?php
-namespace org\opencomb\advertisement ;
+namespace org\opencomb\bannermt ;
 
 use org\jecat\framework\verifier\Length;
 

@@ -1,5 +1,5 @@
 <?php
-namespace org\opencomb\advertisement\widget;
+namespace org\opencomb\bannermt\widget;
 
 use org\jecat\framework\io\IOutputStream;
 use org\jecat\framework\util\IHashTable;
@@ -74,7 +74,7 @@ class Advertisment extends Widget {
 	private $sImg='';
 	
 	public function __construct($aUserModel=null, $sId = '', $sTitle = null,  IView $aView = null) {
-		parent::__construct ( $sId, 'advertisement:Advertisement.html',$sTitle, $aView );
+		parent::__construct ( $sId, 'bannermanagement:Advertisement.html',$sTitle, $aView );
 	}
 	/**
 	 * @return IModel 
@@ -163,7 +163,7 @@ class Advertisment extends Widget {
 	public function display(UI $aUI,IHashTable $aVariables=null,IOutputStream $aDevice=null)
 	{
 		$sName = $this->attribute('name');
-		$aSetting = Extension::flyweight('advertisement')->setting();
+		$aSetting = Extension::flyweight('bannermanagement')->setting();
 		$akey=$aSetting->key('/'.'advertis',true);
 		
 		if($akey->hasItem($sName))
@@ -214,7 +214,7 @@ class Advertisment extends Widget {
 				
 				$sAdvertisementName=$arrCarouselImg[array_rand($arrCarouselImg)];
 				
-				$aSetting = Extension::flyweight('advertisement')->setting();
+				$aSetting = Extension::flyweight('bannermanagement')->setting();
 				$akey=$aSetting->key('/'.'advertis',true);
 				$arrAdvertisement=$akey->item($sAdvertisementName,array());
 				if($arrAdvertisement['coderadio'])
@@ -237,7 +237,6 @@ class Advertisment extends Widget {
 		}
 		else 
 		{
-			
 			return;
 		}
 		parent::display($aUI, $aVariables,$aDevice);

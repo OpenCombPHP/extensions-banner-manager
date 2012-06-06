@@ -1,8 +1,8 @@
 <h2>广告设置</h2>
 <msgqueue />
 	<div>
-		<a href="?c=org.opencomb.advertisement.NewAdvertisement">新建广告</a> 
-		<a href="?c=org.opencomb.advertisement.CarouselAdvertisement">新建随机广告</a>
+		<a href="?c=org.opencomb.bannermt.CreateAdvertisement">新建广告</a> 
+		<a href="?c=org.opencomb.bannermt.CarouselAdvertisement">新建随机广告</a>
 	</div>
 	<div>
 		<span>名称</span>
@@ -14,11 +14,10 @@
 			<div  style="hover:background:#d8eaf8">
 				<span>{=$arrAItemList['name']}</span>
 				<span style="margin-left:80px;">{=$arrAItemList['type']}</span>
-				<span style="margin-left:110px;"><a href="?c=org.opencomb.advertisement.{=$arrAItemList['classtype2']}&aid={=$arrAItemList['name']}">删除</a></span>
-				<span><a href="?c=org.opencomb.advertisement.{=$arrAItemList['classtype']}&aid={=$arrAItemList['name']}">编辑</a></span>
+				<span style="margin-left:110px;"><a href="?c=org.opencomb.bannermt.{=$arrAItemList['classtype2']}&aid={=$arrAItemList['name']}">删除</a></span>
+				<span><a href="?c=org.opencomb.bannermt.{=$arrAItemList['classtype']}&aid={=$arrAItemList['name']}">编辑</a></span>
 				<span><a href="javascript:void(0)" onclick="displayCode('{=$arrAItemList['name']}')">代码</a></span>
 				<span><a href="javascript:void(0)" onclick="viewAdEdit('{=$arrAItemList['name']}')">放置</a></span>
-				
 			</div>
 			<div id="{=$arrAItemList['name']}viewAdEdit" style="display:none;margin-top:30px" >
 					<form method="post">
@@ -31,14 +30,14 @@
 						<div >
 							<input type="text" name="controllername" style="width:300px"/>
 							<input type="submit" value="放置"/>
-							<input type="hidden" id="hidden_Ad_Name" name="hidden_ad_Name"/>
+							<input type="hidden" id="{=$arrAItemList['name']}hidden_Ad_Name" name="hidden_ad_Name"/>
 						</div>
 						<if"true">
 							<foreach for="$arrViewAdvertisement" key='sControllerAd' item='ControllerAdList'>
 								<if "{=$arrAItemList['name']==$ControllerAdList['advertisementName']}">
 									<div>
 										{=$ControllerAdList['controllerName']}
-										<a href="?c=org.opencomb.advertisement.AdvertisementSetting&dAdname={=$sControllerAd}">删除</a>
+										<a href="?c=org.opencomb.bannermt.AdvertisementSetting&dAdname={=$sControllerAd}">删除</a>
 										<a target="_blank" href="?c={=$ControllerAdList['controllerName']}">预览</a>
 									</div>
 								</if>
@@ -48,16 +47,17 @@
 			</div>
 			<div id="{=$arrAItemList['name']}code" style="display:none">
 				可以将以下代码复制到网页中
-				&lt;widget class='advertisment' attr.name="{=$arrAItemList['name']}" />
+				&lt;widget new='advertisment' attr.name="{=$arrAItemList['name']}" />
 			</div>		
 		</foreach>
 	</div>
-
+	 <widget new='advertisment' attr.name="tu3" />
 <script>
 	function viewAdEdit(adName)
 	{
+		alert(adName);
 		document.getElementById(adName+'viewAdEdit').style.display="";
-		document.getElementById('hidden_Ad_Name').value=adName;
+		document.getElementById(adName+'hidden_Ad_Name').value=adName;
 	}
 	
 	function displayCode(adName)

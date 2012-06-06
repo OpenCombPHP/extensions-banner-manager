@@ -1,5 +1,5 @@
 <?php
-namespace org\opencomb\advertisement ;
+namespace org\opencomb\bannermt ;
 
 use org\jecat\framework\verifier\Length;
 
@@ -24,7 +24,7 @@ class CarouselAdvertisement extends ControlPanel
 	
 	public function process()
 	{	
-		$aSetting = Extension::flyweight('advertisement')->setting();
+		$aSetting = Extension::flyweight('bannermanagement')->setting();
 		$akey=$aSetting->key('/'.'advertis',true);
 		$aAdvertisements=$aSetting->itemIterator('/'.'advertis');
 		$arrAdvertisementSelect=array();
@@ -43,7 +43,7 @@ class CarouselAdvertisement extends ControlPanel
 		
 		if($this->viewCarouselAd->isSubmit())
 		{
-			$aSetting = Extension::flyweight('advertisement')->setting();
+			$aSetting = Extension::flyweight('bannermanagement')->setting();
 			$akey=$aSetting->key('/'.'advertis',true);
 			$sName=$this->params['Carousel_name'];
 			

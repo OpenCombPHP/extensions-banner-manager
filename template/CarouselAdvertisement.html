@@ -14,7 +14,8 @@
 		<label>权重:<input type="text" size="5" name="random_text[]" /></label>&nbsp;&nbsp;&nbsp;&nbsp;
 		<label>启用:<input class="advertisement_enable" type="checkbox" name="run_checkbox[]" value="1" /></label>		
 	</div>
-	<a id='addAdvertisement' href='#'>添加</a><br/><br/><br/>
+	<a id='addAdvertisement' href='#'>添加</a>
+	<a id='deleteAdvertisement' href='#'>删除</a><br/><br/><br/>
 	<input type="submit" name="" value="保存" />
 </form>
 <script>
@@ -26,6 +27,17 @@ jquery(function(){
 		advertisementEnable.val(parseInt(advertisementEnable.val())+1);
 		jquery(this).before(advertisementForm);
 		return false;
+	});
+});
+jquery(function(){
+	//添加按钮功能
+	jquery('#deleteAdvertisement').click(function(){
+		if(jquery('.advertisement').length>1)
+		{
+			var advertisementForm = jquery(".advertisement").last().remove();
+			return false;
+		}
+
 	});
 });
 </script>

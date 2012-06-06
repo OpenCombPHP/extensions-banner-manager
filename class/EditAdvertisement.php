@@ -1,5 +1,5 @@
 <?php
-namespace org\opencomb\advertisement ;
+namespace org\opencomb\bannermt ;
 
 use org\jecat\framework\verifier\Length;
 
@@ -8,6 +8,7 @@ use org\opencomb\oauth\adapter\AdapterManager;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 use org\jecat\framework\message\Message;
 use org\opencomb\advertisement\Advertisement;
+use org\jecat\framework\fs\Folder ;
 
 
 class EditAdvertisement extends ControlPanel
@@ -39,7 +40,7 @@ class EditAdvertisement extends ControlPanel
 						array(
 								'id'=>'image_file',
 								'class'=>'file',
-								'folder'=>Extension::flyWeight('advertisement')->filesFolder()->path().'/advertisement_img',
+								'folder'=>Extension::flyWeight('bannermanagement')->filesFolder()->findFolder('advertisement_img',Folder::FIND_AUTO_CREATE),
 						),
 						array(
 								'id'=>'url_text',
@@ -107,13 +108,14 @@ class EditAdvertisement extends ControlPanel
 		//页面初始化
 		$aid=$this->params->get('aid');
 		$arrAdvertisement=array();
-		$aSetting = Extension::flyweight('advertisement')->setting();
+		$aSetting = Extension::flyweight('bannermanagement')->setting();
 		$akey=$aSetting->key('/'.'advertis',true);
 		$arrAdvertisement=$akey->item($aid,array());
 		$this->viewEditAd->widget('name_text')->setValue($arrAdvertisement['name']);
 		$this->viewEditAd->widget('hide_text')->setValue($arrAdvertisement['name']);
 		$this->viewEditAd->widget('title_text')->setValue($arrAdvertisement['title']);
-		$this->viewEditAd->widget('image_file')->setValueFromString(substr($arrAdvertisement['image'],45));
+		//echo substr($arrAdvertisement['image'],51);exit;
+		$this->viewEditAd->widget('image_file')->setValueFromString(substr($arrAdvertisement['image'],51));
 		$this->viewEditAd->widget('url_text')->setValue($arrAdvertisement['url']);
 		$this->viewEditAd->widget('window_checkbox')->setValue($arrAdvertisement['window']=="_blank"?1:0);
 		$this->viewEditAd->widget('image_radio')->setChecked($arrAdvertisement['imageradio']);
@@ -152,7 +154,7 @@ class EditAdvertisement extends ControlPanel
 			if ($this->viewEditAd->isSubmit( $this->params ))
 			{
 				
-				$aSetting = Extension::flyweight('advertisement')->setting();
+				$aSetting = Extension::flyweight('bannermanagement')->setting();
 				$this->viewEditAd->loadWidgets( $this->params );
 				$sName=$this->viewEditAd->widget('name_text')->value();
 				$sForward=trim($this->viewEditAd->widget('forward_text')->value());
@@ -194,7 +196,7 @@ class EditAdvertisement extends ControlPanel
 					{
 						$akey=$aSetting->key('/'.'advertis',true);
 						$arrOldABV=$akey->item($this->viewEditAd->widget('hide_text')->value(),array());
-						$file=Extension::flyweight('advertisement')->filesFolder()->findFile($arrOldABV['image']);
+						$file=Extension::flyweight('bannermanagement')->filesFolder()->findFile($arrOldABV['image']);
 						if($arrOldABV['image']!='#') {
 							if($file->exists())
 							{

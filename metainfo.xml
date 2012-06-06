@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Extension>
 
-	<name>advertisement</name>
+	<name>bannermanagement</name>
 	<version>0.1</version>
-	<title>广告设置</title>
+	<title>banner管理</title>
 	
  
-	<class>org.opencomb.advertisement.Advertisement</class>
-	<package folder="/class" namespace="org.opencomb.advertisement" />
+	<class>org.opencomb.bannermt.BannerManagement</class>
+	<package folder="/class" namespace="org.opencomb.bannermt" />
   
 	<template folder="/template" />
 	
