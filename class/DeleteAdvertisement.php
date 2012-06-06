@@ -29,7 +29,7 @@ class DeleteAdvertisement extends ControlPanel
 		$aid=$this->params->get('aid');
 		$this->deleteCarouselChild($aid);
 		$arrAdvertisement=array();
-		$aSetting = Extension::flyweight('bannermanagement')->setting();
+		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$aViewAdSingle=$aSetting->itemIterator('/'.'viewAd');
 		//删除视图广告
 		foreach ($aViewAdSingle as $key=>$value) 
@@ -45,7 +45,7 @@ class DeleteAdvertisement extends ControlPanel
 		
 		$akey=$aSetting->key('/'.'advertis',true);
 		$arrOldABV=$akey->item($aid,array());
-		$file=Extension::flyweight('bannermanagement')->filesFolder()->findFile($arrOldABV['image']);
+		$file=Extension::flyweight('bannermanager')->filesFolder()->findFile($arrOldABV['image']);
 		//var_dump($file);exit;
 		if(!empty($file))
 		{	echo "dd";
@@ -64,7 +64,7 @@ class DeleteAdvertisement extends ControlPanel
 	
 	public function deleteCarouselChild($aid)
 	{
-		$aSetting = Extension::flyweight('bannermanagement')->setting();
+		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$aKey=$aSetting->key('/'.'advertis',true);
 		$arrCarousel = array();
 		foreach($aKey->itemIterator() as $key=>$value)

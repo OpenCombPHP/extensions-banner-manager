@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Extension>
 
-	<name>bannermanagement</name>
+	<name>bannermanager</name>
 	<version>0.1</version>
 	<title>banner管理</title>
 	
  
-	<class>org.opencomb.bannermt.BannerManagement</class>
+	<class>org.opencomb.bannermt.BannerManager</class>
 	<package folder="/class" namespace="org.opencomb.bannermt" />
   
 	<template folder="/template" />

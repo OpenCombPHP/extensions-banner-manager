@@ -40,7 +40,7 @@ class EditAdvertisement extends ControlPanel
 						array(
 								'id'=>'image_file',
 								'class'=>'file',
-								'folder'=>Extension::flyWeight('bannermanagement')->filesFolder()->findFolder('advertisement_img',Folder::FIND_AUTO_CREATE),
+								'folder'=>Extension::flyWeight('bannermanager')->filesFolder()->findFolder('advertisement_img',Folder::FIND_AUTO_CREATE),
 						),
 						array(
 								'id'=>'url_text',
@@ -108,7 +108,7 @@ class EditAdvertisement extends ControlPanel
 		//页面初始化
 		$aid=$this->params->get('aid');
 		$arrAdvertisement=array();
-		$aSetting = Extension::flyweight('bannermanagement')->setting();
+		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$akey=$aSetting->key('/'.'advertis',true);
 		$arrAdvertisement=$akey->item($aid,array());
 		$this->viewEditAd->widget('name_text')->setValue($arrAdvertisement['name']);
@@ -154,7 +154,7 @@ class EditAdvertisement extends ControlPanel
 			if ($this->viewEditAd->isSubmit( $this->params ))
 			{
 				
-				$aSetting = Extension::flyweight('bannermanagement')->setting();
+				$aSetting = Extension::flyweight('bannermanager')->setting();
 				$this->viewEditAd->loadWidgets( $this->params );
 				$sName=$this->viewEditAd->widget('name_text')->value();
 				$sForward=trim($this->viewEditAd->widget('forward_text')->value());
@@ -196,7 +196,7 @@ class EditAdvertisement extends ControlPanel
 					{
 						$akey=$aSetting->key('/'.'advertis',true);
 						$arrOldABV=$akey->item($this->viewEditAd->widget('hide_text')->value(),array());
-						$file=Extension::flyweight('bannermanagement')->filesFolder()->findFile($arrOldABV['image']);
+						$file=Extension::flyweight('bannermanager')->filesFolder()->findFile($arrOldABV['image']);
 						if($arrOldABV['image']!='#') {
 							if($file->exists())
 							{

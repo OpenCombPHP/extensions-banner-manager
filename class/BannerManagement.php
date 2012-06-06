@@ -12,7 +12,7 @@ use org\jecat\framework\ui\xhtml\weave\WeaveManager;
 use org\jecat\framework\mvc\controller\Controller ;
 use org\jecat\framework\util\EventManager;
 
-class BannerManagement extends Extension 
+class BannerManager extends Extension 
 {
 	/**
 	 * 载入扩展
@@ -37,7 +37,7 @@ class BannerManagement extends Extension
 	 */
 	static public function buildControlPanelMenu(array & $arrConfig)
 	{
-		$arrConfig['item:CMS']['item:bannermanagement'] = array (
+		$arrConfig['item:CMS']['item:bannermanager'] = array (
 			'title'=>'Baner管理',
 			'link'=>'?c=org.opencomb.bannermt.AdvertisementSetting',
 			'query'=>array(
@@ -71,7 +71,7 @@ class BannerManagement extends Extension
 	
 	public function initRegisterEvent(EventManager $aEventMgr)
 	{
-		$aSetting = Extension::flyweight('bannermanagement')->setting();
+		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$aViewAd=$aSetting->itemIterator('/'.'viewAd');
 		foreach($aViewAd as $key=>$value)
 		{
@@ -90,7 +90,7 @@ class BannerManagement extends Extension
 	
 	static public function setViewAdvertisement($aObject,&$arrConfig,&$sNamespace,&$aBeanFactory)
 	{
-		$aSetting = Extension::flyweight('bannermanagement')->setting();
+		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$aViewAd=$aSetting->itemIterator('/'.'viewAd');
 		foreach($aViewAd as $key=>$value)
 		{
@@ -98,7 +98,7 @@ class BannerManagement extends Extension
 			if($arrControllerAdName[0]==str_replace('\\', '.', get_class($aObject)))
 			{	
 				$arrConfig['view:'.$arrControllerAdName[1]] = array(
-						"template"=> "bannermanagement:ViewAdvertisement.html",
+						"template"=> "bannermanager:ViewAdvertisement.html",
 						'vars'=> array('adName'=>$arrControllerAdName[1]),
 						"class"=> "view",
 				);

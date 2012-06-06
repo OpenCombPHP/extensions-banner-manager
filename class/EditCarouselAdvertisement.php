@@ -28,7 +28,7 @@ class EditCarouselAdvertisement extends ControlPanel
 	public function process()
 	{	
 		//页面初始化
-		$aSetting = Extension::flyweight('bannermanagement')->setting();
+		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$aSkey=$aSetting->key('/'.'advertis',true);
 		$aSingle=$aSetting->itemIterator('/'.'advertis');
 		

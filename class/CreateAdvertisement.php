@@ -33,7 +33,7 @@ class CreateAdvertisement extends ControlPanel
 								'id'=>'image_file',
 								'class'=>'file',
 								'type'=>'folder',
-								'folder'=>Extension::flyWeight('bannermanagement')->filesFolder()->findFolder('advertisement_img',Folder::FIND_AUTO_CREATE),
+								'folder'=>Extension::flyWeight('bannermanager')->filesFolder()->findFolder('advertisement_img',Folder::FIND_AUTO_CREATE),
 								'title'=>'图片',
 						),
 						array(
@@ -82,9 +82,9 @@ class CreateAdvertisement extends ControlPanel
 	
 	public function process()
 	{	
-		//$sss = 'public/files/ooc/bannermanagement/advertisement_img';
+		//$sss = 'public/files/ooc/bannermanager/advertisement_img';
 		//echo strlen($sss);exit;
-		$aSetting = Extension::flyweight('bannermanagement')->setting();
+		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$akey=$aSetting->key('/'.'advertis',true);
 		
 		if ($this->viewCreateAd->isSubmit ( $this->params ))

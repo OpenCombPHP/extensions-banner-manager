@@ -25,7 +25,7 @@ class AdvertisementSetting extends ControlPanel
 	
 	public function process()
 	{	
-		$aSetting = Extension::flyweight('bannermanagement')->setting();
+		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$akey=$aSetting->key('/'.'advertis',true);
 		$aSingle=$aSetting->itemIterator('/'.'advertis');
 		$arrAdvertisement=array();
@@ -58,13 +58,13 @@ class AdvertisementSetting extends ControlPanel
 				return;
 			}
 			
-			$aSetting = Extension::flyweight('bannermanagement')->setting();
+			$aSetting = Extension::flyweight('bannermanager')->setting();
 			$aSetting->setItem('/viewAd', $sControllerName.'_'.$sAdvertisementName, array('adName'=>$sAdvertisementName));
 		}
 		
 		if($this->params['dAdname'])
 		{
-			$aSingleViewAd = Extension::flyweight('bannermanagement')->setting();//$aSetting->itemIterator();
+			$aSingleViewAd = Extension::flyweight('bannermanager')->setting();//$aSetting->itemIterator();
 			$aSingleViewAd->deleteItem('/'.'viewAd',$this->params['dAdname']);
 		}
 	}
