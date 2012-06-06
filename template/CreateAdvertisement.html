@@ -1,0 +1,64 @@
+<lib name='jquery'/>
+<h2></h2>
+<msgqueue />
+<script type="text/javascript">
+jquery(function(){
+	jquery('#image_radio').click(disableImage);
+	jquery('#url_radio').click(disableUrl);
+});
+
+jquery(function(){
+	jquery('.advertisement_select_way').change(function(){
+		if(jquery(this).val()=='pic')
+		{
+			jquery('#'+jquery(this).val()).show();
+			jquery('#'+'code').hide();
+		}else{
+			jquery('#'+jquery(this).val()).show();
+			jquery('#'+'pic').hide();
+		}
+	});
+});
+
+function disableImage() 
+{
+	document.getElementById('url_text').disabled="disabled";
+	document.getElementById('image_file').removeAttribute("disabled");
+	document.getElementById('url_radio').checked=false;
+}
+function disableUrl() 
+{
+	document.getElementById('image_file').disabled="disabled";
+	document.getElementById('url_text').removeAttribute("disabled");
+	document.getElementById('image_radio').checked=false;
+}
+</script>
+<form enctype="multipart/form-data"  method="post">
+	<select class="advertisement_select_way" name="advertisement_way">
+		<option value="pic" >图片</option>
+		<option value="code">代码</option>
+	</select><br/>
+	<label>名称:<widget id="advertis_name_text" /></label><br/>
+	<div id="pic">
+		<label>文本:<widget id="title_text" /></label><br/><br/>
+		<widget id="image_radio"/>上传图片:<widget id="image_file" />
+		<widget id="url_radio"/>URL引用:<widget id="url_text" />
+		<div id="div_setup" style="margin-top:20px">
+			<label><widget id="window_checkbox" />启用新窗口</label><br/>
+			<label>广告链接:<widget id="forward_text" attr.style="width:18%;"/></label><br/>
+		</div>
+	</div>
+	
+	<div id="code" style="display:none">
+		<label>代码:</label><br/>
+		<label><widget id="code_text" attr.style="width:25%;height:100px"/></label><br/>
+	</div>
+	
+
+	
+	<div id="div_style" style="margin-top:20px">
+		<label>样式:</label><br/>
+		<label><widget id="style_text"  attr.style="width:25%;height:100px"/></label><br/><br/>
+		<input type="submit" value="保存"  style="margin-left:18%"/>
+	</div>
+</form>

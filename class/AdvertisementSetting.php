@@ -38,10 +38,10 @@ class AdvertisementSetting extends ControlPanel
 		$aSingleViewAd = $aSetting->itemIterator('/'.'viewAd');
 		$arrViewAdvertisement = array();
 		foreach ($aSingleViewAd as $key=>$value) 
-		{	//echo $value;exit;
+		{	
 			$arrControllerNameAdName = explode('_',$value);//echo $value;exit;
 			$arrViewAdvertisement[$value] = array('controllerName'=>$arrControllerNameAdName[0],'advertisementName'=>$arrControllerNameAdName[1]);
-		}//var_dump($arrViewAdvertisement);exit;
+		}
 		$this->viewAdvertisementSetting->variables()->set('arrViewAdvertisement',$arrViewAdvertisement) ;
 		
 		if($this->viewAdvertisementSetting->isSubmit())
@@ -59,7 +59,6 @@ class AdvertisementSetting extends ControlPanel
 			}
 			
 			$aSetting = Extension::flyweight('bannermanagement')->setting();
-			//$sControllerName=str_replace('.','\\\\\\\\',$sControllerName);
 			$aSetting->setItem('/viewAd', $sControllerName.'_'.$sAdvertisementName, array('adName'=>$sAdvertisementName));
 		}
 		
