@@ -106,8 +106,6 @@ class EditAdvertisement extends ControlPanel
 		$this->viewEditAd->widget('edit_hide_oldname_text')->setValue($arrAdvertisement['name']);
 		$this->viewEditAd->widget('edit_title_text')->setValue($arrAdvertisement['title']);
 		$this->viewEditAd->widget('edit_image_file')->setValueFromString(substr($arrAdvertisement['image'],48));
-		echo substr($arrAdvertisement['image'],48);
-		echo $this->viewEditAd->widget('edit_image_file')->getFileUrl();exit;
 		$this->viewEditAd->widget('edit_url_text')->setValue($arrAdvertisement['url']);
 		$this->viewEditAd->widget('edit_window_checkbox')->setValue($arrAdvertisement['window']=="_blank"?1:0);
 		$this->viewEditAd->widget('edit_image_radio')->setChecked($arrAdvertisement['imageradio']);
