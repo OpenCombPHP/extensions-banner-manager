@@ -48,7 +48,7 @@ class DeleteAdvertisement extends ControlPanel
 		$file=Extension::flyweight('bannermanager')->filesFolder()->findFile($arrOldABV['image']);
 		//var_dump($file);exit;
 		if(!empty($file))
-		{	echo "dd";
+		{	
 			if($file->exists())
 			{
 				$file->delete();
@@ -60,6 +60,7 @@ class DeleteAdvertisement extends ControlPanel
 
 		$aSetting->deleteItem('/'.'advertis',$aid);
 		$this->viewDeleteAd->createMessage(Message::success,"广告%s 删除成功",$aid);
+		$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
 	}
 	
 	public function deleteCarouselChild($aid)
@@ -86,7 +87,6 @@ class DeleteAdvertisement extends ControlPanel
 				}
 			}
 		}
-		//var_dump($arrCarousel);exit;
 		foreach($arrCarousel as $key=>$item)
 		{
 			$aKey->setItem($key, $item);

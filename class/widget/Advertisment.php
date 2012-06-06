@@ -74,7 +74,7 @@ class Advertisment extends Widget {
 	private $sImg='';
 	
 	public function __construct($aUserModel=null, $sId = '', $sTitle = null,  IView $aView = null) {
-		parent::__construct ( $sId, 'bannermanagement:Advertisement.html',$sTitle, $aView );
+		parent::__construct ( $sId, 'bannermanager:Advertisement.html',$sTitle, $aView );
 	}
 	/**
 	 * @return IModel 
@@ -163,7 +163,7 @@ class Advertisment extends Widget {
 	public function display(UI $aUI,IHashTable $aVariables=null,IOutputStream $aDevice=null)
 	{
 		$sName = $this->attribute('name');
-		$aSetting = Extension::flyweight('bannermanagement')->setting();
+		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$akey=$aSetting->key('/'.'advertis',true);
 		
 		if($akey->hasItem($sName))
@@ -214,14 +214,14 @@ class Advertisment extends Widget {
 				
 				$sAdvertisementName=$arrCarouselImg[array_rand($arrCarouselImg)];
 				
-				$aSetting = Extension::flyweight('bannermanagement')->setting();
+				$aSetting = Extension::flyweight('bannermanager')->setting();
 				$akey=$aSetting->key('/'.'advertis',true);
 				$arrAdvertisement=$akey->item($sAdvertisementName,array());
-				if($arrAdvertisement['coderadio'])
+				if($arrAdvertisement['displaytype']=='code')
 				{
 				$this->setCode($arrAdvertisement['code']);
 				}
-				else if($arrAdvertisement['optionradio'])
+				else if($arrAdvertisement['displaytype']=='pic')
 				{
 					if($arrAdvertisement['image']=='#') {
 					$this->setImg($arrAdvertisement['url']);

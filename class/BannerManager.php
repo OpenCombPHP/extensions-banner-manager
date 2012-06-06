@@ -37,7 +37,7 @@ class BannerManager extends Extension
 	 */
 	static public function buildControlPanelMenu(array & $arrConfig)
 	{
-		$arrConfig['item:CMS']['item:bannermanager'] = array (
+		$arrConfig['item:content']['item:cms']['item:bannermanager'] = array (
 			'title'=>'Baner管理',
 			'link'=>'?c=org.opencomb.bannermt.AdvertisementSetting',
 			'query'=>array(

@@ -2,75 +2,68 @@
 <h2>{=$oAuthName}</h2>
 <msgqueue />
 <script type="text/javascript">
-jquery(function(){
-	jquery('#image_radio').click(disableImage);
-	jquery('#url_radio').click(disableUrl);
-	jquery('#option_radio').click(disableOption);
-	jquery('#code_radio').click(disableCode);
-});
+	jquery(function(){
+		jquery('#image_radio').click(disableImage);
+		jquery('#url_radio').click(disableUrl);
+	});
 
-function disableImage() 
-{
-	document.getElementById('url_text').disabled="disabled";
-	document.getElementById('image_file').removeAttribute("disabled");
-	document.getElementById('url_radio').checked=false;
-}
-function disableUrl() 
-{
-	document.getElementById('image_file').disabled="disabled";
-	document.getElementById('url_text').removeAttribute("disabled");
-	document.getElementById('image_radio').checked=false;
-}
-function disableOption() 
-{
-document.getElementById('code_radio').checked=false;
-document.getElementById('image_radio').checked=true;
-document.getElementById('code_text').disabled="disabled";
-document.getElementById('title_text').removeAttribute("disabled");
-document.getElementById('image_radio').removeAttribute("disabled");
-document.getElementById('image_file').removeAttribute("disabled");
-document.getElementById('url_radio').removeAttribute("disabled");
-document.getElementById('url_text').disabled("disabled");
-}
-function disableCode() 
-{
-document.getElementById('option_radio').checked=false;
-document.getElementById('image_radio').checked=false;
-document.getElementById('url_radio').checked=false;
-document.getElementById('title_text').disabled="disabled";
-document.getElementById('image_radio').disabled="disabled";
-document.getElementById('image_file').disabled="disabled";
-document.getElementById('url_radio').disabled="disabled";
-document.getElementById('url_text').disabled="disabled";
-document.getElementById('code_text').removeAttribute("disabled");
-}
+	jquery(function(){
+		jquery('.advertisement_select_way').change(function(){
+			if(jquery(this).val()=='pic')
+			{
+				jquery('#'+jquery(this).val()).show();
+				jquery('#'+'code').hide();
+			}else{
+				jquery('#'+jquery(this).val()).show();
+				jquery('#'+'pic').hide();
+			}
+		});
+	});
+
+	function disableImage() 
+	{
+		document.getElementById('edit_url_text').disabled="disabled";
+		document.getElementById('edit_image_file').removeAttribute("disabled");
+		document.getElementById('edit_url_radio').checked=false;
+	}
+	
+	function disableUrl() 
+	{
+		document.getElementById('edit_image_file').disabled="disabled";
+		document.getElementById('edit_url_text').removeAttribute("disabled");
+		document.getElementById('edit_image_radio').checked=false;
+	}
+
 </script>
 <form enctype="multipart/form-data"  method="post">
-	<div id="div_option">
-		<label>名称:<widget id="name_text" /></label><br/>
-		<label><widget id="hide_text" /></label>
-		<label>文本:<widget id="title_text" /></label><br/>
-		
-		<label><widget id="image_radio"/></label><label>图片:<widget id="image_file" /></label><br/>
-		<label><widget id="url_radio"/></label>
-		<label>链接:<widget id="url_text" /></label><br/>
-		<label><widget id="option_radio" /></label>
+	<select class="advertisement_select_way" name="advertisement_way">
+		<option value="pic" >图片</option>
+		<option value="code">代码</option>
+	</select><br/>
+	<label>名称:<widget id="edit_name_text" /></label><br/>
+				<widget id="edit_hide_oldname_text" />
+	<div id="pic" style="display:{=$sAdDisplayType=='pic' ? '' : 'none'}">
+		<label>文本:<widget id="edit_title_text" /></label><br/><br/>
+		<widget id="edit_image_radio"/>上传图片:<widget id="edit_image_file" />
+		<widget id="edit_url_radio"/>URL引用:<widget id="edit_url_text" />
+		<div id="div_setup" style="margin-top:20px">
+			<label><widget id="edit_window_checkbox" />启用新窗口</label><br/>
+			<label>广告链接:<widget id="edit_forward_text" attr.style="width:18%;"/></label><br/>
+		</div>
 	</div>
-	<hr/>
-	<div id="div_code">
-		<label><widget id="code_radio" /></label>
+	
+	<div id="code" style="display:{=$sAdDisplayType=='pic' ? 'none' : ''}">
 		<label>代码:</label><br/>
-		<label><widget id="code_text" /></label><br/>
+		<label><widget id="edit_code_text" attr.style="width:25%;height:100px"/></label><br/>
 	</div>
-	<hr/>
-	<div id="div_setup">
-		<label><widget id="window_checkbox" />新窗口</label><br/>
-		<label>广告链接:<widget id="forward_text" /></label><br/>
-	</div>
-	<hr/>
+	
+
+	
+	<div id="edit_div_style" style="margin-top:20px">
 		<label>样式:</label><br/>
-		<label><widget id="style_text" /></label><br/>
-		<input type="submit" value="保存" />
+		<label><widget id="edit_style_text"  attr.style="width:25%;height:100px"/></label><br/><br/>
+		<input type="submit" value="保存"  style="margin-left:18%"/>
+	</div>
 </form>
 
 

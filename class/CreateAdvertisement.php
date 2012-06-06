@@ -82,8 +82,6 @@ class CreateAdvertisement extends ControlPanel
 	
 	public function process()
 	{	
-		//$sss = 'public/files/ooc/bannermanager/advertisement_img';
-		//echo strlen($sss);exit;
 		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$akey=$aSetting->key('/'.'advertis',true);
 		
@@ -166,8 +164,7 @@ class CreateAdvertisement extends ControlPanel
 					'code' => $this->viewCreateAd->widget('code_text')->value(),
 					'imageradio' => $this->viewCreateAd->widget('image_radio')->isChecked(),
 					'urlradio' => $this->viewCreateAd->widget('url_radio')->isChecked(),
-					'optionradio' => $this->params['advertisement_way']=='pic' ? 1 : 0,
-					'coderadio' => $this->params['advertisement_way']=='pic' ? 0 : 1,
+					'displaytype' => $this->params['advertisement_way']=='pic' ? 'pic' : 'code',
 					'style' => $this->viewCreateAd->widget('style_text')->value(),
 					'forward' => $this->viewCreateAd->widget('forward_text')->value(),
 			);		
@@ -175,6 +172,7 @@ class CreateAdvertisement extends ControlPanel
 			$sSuccess="成功";
 			$this->viewCreateAd->hideForm ();
 			$this->viewCreateAd->createMessage(Message::success,"新建告广%s ",$sSuccess);
+			$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
 		};	
 	}
 }
