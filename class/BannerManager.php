@@ -52,23 +52,6 @@ class BannerManager extends Extension
 		);
 	}
 	
-	
-// 	public function initRegisterEvent(EventManager $aEventMgr)
-// 	{
-// 		$aSetting = Extension::flyweight('advertisement')->setting();
-// 		$aViewAd=$aSetting->itemIterator('/'.'viewAd');
-// // 		foreach($aViewAd as $key=>$value)
-// // 		{	echo $value.'d';
-// 			$aEventMgr->registerEventHandle(
-// 					'org\\jecat\\framework\\mvc\\controller\\Controller '
-// 					, Controller::beforeBuildBean
-// 					, ''
-// 					, array(__CLASS__,'setViewAdvertisement')
-// 					, 'org\\opencomb\\localizer\\LangSetting'
-// 			);
-// 		//}
-// 	}
-	
 	public function initRegisterEvent(EventManager $aEventMgr)
 	{
 		$aSetting = Extension::flyweight('bannermanager')->setting();
@@ -103,7 +86,7 @@ class BannerManager extends Extension
 						"class"=> "view",
 				);
 			}
-		}//var_dump($arrConfig);exit;
+		}
 	}
 	
 }

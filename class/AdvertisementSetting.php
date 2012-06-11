@@ -30,7 +30,7 @@ class AdvertisementSetting extends ControlPanel
 		if($this->viewAdvertisementSetting->isSubmit())
 		{
 			$sControllerName = $this->params['controllername'] ;
-			$sAdvertisementName = $this->params['hidden_ad_Name'] ;//echo $sAdvertisementName;exit;
+			$sAdvertisementName = $this->params['hidden_ad_Name'] ;
 			$sControllerNamePage = str_replace('.','\\',$sControllerName);
 			
 			//检查控制器是否存在
@@ -70,7 +70,7 @@ class AdvertisementSetting extends ControlPanel
 		$arrViewAdvertisement = array();
 		foreach ($aSingleViewAd as $key=>$value)
 		{
-			$arrControllerNameAdName = explode('_',$value);//echo $value;exit;
+			$arrControllerNameAdName = explode('_',$value);
 			$arrViewAdvertisement[$value] = array('controllerName'=>$arrControllerNameAdName[0],'advertisementName'=>$arrControllerNameAdName[1]);
 		}
 		$this->viewAdvertisementSetting->variables()->set('arrViewAdvertisement',$arrViewAdvertisement) ;

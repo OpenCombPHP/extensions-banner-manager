@@ -77,7 +77,6 @@ class EditCarouselAdvertisement extends ControlPanel
 			$arrRun=array();
 			$arrCarouselAdvertisement=array();
 			
-			//var_dump($this->params['advertisement_select']);exit;
 			for($i=0;$i<count($this->params['advertisement_select']);$i++)
 			{
 				for($j=$i+1;$j<count($this->params['advertisement_select'])-$i;$j++)
@@ -121,16 +120,6 @@ class EditCarouselAdvertisement extends ControlPanel
 			for($i=0;$i<count($arrAdvertisement);$i++)
 			{
 				$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['run']='off';
-// 				if(!empty($this->params['run_checkbox']))
-// 				{
-// 					for($j=0;$j<count($arrRun);$j++)
-// 					{
-// 						if($arrRun[$j]==$arrAdvertisement[$i])
-// 						{
-// 							$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['run']='on';
-// 						}
-// 					}
-// 				}
 				if(!empty($this->params['run_checkbox']))
 				{
 					$h=$i+1;
@@ -153,6 +142,7 @@ class EditCarouselAdvertisement extends ControlPanel
 			$aSetting->setItem('/'.'advertis',$sName,$arrCarouselAdvertisement);
 			$this->viewEditCarouselAdvertisement->hideForm ();
 			$this->viewEditCarouselAdvertisement->createMessage(Message::success,"随机播放广告%s 编辑成功",$sName);
+			$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
 		}	
 	}
 }

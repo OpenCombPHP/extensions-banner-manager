@@ -28,8 +28,9 @@ class DeleteCarouselAdvertisement extends ControlPanel
 	public function process()
 	{	
 		$aid=$this->params->get('aid');
-		$aSetting = Extension::flyweight('advertisement')->setting();
+		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$aSetting->deleteItem('/'.'advertis',$aid);
 		$this->viewDeleteCarousel->createMessage(Message::success,"随机广告%s 删除成功",$aid);
+		$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
 	}	
 }

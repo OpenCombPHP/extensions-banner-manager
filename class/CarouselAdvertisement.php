@@ -37,7 +37,6 @@ class CarouselAdvertisement extends ControlPanel
 				$arrAdvertisementSelect[]=$arrAdvertisement;
 			}
 		};
-		//var_dump($arrAdvertisementSelect);exit;
 		$this->viewCarouselAd->variables()->set('arrAdvertisementSelect',$arrAdvertisementSelect) ;
 		
 		
@@ -131,6 +130,7 @@ class CarouselAdvertisement extends ControlPanel
 			$aSetting->setItem('/'.'advertis',$sName,$arrCarouselAdvertisement);
 			$this->viewCarouselAd->hideForm();
 			$this->viewCarouselAd->createMessage(Message::success,"随机播放广告%s 创建成功",$sName);
+			$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 		}		
 	}	
 }
