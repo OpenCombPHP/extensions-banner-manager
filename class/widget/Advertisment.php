@@ -84,6 +84,11 @@ class Advertisment extends Widget {
 		return $this->sName;
 	}
 	
+	public function title()
+	{
+		return $this->sTitle;
+	}
+	
 	public function template()
 	{
 		return $this->template;
@@ -122,6 +127,11 @@ class Advertisment extends Widget {
 	public function setName($sName)
 	{
 		return $this->sName=$sName;
+	}
+	
+	public function setTitle($sTitle)
+	{
+		return $this->sTitle=$sTitle;
 	}
 	
 	public function setTemplate($stemplate)
@@ -186,6 +196,8 @@ class Advertisment extends Widget {
 						$this->setImg($arrAdvertisement['image']);
 					}			
 				}
+				
+				$this->setTitle($arrAdvertisement['title']);
 				$this->setForward($arrAdvertisement['forward']);
 				$this->setWindow($arrAdvertisement['window']);
 			}
@@ -193,7 +205,7 @@ class Advertisment extends Widget {
 			{
 				$arrCarousel=$akey->item($sName,array());
 				$arrCarouselImg=array();
-				foreach ($arrCarousel['advertisements'] as $key=>$value)
+				foreach ($arrCarousel['advertisements'] as $akey=>$value)
 				{
 					if($value['run']=='on')
 					{
@@ -218,7 +230,7 @@ class Advertisment extends Widget {
 				$akey=$aSetting->key('/'.'advertis',true);
 				$arrAdvertisement=$akey->item($sAdvertisementName,array());
 				if($arrAdvertisement['displaytype']=='code')
-				{
+				{$this->setTitle($arrAdvertisement['title']);
 				$this->setCode($arrAdvertisement['code']);
 				}
 				else if($arrAdvertisement['displaytype']=='pic')
@@ -230,6 +242,7 @@ class Advertisment extends Widget {
 					$this->setImg($arrAdvertisement['image']);
 					}
 				}
+				$this->setTitle($arrAdvertisement['title']);
 				$this->setForward($arrAdvertisement['forward']);
 				$this->setWindow($arrAdvertisement['window']);
 				$this->setStyle($arrAdvertisement['style']);				
