@@ -25,24 +25,7 @@ class AdvertisementSetting extends ControlPanel
 	
 	public function process()
 	{	
-		$aSetting = Extension::flyweight('bannermanager')->setting();
-		$akey=$aSetting->key('/'.'advertis',true);
-		$aSingle=$aSetting->itemIterator('/'.'advertis');
-		$arrAdvertisement=array();
-		foreach ($aSingle as $key=>$value) {
-			$arrAdvertisement[]=$akey->item($value,array());
-		}
-		$this->viewAdvertisementSetting->variables()->set('arrAdvertisement',$arrAdvertisement) ;
-		
-		$akeyViewAd = $aSetting->key('/'.'viewAd',true);
-		$aSingleViewAd = $aSetting->itemIterator('/'.'viewAd');
-		$arrViewAdvertisement = array();
-		foreach ($aSingleViewAd as $key=>$value) 
-		{	
-			$arrControllerNameAdName = explode('_',$value);//echo $value;exit;
-			$arrViewAdvertisement[$value] = array('controllerName'=>$arrControllerNameAdName[0],'advertisementName'=>$arrControllerNameAdName[1]);
-		}
-		$this->viewAdvertisementSetting->variables()->set('arrViewAdvertisement',$arrViewAdvertisement) ;
+
 		
 		if($this->viewAdvertisementSetting->isSubmit())
 		{
@@ -59,13 +42,39 @@ class AdvertisementSetting extends ControlPanel
 			}
 			
 			$aSetting = Extension::flyweight('bannermanager')->setting();
+			
 			$aSetting->setItem('/viewAd', $sControllerName.'_'.$sAdvertisementName, array('adName'=>$sAdvertisementName));
+			
+			$this->viewAdvertisementSetting->createMessage(Message::success,"%s ",$skey="广告".$sAdvertisementName."创建成功") ;
 		}
 		
 		if($this->params['dAdname'])
 		{
 			$aSingleViewAd = Extension::flyweight('bannermanager')->setting();//$aSetting->itemIterator();
 			$aSingleViewAd->deleteItem('/'.'viewAd',$this->params['dAdname']);
+			$this->viewAdvertisementSetting->createMessage(Message::success,"%s ",$skey="删除成功") ;
+			$this->location("?c=org.opencomb.bannermt.AdvertisementSetting",1);
 		}
+		
+		$aSetting = Extension::flyweight('bannermanager')->setting();
+		$akey=$aSetting->key('/'.'advertis',true);
+		$aSingle=$aSetting->itemIterator('/'.'advertis');
+		$arrAdvertisement=array();
+		foreach ($aSingle as $key=>$value) {
+			$arrAdvertisement[]=$akey->item($value,array());
+		}
+		$this->viewAdvertisementSetting->variables()->set('arrAdvertisement',$arrAdvertisement) ;
+		
+		$akeyViewAd = $aSetting->key('/'.'viewAd',true);
+		$aSingleViewAd = $aSetting->itemIterator('/'.'viewAd');
+		$arrViewAdvertisement = array();
+		foreach ($aSingleViewAd as $key=>$value)
+		{
+			$arrControllerNameAdName = explode('_',$value);//echo $value;exit;
+			$arrViewAdvertisement[$value] = array('controllerName'=>$arrControllerNameAdName[0],'advertisementName'=>$arrControllerNameAdName[1]);
+		}
+		$this->viewAdvertisementSetting->variables()->set('arrViewAdvertisement',$arrViewAdvertisement) ;
+		
+		
 	}
 }
