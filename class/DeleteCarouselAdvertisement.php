@@ -11,26 +11,19 @@ use org\jecat\framework\message\Message;
 
 class DeleteCarouselAdvertisement extends ControlPanel
 {
-	public function createBeanConfig()
-{
-		$arrBean = array(
-			'view:deleteCarousel' => array(
-				'template' => 'DeleteCarouselAdvertisement.html' ,
-				'class' => 'form' ,
-				'widgets'=>array(
-						
-				)
-			)
-		) ;
-		return $arrBean;
-	}
+		protected $arrConfig = array(
+						'view' => array(
+							'template' => 'DeleteCarouselAdvertisement.html' ,
+							'class' => 'view' ,
+						)
+					) ;
 	
 	public function process()
 	{	
 		$aid=$this->params->get('aid');
 		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$aSetting->deleteItem('/'.'advertis',$aid);
-		$this->viewDeleteCarousel->createMessage(Message::success,"随机广告%s 删除成功",$aid);
+		$this->view->createMessage(Message::success,"随机广告%s 删除成功",$aid);
 		$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
 	}	
 }

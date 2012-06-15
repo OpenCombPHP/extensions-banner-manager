@@ -12,16 +12,12 @@ use org\opencomb\advertisement\Advertisement;
 
 class DeleteAdvertisement extends ControlPanel
 {
-	public function createBeanConfig()
-{
-		$arrBean = array(
-			'view:deleteAd' => array(
-				'template' => 'DeleteAdvertisement.html' ,
-				'class' => 'form' ,	
-				)
-			);
-		return $arrBean;
-	}
+		protected $arrConfig = array(
+						'view' => array(
+							'template' => 'DeleteAdvertisement.html' ,
+							'class' => 'view' ,	
+							)
+					);
 	
 	public function process()
 	{	
@@ -59,7 +55,7 @@ class DeleteAdvertisement extends ControlPanel
 		}
 
 		$aSetting->deleteItem('/'.'advertis',$aid);
-		$this->viewDeleteAd->createMessage(Message::success,"广告%s 删除成功",$aid);
+		$this->view->createMessage(Message::success,"广告%s 删除成功",$aid);
 		$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
 	}
 	

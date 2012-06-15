@@ -12,18 +12,12 @@ use org\opencomb\advertisement\Advertisement;
 
 class EditCarouselAdvertisement extends ControlPanel
 {
-	public function createBeanConfig()
-	{
-		$arrBean = array(
-			'view:editCarouselAdvertisement' => array(
-				'template' => 'EitCarouselAdvertisement.html' ,
-				'class' => 'form' ,
-				'widgets'=>array(
-				)
+	protected $arrBean = array(
+			'view' => array(
+					'template' => 'EitCarouselAdvertisement.html' ,
+					'class' => 'view' ,
 			)
-		) ;
-		return $arrBean;
-	}
+	) ;
 	
 	public function process()
 	{	
@@ -43,7 +37,7 @@ class EditCarouselAdvertisement extends ControlPanel
 				$arrAdvertisementSelect[]=$arrAdvertisment['name'];
 			}
 		};
-		$this->viewEditCarouselAdvertisement->variables()->set('arrAdvertisementSelect',$arrAdvertisementSelect) ;
+		$this->view->variables()->set('arrAdvertisementSelect',$arrAdvertisementSelect) ;
 		
 		
 		//随机广告遍历
@@ -53,21 +47,23 @@ class EditCarouselAdvertisement extends ControlPanel
 		if(count($arrCarouselAdvertisement['advertisements'])!=0)
 		{
 			$sHave = 1 ;
-			$this->viewEditCarouselAdvertisement->variables()->set('sHave',$sHave);
+			$this->view->variables()->set('sHave',$sHave);
 		}else {
 			$sHave = 0 ;
-			$this->viewEditCarouselAdvertisement->variables()->set('sHave',$sHave);
+			$this->view->variables()->set('sHave',$sHave);
 		}
 		$sRunCount = 1;
-		$this->viewEditCarouselAdvertisement->variables()->set('sRunCount',$sRunCount);
-		$this->viewEditCarouselAdvertisement->variables()->set('arrCarouselAdvertisement',$arrCarouselAdvertisement);
-		$this->viewEditCarouselAdvertisement->variables()->set('randName',$aid);
+		$this->view->variables()->set('sRunCount',$sRunCount);
+		$this->view->variables()->set('arrCarouselAdvertisement',$arrCarouselAdvertisement);
+		$this->view->variables()->set('randName',$aid);
+	}
 		
-		
-
+	public function form()
+	{	
+	
 		//表单提交
 		
-		if($this->viewEditCarouselAdvertisement->isSubmit())
+		if($this->view->isSubmit())
 		{
 			$aMkey=$aSetting->key('/'.'advertis',true);
 			$sName=$this->params['randName'];
@@ -83,7 +79,7 @@ class EditCarouselAdvertisement extends ControlPanel
 				{
 				if($this->params['advertisement_select'][$i]==$this->params['advertisement_select'][$j])
 					{
-						$this->viewEditCarouselAdvertisement->createMessage(Message::error,"广告名称%s 重名",$this->params['advertisement_select'][$i]);
+						$this->view->createMessage(Message::error,"广告名称%s 重名",$this->params['advertisement_select'][$i]);
 						return;
 					}
 				}
@@ -102,7 +98,7 @@ class EditCarouselAdvertisement extends ControlPanel
 				{
 					
 					$skey="权重值";
-					$this->viewEditCarouselAdvertisement->createMessage(Message::error,"%s 为一位以上非零的数字",$skey) ;
+					$this->view->createMessage(Message::error,"%s 为一位以上非零的数字",$skey) ;
 					return;
 				}
 				$arrRandom[]=$value;
@@ -140,8 +136,8 @@ class EditCarouselAdvertisement extends ControlPanel
 				$arrCarouselAdvertisement['name']=$sName;
 			};
 			$aSetting->setItem('/'.'advertis',$sName,$arrCarouselAdvertisement);
-			$this->viewEditCarouselAdvertisement->hideForm ();
-			$this->viewEditCarouselAdvertisement->createMessage(Message::success,"随机播放广告%s 编辑成功",$sName);
+			$this->view->hideForm ();
+			$this->view->createMessage(Message::success,"随机播放广告%s 编辑成功",$sName);
 			$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
 		}	
 	}

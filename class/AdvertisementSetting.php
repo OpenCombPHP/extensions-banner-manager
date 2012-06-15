@@ -12,47 +12,44 @@ use org\jecat\framework\mvc\controller\Controller;
 
 class AdvertisementSetting extends ControlPanel
 {
-	public function createBeanConfig()
-	{
-		$arrBean = array(
-			'view:advertisementSetting' => array(
-					'template' => 'AdvertisementSetting.html' ,
-					'class' => 'form' 
-					),
-		);
-		return $arrBean;
-	}
+	protected $arrConfig = array(
+					'view' => array(
+						'template' => 'AdvertisementSetting.html' ,
+						'class' => 'view',
+			),
+	);
 	
-	public function process()
-	{	
-
-		
-		if($this->viewAdvertisementSetting->isSubmit())
+	public function form()
+	{
+		if($this->view->isSubmit())
 		{
 			$sControllerName = $this->params['controllername'] ;
 			$sAdvertisementName = $this->params['hidden_ad_Name'] ;
 			$sControllerNamePage = str_replace('.','\\',$sControllerName);
-			
+		
 			//检查控制器是否存在
 			if( !class_exists($sControllerNamePage) or !new $sControllerNamePage() instanceof Controller)
 			{
 				$skey="无此控制器";
-				$this->viewMenuOpen->createMessage(Message::error,"%s ",$skey);
+				$this->view->createMessage(Message::error,"%s ",$skey);
 				return;
 			}
-			
-			$aSetting = Extension::flyweight('bannermanager')->setting();
-			
-			$aSetting->setItem('/viewAd', $sControllerName.'_'.$sAdvertisementName, array('adName'=>$sAdvertisementName));
-			
-			$this->viewAdvertisementSetting->createMessage(Message::success,"%s ",$skey="广告".$sAdvertisementName."创建成功") ;
-		}
 		
+			$aSetting = Extension::flyweight('bannermanager')->setting();
+		
+			$aSetting->setItem('/viewAd', $sControllerName.'_'.$sAdvertisementName, array('adName'=>$sAdvertisementName));
+		
+			$this->view->createMessage(Message::success,"%s ",$skey="广告".$sAdvertisementName."创建成功") ;
+		}
+	}
+	
+	public function process()
+	{			
 		if($this->params['dAdname'])
 		{
 			$aSingleViewAd = Extension::flyweight('bannermanager')->setting();//$aSetting->itemIterator();
 			$aSingleViewAd->deleteItem('/'.'viewAd',$this->params['dAdname']);
-			$this->viewAdvertisementSetting->createMessage(Message::success,"%s ",$skey="删除成功") ;
+			$this->view->createMessage(Message::success,"%s ",$skey="删除成功") ;
 			$this->location("?c=org.opencomb.bannermt.AdvertisementSetting",1);
 		}
 		
@@ -63,7 +60,7 @@ class AdvertisementSetting extends ControlPanel
 		foreach ($aSingle as $key=>$value) {
 			$arrAdvertisement[]=$akey->item($value,array());
 		}
-		$this->viewAdvertisementSetting->variables()->set('arrAdvertisement',$arrAdvertisement) ;
+		$this->view->variables()->set('arrAdvertisement',$arrAdvertisement) ;
 		
 		$akeyViewAd = $aSetting->key('/'.'viewAd',true);
 		$aSingleViewAd = $aSetting->itemIterator('/'.'viewAd');
@@ -73,7 +70,7 @@ class AdvertisementSetting extends ControlPanel
 			$arrControllerNameAdName = explode('_',$value);
 			$arrViewAdvertisement[$value] = array('controllerName'=>$arrControllerNameAdName[0],'advertisementName'=>$arrControllerNameAdName[1]);
 		}
-		$this->viewAdvertisementSetting->variables()->set('arrViewAdvertisement',$arrViewAdvertisement) ;
+		$this->view->variables()->set('arrViewAdvertisement',$arrViewAdvertisement) ;
 		
 		
 	}
