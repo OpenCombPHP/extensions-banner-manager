@@ -7,23 +7,26 @@
 		<a href="?c=org.opencomb.bannermt.CreateAdvertisement">新建广告</a> 
 		<a href="?c=org.opencomb.bannermt.CarouselAdvertisement">新建随机广告</a>
 	</div>
-	<div style="margin-bottom:5px">
-		<span style="font-size:13px; text-align:center;font-weight:bold; color:#333">名称</span>
-		<span style="margin-left:180px; text-align:center; font-size:13px; font-weight:bold; color:#333;">类型</span>
-		<span style="margin-left:200px; text-align:center; font-size:13px; font-weight:bold; color:#333;">操作</span>
-	</div>
-	<div style="margin-bottom:30px">
+	<table>
+		<tr>
+			<th style="width:220px">名称</th>
+			<th style="width:230px">类型</th>
+			<th style="text-align:center">操作</th>
+		</tr>
 		<foreach for="$arrAdvertisement" key='sKeyPath' item='arrAItemList'>
-			<div style="margin-bottom:5px">
-				<div class="adOperation">
-					<span>{=$arrAItemList['name']}</span>
-					<span style="margin-left:80px;position:absolute; top:auto; right:67%;">{=$arrAItemList['type']}</span>
-					<span style="margin-left:110px;position:absolute; top:auto; right:53%;"><a href="?c=org.opencomb.bannermt.{=$arrAItemList['classtype2']}&aid={=$arrAItemList['name']}">删除</a></span>
-					<span style="margin-left:110px;position:absolute; top:auto; right:50%;"><a href="?c=org.opencomb.bannermt.{=$arrAItemList['classtype']}&aid={=$arrAItemList['name']}">编辑</a></span>
-					<span style="margin-left:110px;position:absolute; top:auto; right:47%;"><a href="javascript:void(0)" onclick="javascript:jquery('#{=$arrAItemList['name'].'code'}').toggle()">代码</a></span>
-					<span style="margin-left:110px;position:absolute; top:auto; right:44%;"><a href="javascript:void(0)" onclick="viewAdEdit('{=$arrAItemList['name']}')">放置</a></span>
-				</div>
-				<div id="{=$arrAItemList['name']}viewAdEdit" style="display:none;margin-top:7px; margin-bottom:25px" class="hViewEdit" >
+		<tr>
+			<td>{=$arrAItemList['name']}</td>
+			<td>{=$arrAItemList['type']}</td>
+			<td style="align:right">
+				<span><a href="?c=org.opencomb.bannermt.{=$arrAItemList['classtype2']}&aid={=$arrAItemList['name']}">删除</a></span>
+				<span><a href="?c=org.opencomb.bannermt.{=$arrAItemList['classtype']}&aid={=$arrAItemList['name']}">编辑</a></span>
+				<span><a href="javascript:void(0)" onclick="javascript:jquery('#{=$arrAItemList['name'].'code'}').toggle()">代码</a></span>
+				<span><a href="javascript:void(0)" onclick="viewAdEdit('{=$arrAItemList['name']}')">放置</a></span>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<div id="{=$arrAItemList['name']}viewAdEdit" style="display:none;" class="hViewEdit" >
 						<form method="post">
 							<div>
 								<span style="font-size:10px; font-weight:bold; color:#333">放置:</span>输入对应的网页地址，可以将此广告放置于输入地址的网页
@@ -46,14 +49,26 @@
 							</if>
 						</form>
 				</div>
-				<div id="{=$arrAItemList['name']}code" style="display:none;  margin-bottom:25px;" class="hCode">
-					<span style="font-size:10px; font-weight:bold; color:#333">代码:</span>
-					&lt;widget new='advertisment' attr.name="{=$arrAItemList['name']}" /><br/>
-					<span style="font-size:10px; font-weight:bold; color:#333">说明:</span>可以将上述代码复制到网页中使用，例如模板编织可以使用此代码
-				</div>	
-			</div>	
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<div style="">
+					<foreach for="$arrAdvertisement" key='sKeyPath' item='arrAItemList'>
+						<div >
+							<div id="{=$arrAItemList['name']}code" style="display:none;" class="hCode">
+								<span style="font-size:10px; font-weight:bold; color:#333">代码:</span>
+								&lt;widget new='advertisment' attr.name="{=$arrAItemList['name']}" /><br/>
+								<span style="font-size:10px; font-weight:bold; color:#333">说明:</span>可以将上述代码复制到网页中使用，例如模板编织可以使用此代码
+							</div>	
+						</div>	
+					</foreach>
+				</div>
+			</td>
+		</tr>
+		<tr style="height:5px"></tr>
 		</foreach>
-	</div>
+	</table>
 <script>
 	function viewAdEdit(adName)
 	{

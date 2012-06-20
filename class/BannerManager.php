@@ -76,11 +76,12 @@ class BannerManager extends Extension
 		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$aViewAd=$aSetting->itemIterator('/'.'viewAd');
 		foreach($aViewAd as $key=>$value)
-		{
+		{	
 			$arrControllerAdName = explode('_',$value);
 			if($arrControllerAdName[0]==str_replace('\\', '.', get_class($aObject)))
 			{	
 				$arrConfig['view:'.$arrControllerAdName[1]] = array(
+						'name' => $arrControllerAdName[1],
 						"template"=> "bannermanager:ViewAdvertisement.html",
 						'vars'=> array('adName'=>$arrControllerAdName[1]),
 						"class"=> "view",
