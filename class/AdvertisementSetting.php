@@ -19,32 +19,10 @@ class AdvertisementSetting extends ControlPanel
 			),
 	);
 	
-	public function form()
-	{
-		if($this->view->isSubmit())
-		{
-			$sControllerName = $this->params['controllername'] ;
-			$sAdvertisementName = $this->params['hidden_ad_Name'] ;
-			$sControllerNamePage = str_replace('.','\\',$sControllerName);
-		
-			//检查控制器是否存在
-			if( !class_exists($sControllerNamePage) or !new $sControllerNamePage() instanceof Controller)
-			{
-				$skey="无此控制器";
-				$this->view->createMessage(Message::error,"%s ",$skey);
-				return;
-			}
-		
-			$aSetting = Extension::flyweight('bannermanager')->setting();
-		
-			$aSetting->setItem('/viewAd', $sControllerName.'_'.$sAdvertisementName, array('adName'=>$sAdvertisementName));
-		
-			$this->view->createMessage(Message::success,"%s ",$skey="广告".$sAdvertisementName."创建成功") ;
-		}
-	}
-	
 	public function process()
-	{			
+	{
+		$this->doActions();
+		
 		if($this->params['dAdname'])
 		{
 			$aSingleViewAd = Extension::flyweight('bannermanager')->setting();//$aSetting->itemIterator();
@@ -52,7 +30,7 @@ class AdvertisementSetting extends ControlPanel
 			$this->view->createMessage(Message::success,"%s ",$skey="删除成功") ;
 			$this->location("?c=org.opencomb.bannermt.AdvertisementSetting",1);
 		}
-		
+	
 		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$akey=$aSetting->key('/'.'advertis',true);
 		$aSingle=$aSetting->itemIterator('/'.'advertis');
@@ -61,7 +39,7 @@ class AdvertisementSetting extends ControlPanel
 			$arrAdvertisement[]=$akey->item($value,array());
 		}
 		$this->view->variables()->set('arrAdvertisement',$arrAdvertisement) ;
-		
+	
 		$akeyViewAd = $aSetting->key('/'.'viewAd',true);
 		$aSingleViewAd = $aSetting->itemIterator('/'.'viewAd');
 		$arrViewAdvertisement = array();
@@ -71,7 +49,27 @@ class AdvertisementSetting extends ControlPanel
 			$arrViewAdvertisement[$value] = array('controllerName'=>$arrControllerNameAdName[0],'advertisementName'=>$arrControllerNameAdName[1]);
 		}
 		$this->view->variables()->set('arrViewAdvertisement',$arrViewAdvertisement) ;
-		
-		
+	}
+	
+	public function form()
+	{
+
+		$sControllerName = $this->params['controllername'] ;
+		$sAdvertisementName = $this->params['hidden_ad_Name'] ;
+		$sControllerNamePage = str_replace('.','\\',$sControllerName);
+	
+		//检查控制器是否存在
+		if( !class_exists($sControllerNamePage) or !new $sControllerNamePage() instanceof Controller)
+		{
+			$skey="无此控制器";
+			$this->view->createMessage(Message::error,"%s ",$skey);
+			return;
+		}
+	
+		$aSetting = Extension::flyweight('bannermanager')->setting();
+	
+		$aSetting->setItem('/viewAd', $sControllerName.'_'.$sAdvertisementName, array('adName'=>$sAdvertisementName));
+	
+		$this->view->createMessage(Message::success,"%s ",$skey="广告".$sAdvertisementName."创建成功") ;
 	}
 }

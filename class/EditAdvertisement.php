@@ -52,12 +52,12 @@ class EditAdvertisement extends ControlPanel
 								),
 								array(
 										'id'=>'edit_image_radio',
-										'class'=>'CheckBtn',
+										'class'=>'checkbox',
 										'type'=>'radio',
 								),
 								array(
 										'id'=>'edit_url_radio',
-										'class'=>'CheckBtn',
+										'class'=>'checkbox',
 										'type'=>'radio',
 								),
 								array(
