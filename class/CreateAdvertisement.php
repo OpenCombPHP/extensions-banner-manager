@@ -77,6 +77,11 @@ class CreateAdvertisement extends ControlPanel
 			)
 		);
 		
+	public function process()
+	{
+			$this->doActions();
+	}	
+	
 	public function form()
 	{	
 		$aSetting = Extension::flyweight('bannermanager')->setting();
@@ -147,7 +152,8 @@ class CreateAdvertisement extends ControlPanel
 				}
 				
 			}
-
+			$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
+			exit;
 			$arrABV=array(
 					'name' => trim($this->view->widget('advertis_name_text')->value()),
 					'title' => trim($this->view->widget('title_text')->value()),

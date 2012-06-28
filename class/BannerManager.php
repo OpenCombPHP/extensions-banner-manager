@@ -11,6 +11,7 @@ use org\jecat\framework\ui\xhtml\weave\Patch;
 use org\jecat\framework\ui\xhtml\weave\WeaveManager;
 use org\jecat\framework\mvc\controller\Controller ;
 use org\jecat\framework\util\EventManager;
+use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class BannerManager extends Extension 
 {
@@ -23,12 +24,13 @@ class BannerManager extends Extension
 		BeanFactory::singleton()->registerBeanClass("org\\opencomb\\bannermt\\widget\\Advertisment",'advertisment') ;
 		
 		// 注册菜单build事件的处理函数
-		Menu::registerBuildHandle(
-			'org\\opencomb\\coresystem\\mvc\\controller\\ControlPanelFrame'
-			, 'frameView'
-			, 'mainMenu'
-			, array(__CLASS__,'buildControlPanelMenu')
-		) ;
+		ControlPanel::registerMenuHandler( array(__CLASS__,'buildControlPanelMenu') ) ;
+// 		Menu::registerBuildHandle(
+// 			'org\\opencomb\\coresystem\\mvc\\controller\\ControlPanelFrame'
+// 			, 'frameView'
+// 			, 'mainMenu'
+// 			, array(__CLASS__,'buildControlPanelMenu')
+// 		) ;
 	}
 
 	/**

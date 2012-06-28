@@ -12,8 +12,9 @@ use org\jecat\framework\fs\Folder ;
 
 
 class EditAdvertisement extends ControlPanel
-{
-	protected	$arrBean = array(
+{	
+	protected	$arrConfig = array(
+				'title'=> '本地化设定',
 					'view' => array(
 						'template' => 'EditAdvertisement.html' ,
 						'class' => 'view' ,
@@ -65,10 +66,6 @@ class EditAdvertisement extends ControlPanel
 										'class'=>'text',
 										'type'=>'multiple',
 										'title'=>'手写代码区域',
-										'verifier:notempty'=>array(),
-										'verifier:length'=>array(
-												'min'=>5,
-												'max'=>1000)
 								),
 								array(
 										'id'=>'edit_style_text',
@@ -91,7 +88,8 @@ class EditAdvertisement extends ControlPanel
 		) ;
 	
 	public function process()
-	{	
+	{
+		$this->doActions();
 		//页面初始化
 		$aid=$this->params->get('aid');
 		$arrAdvertisement=array();
@@ -112,7 +110,7 @@ class EditAdvertisement extends ControlPanel
 		$this->view->widget('edit_url_text')->setValue($arrAdvertisement['url']);
 		$this->view->widget('edit_window_checkbox')->setValue($arrAdvertisement['window']=="_blank"?1:0);
 		//var_dump($this->view->widget('edit_image_radio'));exit;
-		$this->view->widget('edit_image_radio')->setChecked($arrAdvertisement['imageradio']);
+		$this->view()->widget('edit_image_radio')->setChecked($arrAdvertisement['imageradio']);
 		$this->view->widget('edit_url_radio')->setChecked($arrAdvertisement['urlradio']);
 		$this->view->widget('edit_code_text')->setValue($arrAdvertisement['code']);
 		$this->view->widget('edit_style_text')->setValue($arrAdvertisement['style']);
@@ -126,11 +124,12 @@ class EditAdvertisement extends ControlPanel
 		}
 		$sAdDisplayType = $arrAdvertisement['displaytype'];
 		$this->view->variables()->set('sAdDisplayType',$sAdDisplayType);
-
 	}	
 	
 	public function form()
 	{
+			$aSetting = Extension::flyweight('bannermanager')->setting();
+			$akey = $aSetting->key('/'.'advertis',true);
 			//表单提交
 			$aSetting = Extension::flyweight('bannermanager')->setting();
 			$this->view->loadWidgets( $this->params );
@@ -208,7 +207,7 @@ class EditAdvertisement extends ControlPanel
 							'forward'=>$this->view->widget('edit_forward_text')->value(),
 					);
 					
-					$akey=$aSetting->key('/'.'advertis',true);
+					$akey = $aSetting->key('/'.'advertis',true);
 					$arrOldABV = $akey->item($sEditOldAdName,array());
 					
 					if($this->view->widget('edit_url_radio')->isChecked()) 

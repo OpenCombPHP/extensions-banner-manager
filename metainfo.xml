@@ -2,7 +2,7 @@
 <Extension>
 
 	<name>bannermanager</name>
-	<version>0.1</version>
+	<version>0.2</version>
 	<title>Banner管理</title>
 	<description>
 允许你在控制面板中创建和维护banner，并提供banner的 widget 代码用于模板中；可以直接将banner放置到任何蜂巢的网页上，再通过视图布局精确调整banner的位置。
