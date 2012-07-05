@@ -55,7 +55,7 @@ class DeleteAdvertisement extends ControlPanel
 		}
 
 		$aSetting->deleteItem('/'.'advertis',$aid);
-		$this->view->createMessage(Message::success,"广告%s 删除成功",$aid);
+		$this->createMessage(Message::success,"广告%s 删除成功",$aid);
 		$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
 	}
 	

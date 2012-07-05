@@ -94,10 +94,10 @@ class CreateAdvertisement extends ControlPanel
 			if(empty($sAdvertisName))
 			{
 				$sKey="广告名称";
-				$this->view->createMessage(Message::error,"%s 不能为空",$sKey);
+				$this->createMessage(Message::error,"%s 不能为空",$sKey);
 				return;
 			}else if($akey->hasItem($this->view->widget('advertis_name_text')->value())){
-				$this->view->createMessage(Message::error,"名称%s 重名",$sAdvertisName);
+				$this->createMessage(Message::error,"名称%s 重名",$sAdvertisName);
 				return;
 			}
 			
@@ -107,7 +107,7 @@ class CreateAdvertisement extends ControlPanel
 				if(empty($sForward))
 				{
 					$sKey="广告跳转链接";
-					$this->view->createMessage(Message::error,"%s 不能为空",$sKey);
+					$this->createMessage(Message::error,"%s 不能为空",$sKey);
 					return;
 				}
 				
@@ -116,7 +116,7 @@ class CreateAdvertisement extends ControlPanel
 				if(empty($sTitle))
 				{
 					$skey="文本名称";
-					$this->view->createMessage(Message::error,"%s 不能为空",$skey);
+					$this->createMessage(Message::error,"%s 不能为空",$skey);
 					return;
 				}
 				
@@ -147,7 +147,7 @@ class CreateAdvertisement extends ControlPanel
 				if(empty($sCode))
 				{
 					$skey="代码";
-					$this->view->createMessage(Message::error,"%s 不能为空",$skey);
+					$this->createMessage(Message::error,"%s 不能为空",$skey);
 					return;
 				}
 				
@@ -172,7 +172,7 @@ class CreateAdvertisement extends ControlPanel
 			$aSetting->setItem('/'.'advertis',trim($this->view->widget('advertis_name_text')->value()),$arrABV);
 			$sSuccess="成功";
 			$this->view->hideForm ();
-			$this->view->createMessage(Message::success,"新建告广%s ",$sSuccess);
+			$this->createMessage(Message::success,"新建告广%s ",$sSuccess);
 			$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
 	}
 }

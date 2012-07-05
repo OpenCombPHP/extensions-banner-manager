@@ -27,10 +27,10 @@ class AdvertisementSetting extends ControlPanel
 		
 		if($this->params['dAdname'])
 		{
-			$aSingleViewAd = Extension::flyweight('bannermanager')->setting();//$aSetting->itemIterator();
+			$aSingleViewAd = Extension::flyweight('bannermanager')->setting();
 			$aSingleViewAd->deleteItem('/'.'viewAd',$this->params['dAdname']);
-			$this->view->createMessage(Message::success,"%s ",$skey="删除成功") ;
-			$this->location("?c=org.opencomb.bannermt.AdvertisementSetting",1);
+			$this->createMessage(Message::success,"%s ",$skey="删除成功") ;
+			$this->location("?c=org.opencomb.bannermt.AdvertisementSetting",3);
 		}
 	
 		$aSetting = Extension::flyweight('bannermanager')->setting();
@@ -56,10 +56,9 @@ class AdvertisementSetting extends ControlPanel
 	public function form()
 	{
 
-		$sControllerName = $this->params['controllername'] ;
+		$sControllerNamePage = $this->params['controllername'] ;
 		$sAdvertisementName = $this->params['hidden_ad_Name'] ;
-		$sControllerNamePage = str_replace('.','\\',$sControllerName);
-	
+		$sControllerName = str_replace('\\','.',$sControllerNamePage);
 		//检查控制器是否存在
 		if( !class_exists($sControllerNamePage) or !new $sControllerNamePage() instanceof Controller)
 		{
@@ -72,7 +71,7 @@ class AdvertisementSetting extends ControlPanel
 	
 		$aSetting->setItem('/viewAd', $sControllerName.'_'.$sAdvertisementName, array('adName'=>$sAdvertisementName));
 	
-		$this->view->createMessage(Message::success,"%s ",$skey="广告".$sAdvertisementName."创建成功") ;
+		$this->createMessage(Message::success,"%s ",$skey="广告".$sAdvertisementName."放置成功") ;
 	}
 	
 	

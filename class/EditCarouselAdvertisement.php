@@ -76,7 +76,7 @@ class EditCarouselAdvertisement extends ControlPanel
 			{
 			if($this->params['advertisement_select'][$i]==$this->params['advertisement_select'][$j])
 				{
-					$this->view->createMessage(Message::error,"广告名称%s 重名",$this->params['advertisement_select'][$i]);
+					$this->createMessage(Message::error,"广告名称%s 重名",$this->params['advertisement_select'][$i]);
 					return;
 				}
 			}
@@ -95,7 +95,7 @@ class EditCarouselAdvertisement extends ControlPanel
 			{
 				
 				$skey="权重值";
-				$this->view->createMessage(Message::error,"%s 为一位以上非零的数字",$skey) ;
+				$this->createMessage(Message::error,"%s 为一位以上非零的数字",$skey) ;
 				return;
 			}
 			$arrRandom[]=$value;
@@ -134,7 +134,7 @@ class EditCarouselAdvertisement extends ControlPanel
 		};
 		$aSetting->setItem('/'.'advertis',$sName,$arrCarouselAdvertisement);
 		$this->view->hideForm ();
-		$this->view->createMessage(Message::success,"随机播放广告%s 编辑成功",$sName);
+		$this->createMessage(Message::success,"随机播放广告%s 编辑成功",$sName);
 		$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
 	}
 }
