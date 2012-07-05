@@ -25,12 +25,6 @@ class BannerManager extends Extension
 		
 		// 注册菜单build事件的处理函数
 		ControlPanel::registerMenuHandler( array(__CLASS__,'buildControlPanelMenu') ) ;
-// 		Menu::registerBuildHandle(
-// 			'org\\opencomb\\coresystem\\mvc\\controller\\ControlPanelFrame'
-// 			, 'frameView'
-// 			, 'mainMenu'
-// 			, array(__CLASS__,'buildControlPanelMenu')
-// 		) ;
 	}
 
 	/**
@@ -57,7 +51,7 @@ class BannerManager extends Extension
 	public function initRegisterEvent(EventManager $aEventMgr)
 	{
 		$aSetting = Extension::flyweight('bannermanager')->setting();
-		$aViewAd=$aSetting->itemIterator('/'.'viewAd');
+		$aViewAd = $aSetting->itemIterator('/'.'viewAd');
 		foreach($aViewAd as $key=>$value)
 		{
 			$arrControllerAdName = explode('_',$value);
@@ -67,16 +61,14 @@ class BannerManager extends Extension
 					, array(__CLASS__,'setViewAdvertisement')
 					, null
 					, str_replace('.', '\\', $arrControllerAdName[0])
-			
 			);
 		}
-
 	}
 	
 	static public function setViewAdvertisement($aObject,&$arrConfig,&$sNamespace,&$aBeanFactory)
 	{
 		$aSetting = Extension::flyweight('bannermanager')->setting();
-		$aViewAd=$aSetting->itemIterator('/'.'viewAd');
+		$aViewAd = $aSetting->itemIterator('/'.'viewAd');
 		foreach($aViewAd as $key=>$value)
 		{
 			$arrControllerAdName = explode('_',$value);
@@ -89,6 +81,7 @@ class BannerManager extends Extension
 				);
 			}
 		}
+		//var_dump($arrConfig);exit;
 	}
 	
 }

@@ -193,7 +193,7 @@ class EditAdvertisement extends ControlPanel
 					$arrABV=array(
 							'name'=>trim($this->view->widget('edit_name_text')->value()),
 							'title'=>trim($this->view->widget('edit_title_text')->value()),
-							'image'=>$this->view->widget('edit_image_file')->getFileUrl(),
+							//'image'=>$this->view->widget('edit_image_file')->getFileUrl(),
 							'url'=>trim($this->view->widget('edit_url_text')->value()),
 							'window'=>$this->view->widget('edit_window_checkbox')->value()==1?'_blank':'_self',
 							'type'=>'普通',

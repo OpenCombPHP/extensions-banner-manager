@@ -152,8 +152,7 @@ class CreateAdvertisement extends ControlPanel
 				}
 				
 			}
-			$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
-			exit;
+
 			$arrABV=array(
 					'name' => trim($this->view->widget('advertis_name_text')->value()),
 					'title' => trim($this->view->widget('title_text')->value()),
@@ -169,7 +168,7 @@ class CreateAdvertisement extends ControlPanel
 					'displaytype' => $this->params['advertisement_way']=='pic' ? 'pic' : 'code',
 					'style' => $this->view->widget('style_text')->value(),
 					'forward' => $this->view->widget('forward_text')->value(),
-			);		
+			);		//var_dump($arrABV);exit;
 			$aSetting->setItem('/'.'advertis',trim($this->view->widget('advertis_name_text')->value()),$arrABV);
 			$sSuccess="成功";
 			$this->view->hideForm ();

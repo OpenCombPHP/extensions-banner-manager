@@ -12,7 +12,7 @@ use org\opencomb\advertisement\Advertisement;
 
 class EditCarouselAdvertisement extends ControlPanel
 {
-	protected $arrBean = array(
+	protected $arrConfig = array(
 			'view' => array(
 					'template' => 'EitCarouselAdvertisement.html' ,
 					'class' => 'view' ,
@@ -21,10 +21,11 @@ class EditCarouselAdvertisement extends ControlPanel
 	
 	public function process()
 	{	
+		$this->doActions();
 		//页面初始化
 		$aSetting = Extension::flyweight('bannermanager')->setting();
-		$aSkey=$aSetting->key('/'.'advertis',true);
-		$aSingle=$aSetting->itemIterator('/'.'advertis');
+		$aSkey = $aSetting->key('/'.'advertis',true);
+		$aSingle = $aSetting->itemIterator('/'.'advertis');
 		
 		$arrAdvertisment=array();
 		$arrAdvertisementSelect=array();
@@ -60,85 +61,80 @@ class EditCarouselAdvertisement extends ControlPanel
 		
 	public function form()
 	{	
-	
-		//表单提交
+		$aSetting = Extension::flyweight('bannermanager')->setting();
+		$aMkey = $aSetting->key('/'.'advertis',true);
+		$sName = $this->params['randName'];
 		
-		if($this->view->isSubmit())
+		$arrAdvertisement = array();
+		$arrRandom = array();
+		$arrRun = array();
+		$arrCarouselAdvertisement = array();
+		
+		for($i=0;$i<count($this->params['advertisement_select']);$i++)
 		{
-			$aMkey=$aSetting->key('/'.'advertis',true);
-			$sName=$this->params['randName'];
-			
-			$arrAdvertisement=array();
-			$arrRandom=array();
-			$arrRun=array();
-			$arrCarouselAdvertisement=array();
-			
-			for($i=0;$i<count($this->params['advertisement_select']);$i++)
+			for($j=$i+1;$j<count($this->params['advertisement_select'])-$i;$j++)
 			{
-				for($j=$i+1;$j<count($this->params['advertisement_select'])-$i;$j++)
+			if($this->params['advertisement_select'][$i]==$this->params['advertisement_select'][$j])
 				{
-				if($this->params['advertisement_select'][$i]==$this->params['advertisement_select'][$j])
-					{
-						$this->view->createMessage(Message::error,"广告名称%s 重名",$this->params['advertisement_select'][$i]);
-						return;
-					}
-				}
-			}
-			
-			//取得广告值的数组
-			foreach ($this->params['advertisement_select'] as $key=>$value)
-			{
-				$arrAdvertisement[]=$value;
-			
-			};
-			//取得权重值的数组
-			foreach($this->params['random_text'] as $key=>$value)
-			{
-				if(!preg_match('/^\+?[1-9][0-9]*$/',(int)$value))
-				{
-					
-					$skey="权重值";
-					$this->view->createMessage(Message::error,"%s 为一位以上非零的数字",$skey) ;
+					$this->view->createMessage(Message::error,"广告名称%s 重名",$this->params['advertisement_select'][$i]);
 					return;
 				}
-				$arrRandom[]=$value;
+			}
+		}
+		
+		//取得广告值的数组
+		foreach ($this->params['advertisement_select'] as $key=>$value)
+		{
+			$arrAdvertisement[]=$value;
+		
+		};
+		//取得权重值的数组
+		foreach($this->params['random_text'] as $key=>$value)
+		{
+			if(!preg_match('/^\+?[1-9][0-9]*$/',(int)$value))
+			{
+				
+				$skey="权重值";
+				$this->view->createMessage(Message::error,"%s 为一位以上非零的数字",$skey) ;
+				return;
+			}
+			$arrRandom[]=$value;
+		};
+		//取得启用值的数组
+		
+		if(!empty($this->params['run_checkbox']))
+		{
+			foreach($this->params['run_checkbox'] as $key=>$value)
+			{	
+				$arrRun[]=$value;
 			};
-			//取得启用值的数组
-			
+		}
+		
+		for($i=0;$i<count($arrAdvertisement);$i++)
+		{
+			$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['run']='off';
 			if(!empty($this->params['run_checkbox']))
 			{
-				foreach($this->params['run_checkbox'] as $key=>$value)
-				{	
-					$arrRun[]=$value;
-				};
-			}
-			
-			for($i=0;$i<count($arrAdvertisement);$i++)
-			{
-				$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['run']='off';
-				if(!empty($this->params['run_checkbox']))
+				$h=$i+1;
+				for($j=0;$j<count($arrRun);$j++)
 				{
-					$h=$i+1;
-					for($j=0;$j<count($arrRun);$j++)
+					if($arrRun[$j]==$h)
 					{
-						if($arrRun[$j]==$h)
-						{
-							$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['run']='on';
-						}
+						$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['run']='on';
 					}
 				}
-				$aSkey=$aSetting->key('/'.'advertis',true);
-				$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['advertisement_url']=$aSkey->item($arrAdvertisement[$i],array());
-				$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['random']=$arrRandom[$i];
-				$arrCarouselAdvertisement['type']='随机播放';
-				$arrCarouselAdvertisement['classtype']='EditCarouselAdvertisement';
-				$arrCarouselAdvertisement['classtype2']='DeleteCarouselAdvertisement';
-				$arrCarouselAdvertisement['name']=$sName;
-			};
-			$aSetting->setItem('/'.'advertis',$sName,$arrCarouselAdvertisement);
-			$this->view->hideForm ();
-			$this->view->createMessage(Message::success,"随机播放广告%s 编辑成功",$sName);
-			$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
-		}	
+			}
+			$aSkey=$aSetting->key('/'.'advertis',true);
+			$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['advertisement_url']=$aSkey->item($arrAdvertisement[$i],array());
+			$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['random']=$arrRandom[$i];
+			$arrCarouselAdvertisement['type']='随机播放';
+			$arrCarouselAdvertisement['classtype']='EditCarouselAdvertisement';
+			$arrCarouselAdvertisement['classtype2']='DeleteCarouselAdvertisement';
+			$arrCarouselAdvertisement['name']=$sName;
+		};
+		$aSetting->setItem('/'.'advertis',$sName,$arrCarouselAdvertisement);
+		$this->view->hideForm ();
+		$this->view->createMessage(Message::success,"随机播放广告%s 编辑成功",$sName);
+		$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
 	}
 }

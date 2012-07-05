@@ -9,7 +9,6 @@
 提供了图片、代码、和轮播的三种banner类型。
 	</description>
 	
- 
 	<class>org.opencomb.bannermt.BannerManager</class>
 	<package folder="/class" namespace="org.opencomb.bannermt" />
   

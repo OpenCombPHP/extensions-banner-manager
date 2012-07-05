@@ -8,6 +8,7 @@ use org\opencomb\oauth\adapter\AdapterManager;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 use org\jecat\framework\message\Message;
 use org\jecat\framework\mvc\controller\Controller;
+use org\jecat\framework\mvc\view\View;
 
 
 class AdvertisementSetting extends ControlPanel
@@ -16,6 +17,7 @@ class AdvertisementSetting extends ControlPanel
 					'view' => array(
 						'template' => 'AdvertisementSetting.html' ,
 						'class' => 'view',
+							'vars'=> array('adName'=>'a')
 			),
 	);
 	
@@ -71,5 +73,18 @@ class AdvertisementSetting extends ControlPanel
 		$aSetting->setItem('/viewAd', $sControllerName.'_'.$sAdvertisementName, array('adName'=>$sAdvertisementName));
 	
 		$this->view->createMessage(Message::success,"%s ",$skey="广告".$sAdvertisementName."创建成功") ;
+	}
+	
+	
+	public function itemSetting($aMenuIterator)
+	{	
+		foreach($aMenuIterator as $key=>$aItem)
+		{
+			echo $aItem->id().'<br/>';
+			if($aItem->subMenu())
+			{
+				$this->itemSetting($aItem->subMenu()->itemIterator());
+			}
+		}
 	}
 }

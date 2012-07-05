@@ -20,6 +20,7 @@ class CarouselAdvertisement extends ControlPanel
 	
 	public function process()
 	{	
+		$this->doActions();
 		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$akey=$aSetting->key('/'.'advertis',true);
 		$aAdvertisements=$aSetting->itemIterator('/'.'advertis');
