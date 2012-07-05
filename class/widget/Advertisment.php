@@ -172,7 +172,10 @@ class Advertisment extends Widget {
 	
 	public function display(UI $aUI,IHashTable $aVariables=null,IOutputStream $aDevice=null)
 	{
-		$sName = $this->attribute('name');
+		$arrAttribute = $aVariables->get('attr');
+		$sName =  $arrAttribute['name'];
+		//此方法$this->attribute('name')已废弃
+		//$sName = $this->attribute('name');
 		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$akey=$aSetting->key('/'.'advertis',true);
 		

@@ -66,7 +66,7 @@ class BannerManager extends Extension
 	}
 	
 	static public function setViewAdvertisement($aObject,&$arrConfig,&$sNamespace,&$aBeanFactory)
-	{//echo $sNamespace;exit;
+	{
 		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$aViewAd = $aSetting->itemIterator('/'.'viewAd');
 		foreach($aViewAd as $key=>$value)
