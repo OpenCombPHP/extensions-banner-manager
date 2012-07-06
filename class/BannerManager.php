@@ -84,10 +84,15 @@ class BannerManager extends Extension
 							'vars'=> array('adName'=>$arrControllerAdName[1]),
 							"class"=> "view",
 					);
+				}elseif(empty($arrViewAd['params'])){
+					$arrConfig['view:'.$arrControllerAdName[1]] = array(
+							"template"=> "bannermanager:ViewAdvertisement.html",
+							'vars'=> array('adName'=>$arrControllerAdName[1]),
+							"class"=> "view",
+					);
 				}
 			}
 		}
-		
 	}
 	/*
 	static public function setViewAdvertisement($aController ,& $arrBean)
