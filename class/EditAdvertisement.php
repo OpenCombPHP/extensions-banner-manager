@@ -139,10 +139,12 @@ class EditAdvertisement extends ControlPanel
 			if(empty($sEditAdName))
 			{
 				$sKey="广告名称";
-				$this->view()->createMessage(Message::error,"%s 不能为空",$sKey);
+				$this->createMessage(Message::error,"%s 不能为空",$sKey);
+				$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 				return;
 			}else if($akey->hasItem($this->view->widget('edit_name_text')->value()) && $sEditAdName != $sEditOldAdName){
 				$this->createMessage(Message::error,"名称%s 重名",$sEditAdName);
+				$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 				return;
 			}
 			
@@ -153,17 +155,18 @@ class EditAdvertisement extends ControlPanel
 				{
 					$sKey = "广告跳转链接";
 					$this->createMessage(Message::error,"%s 不能为空",$sKey);
+					$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 					return;
 				}
 
 				$sEditTitle = $this->view->widget('edit_title_text')->value();
 				
-				if(empty($sEditTitle))
-				{
-					$skey = "文本名称";
-					$this->createMessage(Message::error,"%s 不能为空",$skey);
-					return;
-				};
+// 				if(empty($sEditTitle))
+// 				{
+// 					$skey = "文本名称";
+// 					$this->createMessage(Message::error,"%s 不能为空",$skey);
+// 					return;
+// 				};
 				
 				if($this->view->widget('edit_image_radio')->isChecked())
 				{
@@ -172,6 +175,7 @@ class EditAdvertisement extends ControlPanel
 					{
 						$skey = "图片";
 						$this->createMessage(Message::error,"%s 不能为空",$skey);
+						$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 						return;
 					};
 				};
@@ -184,6 +188,7 @@ class EditAdvertisement extends ControlPanel
 					{
 						$skey="链接";
 						$this->createMessage(Message::error,"%s 不能为空",$skey);
+						$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 						return;
 					}
 				};
@@ -282,6 +287,7 @@ class EditAdvertisement extends ControlPanel
 				{
 					$skey="代码";
 					$this->view->createMessage(Message::error,"%s 不能为空",$skey);
+					$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 					return;
 				};
 				

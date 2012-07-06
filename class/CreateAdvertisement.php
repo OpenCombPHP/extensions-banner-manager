@@ -79,7 +79,7 @@ class CreateAdvertisement extends ControlPanel
 		
 	public function process()
 	{
-			$this->doActions();
+		$this->doActions();
 	}	
 	
 	public function form()
@@ -113,12 +113,12 @@ class CreateAdvertisement extends ControlPanel
 				
 				
 				$sTitle = $this->view->widget('title_text')->value();
-				if(empty($sTitle))
-				{
-					$skey="文本名称";
-					$this->createMessage(Message::error,"%s 不能为空",$skey);
-					return;
-				}
+// 				if(empty($sTitle))
+// 				{
+// 					$skey="文本名称";
+// 					$this->createMessage(Message::error,"%s 不能为空",$skey);
+// 					return;
+// 				}
 				
 // 				if($this->view->widget('image_radio')->isChecked())
 // 				{
