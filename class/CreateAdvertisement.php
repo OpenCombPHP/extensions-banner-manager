@@ -156,7 +156,7 @@ class CreateAdvertisement extends ControlPanel
 			$arrABV=array(
 					'name' => trim($this->view->widget('advertis_name_text')->value()),
 					'title' => trim($this->view->widget('title_text')->value()),
-					'image' => trim($this->view->widget('image_file')->getFileUrl()),
+					'image' => 'dd',//trim($this->view->widget('image_file')->getFileUrl()),
 					'url' => trim($this->view->widget('url_text')->value()),
 					'window' => $this->view->widget('window_checkbox')->value()==1?'_blank':'_self',
 					'type' => '普通',
