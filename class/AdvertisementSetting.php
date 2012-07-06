@@ -57,6 +57,7 @@ class AdvertisementSetting extends ControlPanel
 	{
 
 		$sControllerNamePage = $this->params['controllername'] ;
+		$sControllerParams = $this->params['banner_controller_params'] ;
 		$sAdvertisementName = $this->params['hidden_ad_Name'] ;
 		$sControllerName = str_replace('\\','.',$sControllerNamePage);
 		//检查控制器是否存在
@@ -69,7 +70,7 @@ class AdvertisementSetting extends ControlPanel
 	
 		$aSetting = Extension::flyweight('bannermanager')->setting();
 	
-		$aSetting->setItem('/viewAd', $sControllerName.'_'.$sAdvertisementName, array('adName'=>$sAdvertisementName));
+		$aSetting->setItem('/viewAd', $sControllerName.'_'.$sAdvertisementName, array('adName'=>$sAdvertisementName,'params'=>$sControllerParams));
 	
 		$this->createMessage(Message::success,"%s ",$skey="广告".$sAdvertisementName."放置成功") ;
 	}
