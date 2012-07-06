@@ -131,16 +131,16 @@ class CreateAdvertisement extends ControlPanel
 // 					}
 // 				}
 				
-// 				if($this->view->widget('url_radio')->isChecked())
-// 				{
-// 					$sUrl=trim($this->view->widget('url_text')->value());
-// 					if(empty($sUrl))
-// 					{
-// 						$skey="链接";
-// 						$this->view->createMessage(Message::error,"%s 不能为空",$skey);
-// 						return;
-// 					}
-// 				}
+				if($this->view->widget('url_radio')->isChecked())
+				{
+					$sUrl=trim($this->view->widget('url_text')->value());
+					if(empty($sUrl))
+					{
+						$skey="URL引用";
+						$this->view->createMessage(Message::error,"%s 不能为空",$skey);
+						return;
+					}
+				}
 				
 			}else if($this->params['advertisement_way']=='code'){
 				$sCode=$this->view->widget('code_text')->value();

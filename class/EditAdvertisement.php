@@ -72,10 +72,10 @@ class EditAdvertisement extends ControlPanel
 										'class'=>'text',
 										'type'=>'multiple',
 										'title'=>'样式',
-										'verifier:notempty'=>array(),
-										'verifier:length'=>array(
-												'min'=>5,
-												'max'=>1000)
+// 										'verifier:notempty'=>array(),
+// 										'verifier:length'=>array(
+// 												'min'=>5,
+// 												'max'=>1000)
 								),
 								array(
 										'id'=>'edit_forward_text',
@@ -89,7 +89,7 @@ class EditAdvertisement extends ControlPanel
 	
 	public function process()
 	{
-		$this->doActions();echo "dd";
+		$this->doActions();
 		//页面初始化
 		$aid=$this->params->get('aid');
 		$arrAdvertisement = array();
@@ -127,7 +127,7 @@ class EditAdvertisement extends ControlPanel
 	}	
 	
 	public function form()
-	{echo "aa";
+	{
 			$aSetting = Extension::flyweight('bannermanager')->setting();
 			$akey = $aSetting->key('/'.'advertis',true);
 			//表单提交
@@ -186,7 +186,7 @@ class EditAdvertisement extends ControlPanel
 					$sEditUrlText = trim($this->view->widget('edit_url_text')->value());
 					if(empty($sEditUrlText))
 					{
-						$skey="链接";
+						$skey="URL引用";
 						$this->createMessage(Message::error,"%s 不能为空",$skey);
 						//$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 						return;
