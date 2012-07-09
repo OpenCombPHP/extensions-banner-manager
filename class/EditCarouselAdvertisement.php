@@ -93,7 +93,6 @@ class EditCarouselAdvertisement extends ControlPanel
 		{
 			if(!preg_match('/^\+?[1-9][0-9]*$/',(int)$value))
 			{
-				
 				$skey="权重值";
 				$this->createMessage(Message::error,"%s 为一位以上非零的数字",$skey) ;
 				return;

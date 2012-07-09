@@ -37,21 +37,13 @@ class DeleteAdvertisement extends ControlPanel
 			}
 		}
 		
-		
-		
 		$akey=$aSetting->key('/'.'advertis',true);
 		$arrOldABV=$akey->item($aid,array());
-		$file=Extension::flyweight('bannermanager')->filesFolder()->findFile($arrOldABV['image']);
-		//var_dump($file);exit;
-		if(!empty($file))
+		
+		$file =new \org\jecat\framework\fs\File(\org\opencomb\platform\ROOT.'\\'.$arrOldABV['image'],0,$arrOldABV['image']);
+		if($file->exists())
 		{	
-			if($file->exists())
-			{
-				$file->delete();
-			}
-			else {
-				return;
-			}
+			$file->delete();
 		}
 
 		$aSetting->deleteItem('/'.'advertis',$aid);

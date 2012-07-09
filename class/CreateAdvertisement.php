@@ -79,6 +79,7 @@ class CreateAdvertisement extends ControlPanel
 		
 	public function process()
 	{
+		$this->view()->widget('image_file')->setStoreFolder(Extension::flyWeight('bannermanager')->filesFolder()->findFolder('advertisement_img',Folder::FIND_AUTO_CREATE));
 		$this->doActions();
 	}	
 	
@@ -120,16 +121,16 @@ class CreateAdvertisement extends ControlPanel
 // 					return;
 // 				}
 				
-// 				if($this->view->widget('image_radio')->isChecked())
-// 				{
-// 					$stitle = trim($this->view->widget('image_file')->getFileUrl());
-// 					if("#"==$stitle)
-// 					{
-// 						$skey="图片";
-// 						$this->view->createMessage(Message::error,"%s 不能为空",$skey);
-// 						return;
-// 					}
-// 				}
+				if($this->view->widget('image_radio')->isChecked())
+				{
+					$stitle = trim($this->view->widget('image_file')->getFileUrl());
+					if("#"==$stitle)
+					{
+						$skey="图片";
+						$this->view->createMessage(Message::error,"%s 不能为空",$skey);
+						return;
+					}
+				}
 				
 				if($this->view->widget('url_radio')->isChecked())
 				{
@@ -156,7 +157,7 @@ class CreateAdvertisement extends ControlPanel
 			$arrABV=array(
 					'name' => trim($this->view->widget('advertis_name_text')->value()),
 					'title' => trim($this->view->widget('title_text')->value()),
-					'image' => 'dd',//trim($this->view->widget('image_file')->getFileUrl()),
+					'image' => trim($this->view->widget('image_file')->getFileUrl()),
 					'url' => trim($this->view->widget('url_text')->value()),
 					'window' => $this->view->widget('window_checkbox')->value()==1?'_blank':'_self',
 					'type' => '普通',
