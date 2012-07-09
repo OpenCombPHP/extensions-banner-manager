@@ -165,29 +165,6 @@ class EditAdvertisement extends ControlPanel
 					$this->initView();
 					return;
 				}
-
-				$sEditTitle = $this->view->widget('edit_title_text')->value();
-				
-				if(empty($sEditTitle))
-				{
-					$skey = "文本名称";
-					$this->createMessage(Message::error,"%s 不能为空",$skey);
-					$this->initView();
-					return;
-				};
-				
-				if($this->view->widget('edit_url_radio')->isChecked())
-				{
-				
-					$sEditUrlText = trim($this->view->widget('edit_url_text')->value());
-					if(empty($sEditUrlText))
-					{
-						$skey="URL引用";
-						$this->createMessage(Message::error,"%s 不能为空",$skey);
-						$this->initView();
-						return;
-					}
-				};
 				
 				if($this->view->widget('edit_hide_oldname_text')->value() == $sEditAdName)
 				{
