@@ -31,8 +31,6 @@ class CreateAdvertisement extends ControlPanel
 								'id'=>'image_file',
 								'class'=>'file',
 								'type'=>'folder',
-								//0.8版本问题
-								//'folder'=>Extension::flyWeight('bannermanager')->filesFolder()->findFolder('advertisement_img',Folder::FIND_AUTO_CREATE),
 								'title'=>'图片',
 						),
 						array(
@@ -88,7 +86,6 @@ class CreateAdvertisement extends ControlPanel
 		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$akey=$aSetting->key('/'.'advertis',true);
 		
-
 			$this->view->loadWidgets ( $this->params );
 			$sAdvertisName = trim($this->view->widget('advertis_name_text')->value());
 			$sForward = trim($this->view->widget('forward_text')->value());
@@ -169,7 +166,7 @@ class CreateAdvertisement extends ControlPanel
 					'displaytype' => $this->params['advertisement_way']=='pic' ? 'pic' : 'code',
 					'style' => $this->view->widget('style_text')->value(),
 					'forward' => $this->view->widget('forward_text')->value(),
-			);		//var_dump($arrABV);exit;
+			);		
 			$aSetting->setItem('/'.'advertis',trim($this->view->widget('advertis_name_text')->value()),$arrABV);
 			$sSuccess="成功";
 			$this->view->hideForm ();

@@ -92,7 +92,7 @@ class EditAdvertisement extends ControlPanel
 		$this->view()->widget('edit_image_file')->setStoreFolder(Extension::flyWeight('bannermanager')->filesFolder()->findFolder('advertisement_img',Folder::FIND_AUTO_CREATE));
 		$this->doActions();
 		//页面初始化
-		$aid=$this->params->get('aid');
+		$aid = $this->params->get('aid');
 		$arrAdvertisement = array();
 		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$akey = $aSetting->key('/'.'advertis',true);
@@ -106,10 +106,10 @@ class EditAdvertisement extends ControlPanel
 		$this->view()->widget('edit_image_file')->setStoreFolder(Extension::flyWeight('bannermanager')->filesFolder()->findFolder('advertisement_img',Folder::FIND_AUTO_CREATE));
 		
 		$file =new \org\jecat\framework\fs\File(\org\opencomb\platform\ROOT.'\\'.$arrAdvertisement['image'],0,$arrAdvertisement['image']);
+		
 		if($file->exists())
-		{
+		{	
 			$this->view()->widget('edit_image_file')->setValue($file);
-			
 		}
 
 		$this->view->widget('edit_url_text')->setValue($arrAdvertisement['url']);
@@ -176,18 +176,6 @@ class EditAdvertisement extends ControlPanel
 					return;
 				};
 				
-// 				if($this->view->widget('edit_image_radio')->isChecked())
-// 				{
-// 					$sEditImageUrl = trim($this->view->widget('edit_image_file')->getFileUrl());
-// 					if("#"==$sEditImageUrl)
-// 					{
-// 						$skey = "图片";
-// 						$this->createMessage(Message::error,"%s 不能为空",$skey);
-// 						//$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
-// 						return;
-// 					};
-// 				};
-				
 				if($this->view->widget('edit_url_radio')->isChecked())
 				{
 				
@@ -215,7 +203,7 @@ class EditAdvertisement extends ControlPanel
 							return;
 						}
 						
-						if($arrOldABV['image'] !=null or $arrOldABV['image'] != '#')
+						if($arrOldABV['image'] != '#')
 						{
 							$file =new \org\jecat\framework\fs\File(\org\opencomb\platform\ROOT.'\\'.$arrOldABV['image'],0,$arrOldABV['image']);
 							if($file->exists())
@@ -223,7 +211,7 @@ class EditAdvertisement extends ControlPanel
 								$file->delete();
 							}
 						};
-						$arrABV=array(
+						$arrABV = array(
 								'name'=>trim($this->view->widget('edit_name_text')->value()),
 								'title'=>trim($this->view->widget('edit_title_text')->value()),
 								'window'=>$this->view->widget('edit_window_checkbox')->value()==1?'_blank':'_self',
@@ -240,7 +228,23 @@ class EditAdvertisement extends ControlPanel
 						$arrABV['url'] = trim($this->view->widget('edit_url_text')->value());
 						$arrABV['image'] = '#';
 					}elseif($this->view->widget('edit_image_radio')->isChecked()){
-						if($this->view->widget('edit_image_file')->value()==null)
+						$arrABV=array(
+								'name'=>trim($this->view->widget('edit_name_text')->value()),
+								'title'=>trim($this->view->widget('edit_title_text')->value()),
+								'window'=>$this->view->widget('edit_window_checkbox')->value()==1?'_blank':'_self',
+								'type'=>'普通',
+								'classtype'=>'EditAdvertisement',
+								'classtype2'=>'DeleteAdvertisement',
+								'code'=>'',
+								'imageradio'=>$this->view->widget('edit_image_radio')->isChecked(),
+								'urlradio'=>$this->view->widget('edit_url_radio')->isChecked(),
+								'displaytype'=>'pic',
+								'style'=>$this->view->widget('edit_style_text')->value(),
+								'forward'=>$this->view->widget('edit_forward_text')->value(),
+						);
+						$arrABV['url'] = '';
+						$file = $this->view->widget('edit_image_file')->value();
+						if($file == null)
 						{
 							if($arrOldABV['image'] != '#')
 							{
@@ -261,25 +265,10 @@ class EditAdvertisement extends ControlPanel
 									$file->delete();
 								}
 							}
-							$arrABV=array(
-									'name'=>trim($this->view->widget('edit_name_text')->value()),
-									'title'=>trim($this->view->widget('edit_title_text')->value()),
-									'window'=>$this->view->widget('edit_window_checkbox')->value()==1?'_blank':'_self',
-									'type'=>'普通',
-									'classtype'=>'EditAdvertisement',
-									'classtype2'=>'DeleteAdvertisement',
-									'code'=>'',
-									'imageradio'=>$this->view->widget('edit_image_radio')->isChecked(),
-									'urlradio'=>$this->view->widget('edit_url_radio')->isChecked(),
-									'displaytype'=>'pic',
-									'style'=>$this->view->widget('edit_style_text')->value(),
-									'forward'=>$this->view->widget('edit_forward_text')->value(),
-							);
-							$arrABV['url'] = '';
 							$arrABV['image'] = $this->view->widget('edit_image_file')->getFileUrl();
 						}
 					}
-		
+					
 					$arrABV['code'] = $arrOldABV['code'];
 					$aSetting->setItem('/'.'advertis',$sEditAdName,$arrABV);
 					$this->view->hideForm ();
@@ -289,8 +278,6 @@ class EditAdvertisement extends ControlPanel
 					$arrABV=array(
 							'name'=>trim($this->view->widget('edit_name_text')->value()),
 							'title'=>trim($this->view->widget('edit_title_text')->value()),
-							//'image'=>$this->view->widget('edit_image_file')->getFileUrl(),
-							//'url'=>trim($this->view->widget('edit_url_text')->value()),
 							'window'=>$this->view->widget('edit_window_checkbox')->value()==1?'_blank':'_self',
 							'type'=>'普通',
 							'classtype'=>'EditAdvertisement',
@@ -306,11 +293,62 @@ class EditAdvertisement extends ControlPanel
 					$akey = $aSetting->key('/'.'advertis',true);
 					$arrOldABV = $akey->item($sEditOldAdName,array());
 					
-					$file =new \org\jecat\framework\fs\File(\org\opencomb\platform\ROOT.'\\'.$arrOldABV['image'],0,$arrOldABV['image']);
-					if($file->exists())
+					if($this->view->widget('edit_url_radio')->isChecked())
 					{
-						$file->delete();
+					
+						$sEditUrlText = trim($this->view->widget('edit_url_text')->value());
+						if(empty($sEditUrlText))
+						{
+							$skey="URL引用";
+							$this->createMessage(Message::error,"%s 不能为空",$skey);
+							$this->initView();
+							return;
+						}
+					
+						if($arrOldABV['image'] != '#')
+						{
+							$file =new \org\jecat\framework\fs\File(\org\opencomb\platform\ROOT.'\\'.$arrOldABV['image'],0,$arrOldABV['image']);
+							if($file->exists())
+							{
+								$file->delete();
+							}
+						};
+						$arrABV['url'] = trim($this->view->widget('edit_url_text')->value());
+						$arrABV['image'] = '#';
+					}elseif($this->view->widget('edit_image_radio')->isChecked()){
+						$arrABV['url'] = '';
+						$file = $this->view->widget('edit_image_file')->value();
+						if($file == null)
+						{
+							if($arrOldABV['image'] != '#')
+							{
+								$arrABV['image'] = $arrOldABV['image'];
+							}else{
+								$skey = "图片";
+								$this->createMessage(Message::error,"%s 不能为空",$skey);
+								$this->initView();
+								return;
+							}
+						}else{
+							if($arrOldABV['image'] != '#')
+							{
+								$file =new \org\jecat\framework\fs\File(\org\opencomb\platform\ROOT.'\\'.$arrOldABV['image'],0,$arrOldABV['image']);
+					
+								if($file->exists())
+								{
+									$file->delete();
+								}
+							}
+							$arrABV['image'] = $this->view->widget('edit_image_file')->getFileUrl();
+						}
 					}
+					
+// 					$file =new \org\jecat\framework\fs\File(\org\opencomb\platform\ROOT.'\\'.$arrOldABV['image'],0,$arrOldABV['image']);
+// 					if($file->exists())
+// 					{
+// 						$file->delete();
+// 					}
+					
 					$aSetting->deleteItem('/'.'advertis',$sEditOldAdName);
 					$arrABV['code'] = $arrOldABV['code'];
 					$aSetting->setItem('/'.'advertis',$sEditAdName,$arrABV);
