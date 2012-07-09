@@ -96,7 +96,13 @@ class EditAdvertisement extends ControlPanel
 		$arrAdvertisement = array();
 		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$akey = $aSetting->key('/'.'advertis',true);
-		$arrAdvertisement = $akey->item($aid,array());
+		if($akey->hasItem($aid)){
+			$arrAdvertisement = $akey->item($aid,array());
+		}else{
+			$this->createMessage(Message::error,"%s",$sKey="无此广告");
+			$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
+		}
+		
 		
 		$this->view->widget('edit_name_text')->setValue($arrAdvertisement['name']);
 		$this->view->widget('edit_hide_oldname_text')->setValue($arrAdvertisement['name']);
@@ -104,28 +110,27 @@ class EditAdvertisement extends ControlPanel
 		
 		
 		$this->view()->widget('edit_image_file')->setStoreFolder(Extension::flyWeight('bannermanager')->filesFolder()->findFolder('advertisement_img',Folder::FIND_AUTO_CREATE));
-		
-		$file =new \org\jecat\framework\fs\File(\org\opencomb\platform\ROOT.'\\'.$arrAdvertisement['image'],0,$arrAdvertisement['image']);
+		$file = new \org\jecat\framework\fs\File(\org\opencomb\platform\ROOT.'\\'.$arrAdvertisement['image'],0,$arrAdvertisement['image']);
 		
 		if($file->exists())
 		{	
 			$this->view()->widget('edit_image_file')->setValue($file);
 		}
 
-		$this->view->widget('edit_url_text')->setValue($arrAdvertisement['url']);
-		$this->view->widget('edit_window_checkbox')->setValue($arrAdvertisement['window']=="_blank"?1:0);
+		$this->view()->widget('edit_url_text')->setValue($arrAdvertisement['url']);
+		$this->view()->widget('edit_window_checkbox')->setValue($arrAdvertisement['window']=="_blank"?1:0);
 		$this->view()->widget('edit_image_radio')->setChecked($arrAdvertisement['imageradio']);
-		$this->view->widget('edit_url_radio')->setChecked($arrAdvertisement['urlradio']);
-		$this->view->widget('edit_code_text')->setValue($arrAdvertisement['code']);
-		$this->view->widget('edit_style_text')->setValue($arrAdvertisement['style']);
-		$this->view->widget('edit_forward_text')->setValue($arrAdvertisement['forward']);
+		$this->view()->widget('edit_url_radio')->setChecked($arrAdvertisement['urlradio']);
+		$this->view()->widget('edit_code_text')->setValue($arrAdvertisement['code']);
+		$this->view()->widget('edit_style_text')->setValue($arrAdvertisement['style']);
+		$this->view()->widget('edit_forward_text')->setValue($arrAdvertisement['forward']);
 		
 		if($arrAdvertisement['urlradio']=="true") {
 			$this->view->widget('edit_image_file')->setDisabled("disabled");
-		}
-		if($arrAdvertisement['imageradio']=="true") {
+		}elseif ($arrAdvertisement['imageradio']=="true"){
 			$this->view->widget('edit_url_text')->setDisabled("disabled");
 		}
+		
 		$sAdDisplayType = $arrAdvertisement['displaytype'];
 		$this->view->variables()->set('sAdDisplayType',$sAdDisplayType);
 	}	
@@ -350,6 +355,7 @@ class EditAdvertisement extends ControlPanel
 				{
 					$arrABV = $arrOldABV;
 					$arrABV['code'] = $sCode;
+					$arrABV['displaytype'] = 'code';
 					$aSetting->setItem('/'.'advertis',$sEditAdName,$arrABV);
 					$this->view->hideForm ();
 					$this->createMessage(Message::success,"编辑广告%s 成功",$sEditAdName);
@@ -359,6 +365,7 @@ class EditAdvertisement extends ControlPanel
 					$arrOldABV = $akey->item($sEditOldAdName,array());
 					$arrABV = $arrOldABV;
 					$arrABV['code'] = $sCode;
+					$arrABV['displaytype'] = 'code';
 					$aSetting->deleteItem('/'.'advertis',$sEditOldAdName);
 					$aSetting->setItem('/'.'advertis',$sEditAdName,$arrABV);
 					$this->view->createMessage(Message::success,"编辑广告%s 成功",$sEditAdName);
