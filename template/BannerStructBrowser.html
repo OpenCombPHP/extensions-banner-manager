@@ -1,0 +1,263 @@
+<lib name='jquery'/>
+<lib name='jquery.treeview' />
+<style type="text/css">
+#browser {
+	font-family: Verdana, helvetica, arial, sans-serif;
+	font-size: 68.75%;
+}
+.selectClass{
+	color:blue;
+	font-weight:bold;
+}
+.structBrowser_right{
+	width:200px;
+	height:520px;
+	float:right;
+}
+#browser{
+	height:500px;
+	overflow:auto;
+}
+.structBrowser_left{
+	height:490px;
+	margin-right:210px;
+}
+</style>
+
+<script type="text/javascript">
+var structBrowser = {
+	_mvcstruct:null,
+	parentObject:null,
+	allowSelectClass:[],
+	selectType:""
+} ;
+
+structBrowser.log = function(text)
+{
+	if( typeof(console)!='undefined' )
+	{
+		console.log(text) ;
+	}
+};
+structBrowser.setMvcStruct = function(struct)
+{
+	structBrowser._mvcstruct = struct ;
+	jQuery("#browser").empty().append(structBrowser._loadController(structBrowser._mvcstruct)).treeview();
+};
+structBrowser._loadModel = function(aModel)
+{
+	var span = jQuery("<span class='folder model'>[M] "+aModel.name+"</span>");
+	var li = jQuery("<li></li>") ;
+	li.append(span);
+	li.append(structBrowser._loadModelList(aModel.models)) ;
+	return li ;
+};
+structBrowser._loadModelList = function(arrModels)
+{
+	if(arrModels.length)
+	{
+		var source = jQuery('<ul></ul>') ;
+		for(var i=0;i<arrModels.length;i++)
+		{
+			source.append(structBrowser._loadModel(arrModels[i])) ;
+		}
+		return source ;
+	}
+	else
+	{
+		return '' ;
+	}
+};
+structBrowser._loadView = function(aView)
+{
+	var source = jQuery("<li><span class='folder view'>[V] "+aView.name+"</span></li>") ;
+	source.append(structBrowser._loadViewList(aView.views)) ;
+	
+	return source ;
+};
+structBrowser._loadViewList = function(arrViews)
+{
+	if(arrViews && arrViews.length)
+	{
+		var source = jQuery('<ul></ul>') ;
+		for(var i = 0;i < arrViews.length;i++)
+		{
+			source.append(structBrowser._loadView(arrViews[i])) ;
+		}
+		return source ;
+	}
+	else
+	{
+		return '' ;
+	}
+};
+structBrowser._loadController = function(aController)
+{
+	if(!aController){
+		return;
+	}
+	var source = jQuery('<li><span class="folder controller">[C] '+aController.name+'</span></li>') ;
+	source
+			//.append(structBrowser._loadModelList(aController.models))
+			.append(structBrowser._loadViewList(aController['views']))
+			.append(structBrowser._loadControllerList(aController.controllers));
+	source.find('.controller:first').data("class",aController['class'])
+								.data("params",aController.params)
+								.data("title",aController.title);
+	return source ;
+};
+structBrowser._loadControllerList = function(arrControllers)
+{
+	if(arrControllers.length)
+	{
+		var source = jQuery('<ul></ul>') ;
+		for(var i=0;i<arrControllers.length;i++)
+		{
+			source.append(structBrowser._loadController(arrControllers[i])) ;
+		}
+		
+		return source ;
+	}
+	else
+	{
+		return '' ;
+	}
+};
+structBrowser.setCurrentUrl = function(sUrl)
+{
+	jQuery('#current_url').val(sUrl) ;
+};
+
+structBrowser.location = function(sUrl)
+{
+	if(typeof(sUrl)=='undefined')
+	{
+		sUrl = jQuery('#current_url').val() ;
+	}
+	if( sUrl.search('\\?') < 0 )
+	{
+		sUrl += '?' ;
+	}
+	if( sUrl.search("mvcmerger_browser") < 0 )
+	{
+		sUrl += "&mvcmerger_browser=1" ;
+	}
+	jQuery('#iframe-browser').get(0).contentWindow.location = sUrl ;
+};
+structBrowser.closeArgsAndTitleInputByNeed = function(){
+	if( this.selectType == "target"){
+		jQuery('#args').get(0).disabled = true;
+		jQuery('#title').get(0).disabled = true;
+	}
+};
+structBrowser.getArgumentFromParent = function(){
+	var sAllowSelectClass = window.dialogArguments['allowSelectClass'];
+	for(var i =0 ; i< sAllowSelectClass.length ; i++){
+		switch(sAllowSelectClass.substr(i,1))
+		{
+			case "c":
+				this.allowSelectClass.push("controller");
+				break
+			case "v":
+				this.allowSelectClass.push("view");
+				break
+			case "m":
+				this.allowSelectClass.push("model");
+				break
+			case "w":
+				this.allowSelectClass.push("widget");
+				break
+		}
+	}
+	this.parentObject = window.dialogArguments['parent'];
+	this.selectType = window.dialogArguments['selectType'];
+};
+
+structBrowser.search = function(name){
+	
+};
+
+jQuery(function(){
+	structBrowser.getArgumentFromParent();
+	//structBrowser.closeArgsAndTitleInputByNeed();
+	
+	function submitClassInfo(){
+		if(jQuery('.selectClass').length == 0){
+			alert("请至少选定一个对象");
+			return;
+		}
+		if(structBrowser.selectType == "handle"){
+			jQuery(structBrowser.parentObject.document).find("#bannercontrollername{=$bannername}").val(jQuery("#classname").val());
+			jQuery(structBrowser.parentObject.document).find("input[name='source_controller_name']").val(jQuery("#name").val());
+			jQuery(structBrowser.parentObject.document).find("#bannercontrollerparams{=$bannername}").val(jQuery("#args").val());
+			jQuery(structBrowser.parentObject.document).find("input[name='source_controller_comment']").val("网页:\""+jQuery("#title").val()+"\"");
+		}else{
+			jQuery(structBrowser.parentObject.document).find("input[name='target_controller_params']").val(jQuery("#args").val());
+			jQuery(structBrowser.parentObject.document).find("input[name='target_controller_comment']").val("网页:\""+jQuery("#title").val()+"\"");
+		}
+		window.close();
+	}
+	
+	jQuery(".folder").live("click",function(e){
+		var that = jQuery(this);
+		var bIsSelectClass = false; 
+		for(var c in structBrowser.allowSelectClass){
+			bIsSelectClass = that.hasClass(structBrowser.allowSelectClass[c]) || bIsSelectClass;
+		}
+		if(!bIsSelectClass){
+			return;
+		}
+		jQuery(".folder").removeClass("selectClass");
+		that.addClass("selectClass");
+		jQuery("#classname").val(that.data("class"));
+		jQuery("#name").val(that.data("name"));
+		
+		//屏蔽系统自动添加的.data-name-is-user-call参数
+		var arrParams = that.data("params").split('&');
+		var arrParams2 = [];
+		for(var key in arrParams){
+			if(arrParams[key].indexOf(".data-name-is-user-call=") == 0){
+				continue;
+			}
+			arrParams2.push(arrParams[key]);
+		}
+		var args = arrParams2.join("&");
+		jQuery("#args").val(args);
+		jQuery("#title").val(that.data("title"));
+		
+		submitClassInfo();
+	});
+	
+	//页面大小
+	window.resizeTo(850,600);
+	
+	
+	//frame加载监听以及自动刷新数据
+	document.getElementById("iframe-browser").onload = function(){
+		jquery('#current_url').val(document.getElementById("iframe-browser").contentWindow.location.href);
+		var sUrl = document.getElementById("iframe-browser").contentWindow.location.href;
+		if( sUrl.search("mvcmerger_browser") < 0 )
+		{
+			sUrl += "&mvcmerger_browser=1" ;
+			document.getElementById("iframe-browser").contentWindow.location.href = sUrl;
+		}
+	};
+});
+</script>
+
+<div class="structBrowser_right">
+	请选择控制器:
+	<ul id="browser" class="filetree" ></ul>
+</div>
+
+<div class="structBrowser_left">
+	<div style="display:none;">
+	<div><label for="classname">类名<input type="text" id="classname" value="" style="width:400px" disabled/></label></div>
+	<div><label for="name">名称<input type="text" id="name" value="" style="width:400px" disabled/></label></div>
+	<div><label for="args">参数<input type="text" id="args" value="" style="width:400px" disabled/></label></div>
+	<div><input type="hidden" id="title"/></div>
+	<div><input type="button" id="submitClassInfo" value="提交" /></div>
+	</div>
+	
+	<iframe id="iframe-browser" name="iframe-browser" src="{/*.url.path}?mvcmerger_browser=1" width="100%" height="100%"/>
+</div>
