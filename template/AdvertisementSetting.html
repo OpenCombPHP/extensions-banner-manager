@@ -18,58 +18,64 @@
 			<td>{=$arrAItemList['name']}</td>
 			<td>{=$arrAItemList['type']}</td>
 			<td style="align:right">
-				<span><a href="?c=org.opencomb.bannermt.{=$arrAItemList['classtype2']}&aid={=$arrAItemList['name']}">删除</a></span>
-				<span><a href="?c=org.opencomb.bannermt.{=$arrAItemList['classtype']}&aid={=$arrAItemList['name']}">编辑</a></span>
-				<span><a href="javascript:void(0)" onclick="javascript:jquery('#{=$arrAItemList['name'].'code'}').toggle()">代码</a></span>
-				<span><a href="javascript:void(0)" onclick="viewAdEdit('{=$arrAItemList['name']}')">放置</a></span>
+				<span><a href="?c=org.opencomb.bannermt.{=$arrAItemList['classtype2']}&aid={=$sKeyPath}">删除</a></span>
+				<span><a href="?c=org.opencomb.bannermt.{=$arrAItemList['classtype']}&aid={=$sKeyPath}">编辑</a></span>
+				<span><a href="javascript:void(0)" onclick="javascript:jquery('#{=$sKeyPath.'code'}').toggle()">代码</a></span>
+				<span><a href="javascript:void(0)" onclick="viewAdEdit('{=$sKeyPath}')">放置</a></span>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="3">
-				<div id="{=$arrAItemList['name']}viewAdEdit" style="display:none;" class="hViewEdit" >
-						<form method="post">
-							<div>
-								<span style="font-size:10px; font-weight:bold; color:#333">放置:</span>输入对应的网页地址，可以将此广告放置于输入地址的网页
-							</div>
-							<div >
-								<span style="font-size:10px; font-weight:bold; color:#333">网页URl:</span><input type="text" name="controllername" style="width:300px"/>
-								<input type="submit" value="放置"/>
-								<input type="hidden" id="{=$arrAItemList['name']}hidden_Ad_Name" name="hidden_ad_Name"/>
-							</div>
-							<if"true">
-								<foreach for="$arrViewAdvertisement" key='sControllerAd' item='ControllerAdList'>
-									<if "{=$arrAItemList['name']==$ControllerAdList['advertisementName']}">
-										<div>
-											<span style="color:red;">已放置URL:</span>{=$ControllerAdList['controllerName']}
-											<a href="?c=org.opencomb.bannermt.AdvertisementSetting&dAdname={=$sControllerAd}">删除</a>
-											<a target="_blank" href="?c={=$ControllerAdList['controllerName']}">预览</a>
-										</div>
-									</if>
-								</foreach>
-							</if>
-						</form>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="3">
-				<div style="">
-					<foreach for="$arrAdvertisement" key='sKeyPath' item='arrAItemList'>
+				<div id="{=$sKeyPath}viewAdEdit" style="display:none;" class="hViewEdit" >
+					<form method="post">
+						<div>
+							<span style="font-size:10px; font-weight:bold; color:#333">放置说明:</span><span>手动输入控制器名称或者点击浏览选择控制器名称，可以将此广告放置该控制器中</span>
+						</div>
+						<div>
+							<span style="font-size:10px; font-weight:bold; color:#333">例:</span>输入控制器名称:org.opencomb.opencms.index.Index
+						</div>
 						<div >
-							<div id="{=$arrAItemList['name']}code" style="display:none;" class="hCode">
-								<span style="font-size:10px; font-weight:bold; color:#333">代码:</span>
-								&lt;widget new='advertisment' attr.name="{=$arrAItemList['name']}" /><br/>
-								<span style="font-size:10px; font-weight:bold; color:#333">说明:</span>可以将上述代码复制到网页中使用，例如模板编织可以使用此代码
-							</div>	
-						</div>	
-					</foreach>
+							<span style="font-size:10px; font-weight:bold; color:#333">被放置控制器名:</span><input type="text" name="controllername" style="width:300px" id="bannercontrollername{=$sKeyPath}"/>
+							<a href="javascript:viod(0)" onclick="testBrowserController('c','handle','{=$sKeyPath}')">浏览</a>
+							<input type="submit" value="放置"/>
+							<div><span style="font-size:10px; font-weight:bold; color:#333">参数:</span><input type="text" name="banner_controller_params" style="width:100px" id="bannercontrollerparams{=$sKeyPath}}"/></div>
+							<input type="hidden" id="{=$sKeyPath}hidden_Ad_Name" name="hidden_ad_Name"/>
+						</div>
+						<if"true">
+							<foreach for="$arrViewAdvertisement" key='sControllerAd' item='ControllerAdList'>
+								<if "{=$sKeyPath==$ControllerAdList['advertisementName']}">
+									<div>
+										<span style="color:red;">已放置控制器名:</span>{=$ControllerAdList['controllerName']}
+										<a href="?c=org.opencomb.bannermt.AdvertisementSetting&dAdname={=$sControllerAd}">删除</a>
+										<a target="_blank" href="?c={=$ControllerAdList['controllerName']}">预览</a>
+									</div>
+								</if>
+							</foreach>
+						</if>
+					</form>
 				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<div id="{=$sKeyPath}code" style="display:none;" class="hCode">
+					<span style="font-size:10px; font-weight:bold; color:#333">代码:</span>
+					&lt;widget type='advertisment' attr.name="{=$sKeyPath}" /><br/>
+					<span style="font-size:10px; font-weight:bold; color:#333">说明:</span>可以将上述代码复制到网页中使用，例如模板编织可以使用此代码
+				</div>	
 			</td>
 		</tr>
 		<tr style="height:5px"></tr>
 		</foreach>
 	</table>
 <script>
+	function testBrowserController(sClassType ,sSelectType,sBannerName)
+	{
+		window.showModalDialog("?c=org.opencomb.bannermt.BannerStructBrowser&bannername="+sBannerName,
+				{parent:self,allowSelectClass:sClassType,selectType:sSelectType},
+				"dialogWidth=820px;dialogHeight=450px;status=0");
+	}
+
 	function viewAdEdit(adName)
 	{
 		jquery("#"+adName+"viewAdEdit").toggle(function(){document.getElementById(adName+'hidden_Ad_Name').value=adName;});

@@ -11,26 +11,41 @@ use org\jecat\framework\message\Message;
 
 class DeleteCarouselAdvertisement extends ControlPanel
 {
-	public function createBeanConfig()
-{
-		$arrBean = array(
-			'view:deleteCarousel' => array(
-				'template' => 'DeleteCarouselAdvertisement.html' ,
-				'class' => 'form' ,
-				'widgets'=>array(
-						
-				)
-			)
-		) ;
-		return $arrBean;
-	}
+		protected $arrConfig = array(
+						'view' => array(
+							'template' => 'DeleteCarouselAdvertisement.html' ,
+							'class' => 'view' ,
+						)
+					) ;
 	
 	public function process()
 	{	
-		$aid=$this->params->get('aid');
+		$aid = $this->params->get('aid');
 		$aSetting = Extension::flyweight('bannermanager')->setting();
-		$aSetting->deleteItem('/'.'advertis',$aid);
-		$this->viewDeleteCarousel->createMessage(Message::success,"随机广告%s 删除成功",$aid);
-		$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
+
+		$aViewAdSingle = $aSetting->itemIterator('/viewAd');
+		//删除视图广告
+		foreach ($aViewAdSingle as $key=>$value)
+		{
+			$arrContorllerAd = explode('_',$value);
+			if($arrContorllerAd[1]==$aid)
+			{
+				$aSetting->deleteItem('/viewAd',$value);
+			}
+		}
+		
+		if($aSetting->hasItem('/advertis','ad'))
+		{
+			$arrOldABV = $aSetting->item('/advertis','ad',array());
+			if(count($arrOldABV)>0)
+			{
+				$sAdName = $arrOldABV[$aid]['name'] ;
+				unset($arrOldABV[$aid]);
+				$aSetting->deleteItem('/'.'advertis','ad');
+				$aSetting->setItem('/'.'advertis','ad',$arrOldABV);
+				$this->createMessage(Message::success,"随机广告%s 删除成功",$sAdName);
+				$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
+			}
+		}
 	}	
 }

@@ -11,64 +11,83 @@ use org\jecat\framework\message\Message;
 
 class CarouselAdvertisement extends ControlPanel
 {
-	public function createBeanConfig()
-	{
-		$arrBean = array(
-			'view:CarouselAd' => array(
-				'template' => 'CarouselAdvertisement.html' ,
-				'class' => 'form' ,
-			)
-		) ;
-		return $arrBean;
-	}
+	protected $arrConfig = array(
+					'view' => array(
+						'template' => 'CarouselAdvertisement.html' ,
+						'class' => 'view' ,
+					)
+				) ;
 	
 	public function process()
 	{	
+		$this->doActions();
 		$aSetting = Extension::flyweight('bannermanager')->setting();
-		$akey=$aSetting->key('/'.'advertis',true);
-		$aAdvertisements=$aSetting->itemIterator('/'.'advertis');
-		$arrAdvertisementSelect=array();
-		$arrAdvertisement=array();
+		$akey = $aSetting->key('/'.'advertis',true);
+		$aAdvertisements = $aSetting->item('/'.'advertis','ad');
+		$arrAdvertisementSelect = array();
 		
-		foreach($aAdvertisements as $key=>$value) 
+		foreach($aAdvertisements as $key=>$aAdvertisement) 
 		{
-			$arrAdvertisement=$akey->item($value,array());
-			if($arrAdvertisement['type']=='普通') {
-				$arrAdvertisementSelect[]=$arrAdvertisement;
+			if($aAdvertisement['type'] == '普通') {
+				$arrAdvertisementSelect[$key] = $aAdvertisement;
 			}
 		};
-		$this->viewCarouselAd->variables()->set('arrAdvertisementSelect',$arrAdvertisementSelect) ;
-		
-		
-		if($this->viewCarouselAd->isSubmit())
-		{
+		$this->view->variables()->set('arrAdvertisementSelect',$arrAdvertisementSelect) ;	
+	}	
+	
+	public function form()
+	{	
 			$aSetting = Extension::flyweight('bannermanager')->setting();
-			$akey=$aSetting->key('/'.'advertis',true);
-			$sName=$this->params['Carousel_name'];
+			$akey = $aSetting->key('/'.'advertis',true);
+			$sName = $this->params['Carousel_name'];
+			if($akey->hasItem('ad'))
+			{
+				$arrABVOld = $akey->item('ad',array());
+			}
+			 
 			
 			if(empty($sName))
 			{
 					$skey="随机播放名称";
-					$this->viewCarouselAd->createMessage(Message::error,"%s 不能为空",$skey) ;
+					$this->createMessage(Message::error,"%s 不能为空",$skey) ;
 					return;
 				
 			}
-			else if($akey->hasItem($sName)){
-					$this->viewCarouselAd->createMessage(Message::error,"随机播放名称%s 已存在",$sName);
-					return;
+			else{
+				$arrCAdvs = $aSetting->item('/advertis','ad',array());
+				
+				if(count($arrCAdvs)>0)
+				{
+					$bRename = false ;
+					
+					foreach($arrCAdvs as $arrAd)
+					{
+						if($arrAd['name'] == $sName)
+						{
+							$bRename = true;
+						}
+					}
+				
+					if($bRename)
+					{
+						$this->createMessage(Message::error,"随机播放名称%s 已存在",$sName);
+						return;
+					}
+				}
 			}
-			$arrAdvertisement=array();
-			$arrRandom=array();
-			$arrRun=array();
-			$arrCarouselAdvertisement=array();
+			
+			$arrAdvertisement = array();
+			$arrRandom = array();
+			$arrRun = array();
+			$arrCarouselAdvertisement = array();
 			
 			for($i=0;$i<count($this->params['advertisement_select']);$i++)
 			{
 				for($j=$i+1;$j<count($this->params['advertisement_select'])-$i;$j++)
 				{
-				if($this->params['advertisement_select'][$i]==$this->params['advertisement_select'][$j])
+					if($arrABVOld[$this->params['advertisement_select'][$i]]['name'] == $arrABVOld[$this->params['advertisement_select'][$j]]['name'])
 					{
-						$this->viewCarouselAd->createMessage(Message::error,"广告名称%s 重名",$this->params['advertisement_select'][$i]);
+						$this->createMessage(Message::error,"广告名称%s 重名",$this->params['advertisement_select'][$i]);
 						return;
 					}
 				}
@@ -76,7 +95,7 @@ class CarouselAdvertisement extends ControlPanel
 			
 			foreach ($this->params['advertisement_select'] as $key=>$value)
 			{
-				$arrAdvertisement[]=$value;
+				$arrAdvertisement[] = $value;
 		
 			};
 			
@@ -88,7 +107,7 @@ class CarouselAdvertisement extends ControlPanel
 				if(!preg_match('/^\+?[1-9][0-9]*$/',(int)$value))
 				{
 					$skey="权重值";
-					$this->viewCarouselAd->createMessage(Message::error,"%s 为一位以上非零的数字",$skey) ;
+					$this->createMessage(Message::error,"%s 为一位以上非零的数字",$skey) ;
 					return;
 				}
 				$arrRandom[]=$value;
@@ -118,19 +137,24 @@ class CarouselAdvertisement extends ControlPanel
 						}
 					}
 				}
-				$akey=$aSetting->key('/'.'advertis',true);
-				$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['advertisement_url']=$akey->item($arrAdvertisement[$i],array());										
-				$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['random']=$arrRandom[$i];
-				$arrCarouselAdvertisement['type']='随机播放';
-				$arrCarouselAdvertisement['classtype']='EditCarouselAdvertisement';
+				$akey = $aSetting->key('/'.'advertis',true);
+				$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['advertisement_url'] = $arrAdvertisement[$i];									
+				$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['random'] = $arrRandom[$i];
+				$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['adname'] = $arrABVOld[$arrAdvertisement[$i]]['name'];
+				$arrCarouselAdvertisement['type'] = '随机播放';
+				$arrCarouselAdvertisement['classtype'] = 'EditCarouselAdvertisement';
 				$arrCarouselAdvertisement['classtype2']='DeleteCarouselAdvertisement';
-				$arrCarouselAdvertisement['name']=$sName;
+				$arrCarouselAdvertisement['name'] = $sName;
 			};
 			
-			$aSetting->setItem('/'.'advertis',$sName,$arrCarouselAdvertisement);
-			$this->viewCarouselAd->hideForm();
-			$this->viewCarouselAd->createMessage(Message::success,"随机播放广告%s 创建成功",$sName);
-			$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
-		}		
+			if($aSetting->hasItem('/'.'advertis', 'ad')){
+				$arrAds = $aSetting->item('/'.'advertis','ad',array());
+				$arrAds[] = $arrCarouselAdvertisement;
+				$aSetting->deleteItem('/'.'advertis','ad');
+				$aSetting->setItem('/'.'advertis','ad',$arrAds);
+			};
+			$this->view->hideForm();
+			$this->createMessage(Message::success,"随机播放广告%s 创建成功",$sName);
+			$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');	
 	}	
 }

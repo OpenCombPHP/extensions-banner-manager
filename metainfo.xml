@@ -2,14 +2,13 @@
 <Extension>
 
 	<name>bannermanager</name>
-	<version>0.1</version>
+	<version>0.2</version>
 	<title>Banner管理</title>
 	<description>
 允许你在控制面板中创建和维护banner，并提供banner的 widget 代码用于模板中；可以直接将banner放置到任何蜂巢的网页上，再通过视图布局精确调整banner的位置。
 提供了图片、代码、和轮播的三种banner类型。
 	</description>
 	
- 
 	<class>org.opencomb.bannermt.BannerManager</class>
 	<package folder="/class" namespace="org.opencomb.bannermt" />
   
@@ -17,6 +16,6 @@
 	
 	<publicFolder folder="/public" />
 	
-	<require type="extension" item="coresystem"><![CDATA[ >=0.1 ]]></require>
+	<require type="extension" item="coresystem"><![CDATA[ =0.2 ]]></require>
 	
 </Extension>

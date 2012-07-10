@@ -1,4 +1,4 @@
-<lib name='jquery'/>
+<lib name=jquery />
 <h2>{=$oAuthName}</h2>
 <msgqueue />
 <script type="text/javascript">
@@ -42,10 +42,11 @@
 	</select><br/>
 	<label>名称:<widget id="edit_name_text" /></label><br/>
 				<widget id="edit_hide_oldname_text" />
+				<widget id="edit_hide_aid_text" />
 	<div id="pic" style="display:{=$sAdDisplayType=='pic' ? '' : 'none'}">
 		<label>文本:<widget id="edit_title_text" /></label><br/><br/>
-		<widget id="edit_image_radio"/>上传图片:<widget id="edit_image_file" />
-		<widget id="edit_url_radio"/>URL引用:<widget id="edit_url_text" />
+		<label><widget id="edit_image_radio"/>上传图片:</label><widget id="edit_image_file" /><br/>
+		<label><widget id="edit_url_radio"/>URL引用:</label><widget id="edit_url_text" />
 		<div id="div_setup" style="margin-top:20px">
 			<label><widget id="edit_window_checkbox" />启用新窗口</label><br/>
 			<label>广告链接:<widget id="edit_forward_text" attr.style="width:18%;"/></label><br/>

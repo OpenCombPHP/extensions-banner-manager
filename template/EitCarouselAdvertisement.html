@@ -1,16 +1,17 @@
 <lib name='jquery'/>
 <h2>{=$oAuthName}</h2>
 <msgqueue />
-<form  method="post" name="Carousel">
+<form  method="post">
 	<label>轮播名称:{=$arrCarouselAdvertisement['name']}</label><br/><br/>
+	
 	<if "{=$sHave}==1">
 	<div style="display:{=$sHave==1 ? '' :'none'}">
-		<foreach for="$arrCarouselAdvertisement['advertisements']" key='sKeyPath' item='arrItemList'>
+		<foreach for="$arrCarouselAdvertisement['advertisements']" key='sKeyPathCarousel' item='arrItemList'>
 				 <div class='advertisement'>
 					<label>广告:
 						<select name="advertisement_select[]" >
-							<foreach for="$arrAdvertisementSelect" key='sKeyPath' item='singleAdName'>
-								<option value="{=$singleAdName}" {=$arrItemList['advertisement_url']['name']==$singleAdName ? 'selected':''}>{=$singleAdName}</option>
+							<foreach for="$arrAdvertisementSelect" key='sKeyPath' item='arrcItemList'>
+								<option value="{=$sKeyPath}" {=$sKeyPath==$sKeyPathCarousel ? 'selected':''}>{=$arrcItemList['name']}</option>
 							</foreach>
 						</select>
 					</label>&nbsp;&nbsp;&nbsp;
@@ -28,7 +29,7 @@
 			<label>广告:
 				<select name="advertisement_select[]">
 					<foreach for="$arrAdvertisementSelect" key='sKeyPath' item='arrcItemList'>
-						<option value="{=$arrcItemList['name']}" size='10px'>{=$arrcItemList['name']}</option>
+						<option value="{=$sKeyPath}" size='10px'>{=$arrcItemList['name']}</option>
 					</foreach>
 				</select>
 			</label>&nbsp;&nbsp;
@@ -42,6 +43,7 @@
 	
 	<input type="submit" name="" value="保存" />
 	<input type="hidden" name="randName" value={=$randName}/>
+	<input type="hidden" name="randId" value={=$randId}/>
 </form>
 <script>
 jquery(function(){

@@ -12,84 +12,96 @@ use org\opencomb\advertisement\Advertisement;
 
 class DeleteAdvertisement extends ControlPanel
 {
-	public function createBeanConfig()
-{
-		$arrBean = array(
-			'view:deleteAd' => array(
-				'template' => 'DeleteAdvertisement.html' ,
-				'class' => 'form' ,	
-				)
-			);
-		return $arrBean;
-	}
+		protected $arrConfig = array(
+						'view' => array(
+							'template' => 'DeleteAdvertisement.html' ,
+							'class' => 'view' ,	
+							)
+					);
 	
 	public function process()
 	{	
 		
-		$aid=$this->params->get('aid');
-		$this->deleteCarouselChild($aid);
-		$arrAdvertisement=array();
+		$aid = (integer)$this->params->get('aid');
+		$arrAdvertisement = array();
 		$aSetting = Extension::flyweight('bannermanager')->setting();
-		$aViewAdSingle=$aSetting->itemIterator('/'.'viewAd');
+		$aViewAdSingle = $aSetting->itemIterator('/viewAd');
+		
 		//删除视图广告
 		foreach ($aViewAdSingle as $key=>$value) 
 		{
 			$arrContorllerAd = explode('_',$value);
+			
 			if($arrContorllerAd[1]==$aid)
 			{
-				$aSetting->deleteItem('/'.'viewAd',$value);
+				$aSetting->deleteItem('/viewAd',$value);
 			}
 		}
 		
-		
-		
-		$akey=$aSetting->key('/'.'advertis',true);
-		$arrOldABV=$akey->item($aid,array());
-		$file=Extension::flyweight('bannermanager')->filesFolder()->findFile($arrOldABV['image']);
-		//var_dump($file);exit;
-		if(!empty($file))
-		{	
-			if($file->exists())
+		if($aSetting->hasItem('/advertis','ad'))
+		{
+			$arrAdvertisement = $aSetting->item('/advertis','ad',array());
+			
+			if(array_key_exists($aid,$arrAdvertisement))
 			{
-				$file->delete();
-			}
-			else {
-				return;
+				$sAdName = $arrAdvertisement[$aid]['name'] ;
+				if($arrAdvertisement[$aid]['type'] == "普通")
+				{
+					$this->deleteAdvertisement($arrAdvertisement,$aid);
+					$this->deleteCarouselChild($aid);
+				}else{
+					$this->deleteAdvertisement($arrAdvertisement,$aid);
+				}	
 			}
 		}
 
-		$aSetting->deleteItem('/'.'advertis',$aid);
-		$this->viewDeleteAd->createMessage(Message::success,"广告%s 删除成功",$aid);
-		$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
+		$this->createMessage(Message::success,"广告%s 删除成功",$sAdName);
+		$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 	}
 	
 	public function deleteCarouselChild($aid)
 	{
 		$aSetting = Extension::flyweight('bannermanager')->setting();
-		$aKey=$aSetting->key('/'.'advertis',true);
 		$arrCarousel = array();
-		foreach($aKey->itemIterator() as $key=>$value)
+		
+		if($aSetting->hasItem('/advertis','ad'))
 		{
-			$arrTemp = $aKey->item($value,array());
-			if($arrTemp['type'] == '随机播放')
+			$arrCarousel = $aSetting->item('/advertis','ad',array());
+			foreach($arrCarousel as $key=>&$value)
 			{
-				$arrCarousel[$value] = $arrTemp;
+				if($value['type'] == '随机播放')
+				{
+					foreach($value['advertisements'] as $key=>$arrAd)
+					{
+						if($key == $aid)
+						{
+							unset($value['advertisements'][$key]);
+						}
+					}
+				}
+			}
+			
+		}
+		
+		$aSetting->deleteItem('/advertis', 'ad');
+		$aSetting->setItem('/advertis', 'ad',$arrCarousel);	
+	}
+	
+	public function deleteAdvertisement($arrAdvertisement,$aid)
+	{
+		$aSetting = Extension::flyweight('bannermanager')->setting();
+		
+		if($arrAdvertisement[$aid]['image'] != '#')
+		{
+			$file = new \org\jecat\framework\fs\File(\org\opencomb\platform\ROOT.'\\'.$arrAdvertisement[$aid]['image'],0,$arrAdvertisement[$aid]['image']);
+			if($file->exists())
+			{
+				$file->delete();
 			}
 		}
 		
-		foreach($arrCarousel as $keySingleCarousel=>&$itemSingleCarousel)
-		{
-			foreach($itemSingleCarousel['advertisements'] as $keyAdvertisement=>$itemAdvertisement)
-			{
-				if($keyAdvertisement == $aid)
-				{	
-					unset($itemSingleCarousel['advertisements'][$keyAdvertisement]);
-				}
-			}
-		}
-		foreach($arrCarousel as $key=>$item)
-		{
-			$aKey->setItem($key, $item);
-		}		
+		unset($arrAdvertisement[$aid]);
+		$aSetting->deleteItem('/advertis', 'ad');
+		$aSetting->setItem('/advertis', 'ad',$arrAdvertisement);
 	}
 }

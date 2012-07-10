@@ -172,20 +172,28 @@ class Advertisment extends Widget {
 	
 	public function display(UI $aUI,IHashTable $aVariables=null,IOutputStream $aDevice=null)
 	{
-		$sName = $this->attribute('name');
+		$arrAttribute = $aVariables->get('attr');
+		$sName =  (integer)$arrAttribute['name'];
+		//此方法$this->attribute('name')已废弃
+		//$sName = $this->attribute('name');
 		$aSetting = Extension::flyweight('bannermanager')->setting();
-		$akey=$aSetting->key('/'.'advertis',true);
+		$akey = $aSetting->key('/'.'advertis',true);
+		$arrABVS = array();
+		if($aSetting->hasItem('/advertis','ad'))
+		{
+			$arrABVS = $aSetting->item('/advertis','ad');
+		}
 		
-		if($akey->hasItem($sName))
+		if(array_key_exists($sName,$arrABVS))
 		{	
-			$arrAdvertisement=array();
-			$arrAdvertisement=$akey->item($sName,array());		
+			$arrAdvertisement = array();
+			$arrAdvertisement = $arrABVS[$sName];
 			if($arrAdvertisement['type']=='普通')
 			{
 				
 				if($arrAdvertisement['displaytype']=='code')
 				{
-						$this->setCode($arrAdvertisement['code']);
+					$this->setCode($arrAdvertisement['code']);
 				}
 				else if($arrAdvertisement['displaytype']=='pic')
 				{
@@ -203,49 +211,71 @@ class Advertisment extends Widget {
 			}
 			else 
 			{
-				$arrCarousel=$akey->item($sName,array());
-				$arrCarouselImg=array();
+				$arrCarousel = $arrABVS[$sName];
+				$arrCarouselImg = array();
+				$arrCarouselImgTest = array();
+				$iNum = 0;
 				foreach ($arrCarousel['advertisements'] as $akey=>$value)
 				{
 					if($value['run']=='on')
 					{
-						$sUrl=$value['advertisement_url']['name'];
-						$iNum=(int)$value['random'];
+						$iNum = $iNum + (int)$value['random'];
+						$arrCarouselImgTest[$akey] = $iNum;
+
+					}
+				}
 				
-						for($i=0;$i<$iNum;$i++)
+				$i = 0 ;
+				$adId = 0;
+				$arrCarouselImgTestOld = $arrCarouselImgTest ;
+				$nMax = array_pop($arrCarouselImgTest);
+				foreach($arrCarouselImgTestOld as $key=>$value)
+				{
+					if($i<1)
+					{
+						if(rand(1,$nMax)<$value)
 						{
-							$arrCarouselImg[]=$sUrl;
+							$adId = $key;
+							$i++;
 						}
 					}
-				}
+				};
 				
-				if(count($arrCarouselImg)==0)
+				$arrAdvertisement = array();
+				if($aSetting->hasItem('/advertis', 'ad'))
 				{
+					$arrAdvertisements = $aSetting->item('/advertis', 'ad') ;//var_dump($arrAdvertisements);exit;
+					if(array_key_exists((integer)$adId,$arrAdvertisements))
+					{
+						$arrAdvertisement = $arrAdvertisements[$adId];
+					}
+				}
+				 
+				if(count($arrAdvertisement)>0)
+				{//var_dump($arrAdvertisement);exit;
+					if($arrAdvertisement['displaytype']=='code')
+					{
+						$this->setTitle($arrAdvertisement['title']);
+						$this->setCode($arrAdvertisement['code']);
+					}
+					else if($arrAdvertisement['displaytype']=='pic')
+					{
+						if($arrAdvertisement['image']=='#') {
+							$this->setImg($arrAdvertisement['url']);
+						}
+						else {
+							$this->setImg($arrAdvertisement['image']);
+						}
+					}
+					$this->setTitle($arrAdvertisement['title']);
+					$this->setForward($arrAdvertisement['forward']);
+					$this->setWindow($arrAdvertisement['window']);
+					$this->setStyle($arrAdvertisement['style']);
+				}else{
 					return;
 				}
-				
-				$sAdvertisementName=$arrCarouselImg[array_rand($arrCarouselImg)];
-				
-				$aSetting = Extension::flyweight('bannermanager')->setting();
-				$akey=$aSetting->key('/'.'advertis',true);
-				$arrAdvertisement=$akey->item($sAdvertisementName,array());
-				if($arrAdvertisement['displaytype']=='code')
-				{$this->setTitle($arrAdvertisement['title']);
-				$this->setCode($arrAdvertisement['code']);
-				}
-				else if($arrAdvertisement['displaytype']=='pic')
-				{
-					if($arrAdvertisement['image']=='#') {
-					$this->setImg($arrAdvertisement['url']);
-					}
-					else {
-					$this->setImg($arrAdvertisement['image']);
-					}
-				}
-				$this->setTitle($arrAdvertisement['title']);
-				$this->setForward($arrAdvertisement['forward']);
-				$this->setWindow($arrAdvertisement['window']);
-				$this->setStyle($arrAdvertisement['style']);				
+
+			
 			}
 		}
 		else 

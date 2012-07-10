@@ -12,12 +12,10 @@ use org\jecat\framework\fs\Folder ;
 
 class CreateAdvertisement extends ControlPanel
 {
-	public function createBeanConfig()
-	{
-		$arrBean = array(
-			'view:createAd' => array(
+		protected $arrConfig = array(
+			'view' => array(
 				'template' => 'CreateAdvertisement.html' ,
-				'class' => 'form' ,
+				'class' => 'view' ,
 				'widgets'=>array(
 						 array(
 								'id'=>'advertis_name_text',
@@ -32,8 +30,6 @@ class CreateAdvertisement extends ControlPanel
 						array(
 								'id'=>'image_file',
 								'class'=>'file',
-								'type'=>'folder',
-								'folder'=>Extension::flyWeight('bannermanager')->filesFolder()->findFolder('advertisement_img',Folder::FIND_AUTO_CREATE),
 								'title'=>'图片',
 						),
 						array(
@@ -77,102 +73,141 @@ class CreateAdvertisement extends ControlPanel
 				)
 			)
 		);
-		return $arrBean;
-	}
-	
+		
 	public function process()
+	{
+		$this->view()->widget('image_file')->setStoreFolder(Extension::flyWeight('bannermanager')->filesFolder()->findFolder('advertisement_img',Folder::FIND_AUTO_CREATE));
+		$this->doActions();
+	}	
+	
+	public function form()
 	{	
 		$aSetting = Extension::flyweight('bannermanager')->setting();
-		$akey=$aSetting->key('/'.'advertis',true);
+		$akey = $aSetting->key('/'.'advertis',true);
 		
-		if ($this->viewCreateAd->isSubmit ( $this->params ))
-		{	
-			$this->viewCreateAd->loadWidgets ( $this->params );
-			$sAdvertisName = trim($this->viewCreateAd->widget('advertis_name_text')->value());
-			$sForward = trim($this->viewCreateAd->widget('forward_text')->value());
+			$this->view->loadWidgets ( $this->params );
+			$sAdvertisName = trim($this->view->widget('advertis_name_text')->value());
+			$sForward = trim($this->view->widget('forward_text')->value());
+			
 			if(empty($sAdvertisName))
 			{
-				$sKey="广告名称";
-				$this->viewCreateAd->createMessage(Message::error,"%s 不能为空",$sKey);
+				$sKey = "广告名称";
+				$this->createMessage(Message::error,"%s 不能为空",$sKey);
+				$this->deleteImg();
 				return;
-			}else if($akey->hasItem($this->viewCreateAd->widget('advertis_name_text')->value())){
-				$this->viewCreateAd->createMessage(Message::error,"名称%s 重名",$sAdvertisName);
-				return;
+			}else{
+				if(count($akey->item('ad',array()))>0)
+				{
+					$bRename = false ;
+					$arrAds = $akey->item('ad',array());
+					foreach($arrAds as $arrAd)
+					{
+						if($arrAd['name'] == $sAdvertisName)
+						{
+							$bRename = true;
+						}
+					}
+					
+					if($bRename)
+					{
+						$this->createMessage(Message::error,"名称%s 重名",$sAdvertisName);
+						$this->deleteImg();
+						return;
+					}
+				}
 			}
-			
 			
 			if($this->params['advertisement_way']=='pic')
 			{
+
+				
 				if(empty($sForward))
 				{
-					$sKey="广告跳转链接";
-					$this->viewCreateAd->createMessage(Message::error,"%s 不能为空",$sKey);
+					$sKey = "广告跳转链接";
+					$this->createMessage(Message::error,"%s 不能为空",$sKey);
+					$this->deleteImg();
 					return;
 				}
 				
-				
-				$sTitle = $this->viewCreateAd->widget('title_text')->value();
-				if(empty($sTitle))
+				if($this->view->widget('image_radio')->isChecked())
 				{
-					$skey="文本名称";
-					$this->viewCreateAd->createMessage(Message::error,"%s 不能为空",$skey);
-					return;
-				}
-				
-				if($this->viewCreateAd->widget('image_radio')->isChecked())
-				{
-					$stitle = trim($this->viewCreateAd->widget('image_file')->getFileUrl());
-					if("#"==$stitle)
+					$stitle = trim($this->view->widget('image_file')->getFileUrl());
+					if("#" == $stitle)
 					{
-						$skey="图片";
-						$this->viewCreateAd->createMessage(Message::error,"%s 不能为空",$skey);
+						$skey = "图片";
+						$this->view->createMessage(Message::error,"%s 不能为空",$skey);
+						$this->deleteImg();
 						return;
 					}
 				}
 				
-				if($this->viewCreateAd->widget('url_radio')->isChecked())
+				if($this->view->widget('url_radio')->isChecked())
 				{
-					$sUrl=trim($this->viewCreateAd->widget('url_text')->value());
+					$sUrl = trim($this->view->widget('url_text')->value());
 					if(empty($sUrl))
 					{
-						$skey="链接";
-						$this->viewCreateAd->createMessage(Message::error,"%s 不能为空",$skey);
+						$skey = "URL引用";
+						$this->view->createMessage(Message::error,"%s 不能为空",$skey);
+						$this->deleteImg();
 						return;
 					}
 				}
 				
 			}else if($this->params['advertisement_way']=='code'){
-				$sCode=$this->viewCreateAd->widget('code_text')->value();
+				$sCode = $this->view->widget('code_text')->value();
 				if(empty($sCode))
 				{
-					$skey="代码";
-					$this->viewCreateAd->createMessage(Message::error,"%s 不能为空",$skey);
+					$skey = "代码";
+					$this->createMessage(Message::error,"%s 不能为空",$skey);
+					$this->deleteImg();
 					return;
 				}
-				
 			}
-
-			$arrABV=array(
-					'name' => trim($this->viewCreateAd->widget('advertis_name_text')->value()),
-					'title' => trim($this->viewCreateAd->widget('title_text')->value()),
-					'image' => trim($this->viewCreateAd->widget('image_file')->getFileUrl()),
-					'url' => trim($this->viewCreateAd->widget('url_text')->value()),
-					'window' => $this->viewCreateAd->widget('window_checkbox')->value()==1?'_blank':'_self',
+			
+			$arrABV = array(
+					'name' => trim($this->view->widget('advertis_name_text')->value()),
+					'title' => trim($this->view->widget('title_text')->value()),
+					'image' => trim($this->view->widget('image_file')->getFileUrl()),
+					'url' => trim($this->view->widget('url_text')->value()),
+					'window' => $this->view->widget('window_checkbox')->value()==1?'_blank':'_self',
 					'type' => '普通',
 					'classtype' => 'EditAdvertisement',
 					'classtype2' => 'DeleteAdvertisement',
-					'code' => $this->viewCreateAd->widget('code_text')->value(),
-					'imageradio' => $this->viewCreateAd->widget('image_radio')->isChecked(),
-					'urlradio' => $this->viewCreateAd->widget('url_radio')->isChecked(),
+					'code' => $this->view->widget('code_text')->value(),
+					'imageradio' => $this->view->widget('image_radio')->isChecked(),
+					'urlradio' => $this->view->widget('url_radio')->isChecked(),
 					'displaytype' => $this->params['advertisement_way']=='pic' ? 'pic' : 'code',
-					'style' => $this->viewCreateAd->widget('style_text')->value(),
-					'forward' => $this->viewCreateAd->widget('forward_text')->value(),
-			);		
-			$aSetting->setItem('/'.'advertis',trim($this->viewCreateAd->widget('advertis_name_text')->value()),$arrABV);
+					'style' => $this->view->widget('style_text')->value(),
+					'forward' => $this->view->widget('forward_text')->value(),
+			);
+			
+			if($this->view->widget('image_radio')->isChecked())
+			{
+				$arrABV['image'] = $stitle;
+				$arrABV['ulr'] = '';
+			}else{
+				$arrABV['image'] = '#';
+				$arrABV['ulr'] = $sUrl;
+			}
+
+			$arrAds = $aSetting->item('/'.'advertis','ad',array());
+			$arrAds[] = $arrABV;
+			$aSetting->deleteItem('/'.'advertis','ad');
+			$aSetting->setItem('/'.'advertis','ad',$arrAds);	
 			$sSuccess="成功";
-			$this->viewCreateAd->hideForm ();
-			$this->viewCreateAd->createMessage(Message::success,"新建告广%s ",$sSuccess);
+			$this->view->hideForm ();
+			$this->createMessage(Message::success,"新建告广%s ",$sSuccess);
 			$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
-		};	
+	}
+	
+	public function deleteImg()
+	{
+		$stitle = trim($this->view->widget('image_file')->getFileUrl());
+		
+		$file = new \org\jecat\framework\fs\File(\org\opencomb\platform\ROOT.'\\'.$stitle,0,$stitle);
+		if($file->exists())
+		{
+			$file->delete();
+		}
 	}
 }
