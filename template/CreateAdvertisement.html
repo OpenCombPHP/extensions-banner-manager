@@ -2,6 +2,16 @@
 <h2>新建广告</h2>
 <msgqueue />
 <script type="text/javascript">
+jQuery(document).ready(function(){
+	if(document.getElementById('image_radio').checked)
+	{
+		document.getElementById('url_text').disabled="disabled";
+		document.getElementById('image_file').disabled='';
+	}else if(document.getElementById('url_radio').checked){
+		document.getElementById('image_file').disabled="disabled";
+		document.getElementById('url_text').disabled='';
+	}
+});
 jquery(function(){
 	jquery('#image_radio').click(disableImage);
 	jquery('#url_radio').click(disableUrl);
