@@ -50,13 +50,13 @@ class AdvertisementSetting extends ControlPanel
 	
 	public function form()
 	{
-
+		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$sControllerName = $this->params['controllername'] ; 
 		$sControllerNamePage = str_replace('.','\\',$sControllerName);
 		
 		$sControllerParams = $this->params['banner_controller_params'] ;
-		$sAdvertisementName = $this->params['hidden_ad_Name'] ;
-
+		$sAdvertisementId = $this->params['hidden_ad_Name'] ;
+		$sAdvertisementName = '';
 		//检查控制器是否存在
 		if( !class_exists($sControllerNamePage) or !new $sControllerNamePage() instanceof Controller)
 		{
@@ -67,8 +67,15 @@ class AdvertisementSetting extends ControlPanel
 	
 		$aSetting = Extension::flyweight('bannermanager')->setting();
 	
-		$aSetting->setItem('/viewAd', $sControllerName.'_'.$sAdvertisementName, array('adName'=>$sAdvertisementName,'params'=>$sControllerParams));
-	
+		$aSetting->setItem('/viewAd', $sControllerName.'_'.$sAdvertisementId, array('adName'=>$sAdvertisementId,'params'=>$sControllerParams));
+		if($aSetting->hasItem('/advertis', 'ad'))
+		{
+			$arrAdTemp = $aSetting->item('/advertis', 'ad');
+			if(array_key_exists((integer)$sAdvertisementId,$arrAdTemp))
+			{
+				$sAdvertisementName = $arrAdTemp[(integer)$sAdvertisementId]['name'];
+			}
+		}
 		$this->createMessage(Message::success,"%s ",$skey="广告".$sAdvertisementName."放置成功") ;
 	}
 	
