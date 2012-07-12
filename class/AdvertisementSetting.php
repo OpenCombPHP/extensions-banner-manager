@@ -51,10 +51,12 @@ class AdvertisementSetting extends ControlPanel
 	public function form()
 	{
 
-		$sControllerNamePage = $this->params['controllername'] ;
+		$sControllerName = $this->params['controllername'] ; 
+		$sControllerNamePage = str_replace('.','\\',$sControllerName);
+		
 		$sControllerParams = $this->params['banner_controller_params'] ;
 		$sAdvertisementName = $this->params['hidden_ad_Name'] ;
-		$sControllerName = str_replace('\\','.',$sControllerNamePage);
+
 		//检查控制器是否存在
 		if( !class_exists($sControllerNamePage) or !new $sControllerNamePage() instanceof Controller)
 		{
