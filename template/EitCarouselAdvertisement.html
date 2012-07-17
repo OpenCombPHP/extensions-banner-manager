@@ -8,7 +8,7 @@
 	<div style="display:{=$sHave==1 ? '' :'none'}">
 		<foreach for="$arrCarouselAdvertisement['advertisements']" key='sKeyPathCarousel' item='arrItemList'>
 				 <div class='advertisement'>
-					<label>广告:
+					<label>Banner:
 						<select name="advertisement_select[]" >
 							<foreach for="$arrAdvertisementSelect" key='sKeyPath' item='arrcItemList'>
 								<option value="{=$sKeyPath}" {=$sKeyPath==$sKeyPathCarousel ? 'selected':''}>{=$arrcItemList['name']}</option>
@@ -24,9 +24,9 @@
 	</div>
 	<else/>
 		<div style="display:{=$sHave==1 ? 'none' :''}">
-		<label>广告被删除，请添加</label><br/><br/>
+		<label>Banner被删除，请添加</label><br/><br/>
 		<div class='advertisement'>
-			<label>广告:
+			<label>Banner:
 				<select name="advertisement_select[]">
 					<foreach for="$arrAdvertisementSelect" key='sKeyPath' item='arrcItemList'>
 						<option value="{=$sKeyPath}" size='10px'>{=$arrcItemList['name']}</option>

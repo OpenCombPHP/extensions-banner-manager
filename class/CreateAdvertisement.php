@@ -20,7 +20,7 @@ class CreateAdvertisement extends ControlPanel
 						 array(
 								'id'=>'advertis_name_text',
 								'class'=>'text',
-								'title'=>'广告名称',		
+								'title'=>'Banner名称',		
 						),
 						 array(
 								'id'=>'title_text',
@@ -68,7 +68,7 @@ class CreateAdvertisement extends ControlPanel
 						array(
 								'id'=>'forward_text',
 								'class'=>'text',
-								'title'=>'广告条转',
+								'title'=>'Banner条转',
 						)
 				)
 			)
@@ -91,7 +91,7 @@ class CreateAdvertisement extends ControlPanel
 			
 			if(empty($sAdvertisName))
 			{
-				$sKey = "广告名称";
+				$sKey = "Banner名称";
 				$this->createMessage(Message::error,"%s 不能为空",$sKey);
 				$this->deleteImg();
 				return;
@@ -123,7 +123,7 @@ class CreateAdvertisement extends ControlPanel
 				
 				if(empty($sForward))
 				{
-					$sKey = "广告跳转链接";
+					$sKey = "Banner跳转链接";
 					$this->createMessage(Message::error,"%s 不能为空",$sKey);
 					$this->deleteImg();
 					return;

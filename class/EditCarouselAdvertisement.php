@@ -30,7 +30,7 @@ class EditCarouselAdvertisement extends ControlPanel
 		
 		$arrAdvertisementSelect = array();
 		
-		//广告选项遍历
+		//Banner选项遍历
 		foreach($aAdvertisements as $key=>$aAdvertisement)
 		{
 			if($aAdvertisement['type'] == '普通') {
@@ -40,7 +40,7 @@ class EditCarouselAdvertisement extends ControlPanel
 		$this->view->variables()->set('arrAdvertisementSelect',$arrAdvertisementSelect) ;
 		
 		
-		//随机广告遍历
+		//随机Banner遍历
 		$aid = $this->params->get('aid');
 		if(array_key_exists($aid,$aAdvertisements));
 		{
@@ -93,13 +93,13 @@ class EditCarouselAdvertisement extends ControlPanel
 			{
 			if($this->params['advertisement_select'][$i]==$this->params['advertisement_select'][$j])
 				{
-					$this->createMessage(Message::error,"广告名称%s 重名",$this->params['advertisement_select'][$i]['name']);
+					$this->createMessage(Message::error,"Banner名称%s 重名",$this->params['advertisement_select'][$i]['name']);
 					return;
 				}
 			}
 		}
 		
-		//取得广告值的数组
+		//取得Banner值的数组
 		foreach ($this->params['advertisement_select'] as $key=>$value)
 		{
 			$arrAdvertisement[]=$value;
@@ -153,7 +153,7 @@ class EditCarouselAdvertisement extends ControlPanel
 		$aSetting->deleteItem('/advertis','ad');
 		$aSetting->setItem('/advertis','ad',$arrABVOld);
 		$this->view->hideForm ();
-		$this->createMessage(Message::success,"随机播放广告%s 编辑成功",$sName);
+		$this->createMessage(Message::success,"随机播放Banner%s 编辑成功",$sName);
 		$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
 	}
 }

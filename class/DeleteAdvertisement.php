@@ -27,7 +27,7 @@ class DeleteAdvertisement extends ControlPanel
 		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$aViewAdSingle = $aSetting->itemIterator('/viewAd');
 		
-		//删除视图广告
+		//删除视图Banner
 		foreach ($aViewAdSingle as $key=>$value) 
 		{
 			$arrContorllerAd = explode('_',$value);
@@ -55,7 +55,7 @@ class DeleteAdvertisement extends ControlPanel
 			}
 		}
 
-		$this->createMessage(Message::success,"广告%s 删除成功",$sAdName);
+		$this->createMessage(Message::success,"Banner%s 删除成功",$sAdName);
 		$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 	}
 	

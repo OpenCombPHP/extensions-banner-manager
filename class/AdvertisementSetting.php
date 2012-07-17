@@ -76,7 +76,7 @@ class AdvertisementSetting extends ControlPanel
 				$sAdvertisementName = $arrAdTemp[(integer)$sAdvertisementId]['name'];
 			}
 		}
-		$this->createMessage(Message::success,"%s ",$skey="广告".$sAdvertisementName."放置成功") ;
+		$this->createMessage(Message::success,"%s ",$skey="Banner".$sAdvertisementName."放置成功") ;
 	}
 	
 	

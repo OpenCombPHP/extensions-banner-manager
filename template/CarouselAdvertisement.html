@@ -1,10 +1,10 @@
 <lib name=jquery />
-<h2>新建随机广告</h2>
+<h2>新建随机Banner</h2>
 <msgqueue />
 <form  method="post">
-	<label>随机广告名称:<input type="text" name="Carousel_name" /> </label><br/><br/>
+	<label>随机Banner名称:<input type="text" name="Carousel_name" /> </label><br/><br/>
 	<div class='advertisement'>
-		<label>广告:
+		<label>Banner:
 			<select name="advertisement_select[]">
 				<foreach for="$arrAdvertisementSelect" key='sKeyPath' item='arrcItemList'>
 					<option value="{=$sKeyPath}" size='10px'>{=$arrcItemList['name']}</option>

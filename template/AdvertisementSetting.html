@@ -1,11 +1,12 @@
 <lib name='jquery'/>
+<lib name="jquery.ui" />
 <lib name='jquery.farbtastic'/>
 <css src="bannermanager:css/AdvertisementSetting.css" />
-<h1>广告设置</h1>
+<h1>Banner设置</h1>
 <msgqueue />
 	<div style="margin-bottom:15px">
-		<a href="?c=org.opencomb.bannermt.CreateAdvertisement">新建广告</a> 
-		<a href="?c=org.opencomb.bannermt.CarouselAdvertisement">新建随机广告</a>
+		<a href="?c=org.opencomb.bannermt.CreateAdvertisement">新建Banner</a> |
+		<a href="?c=org.opencomb.bannermt.CarouselAdvertisement">新建随机Banner</a>
 	</div>
 	<table>
 		<tr>
@@ -29,16 +30,25 @@
 				<div id="{=$sKeyPath}viewAdEdit" style="display:none;" class="hViewEdit" >
 					<form method="post">
 						<div>
-							<span style="font-size:10px; font-weight:bold; color:#333">放置说明:</span><span>手动输入控制器名称或者点击浏览选择控制器名称，可以将此广告放置该控制器中</span>
+							<span style="font-size:10px; font-weight:bold; color:#333">放置说明:</span><span>手动输入控制器名称或者点击浏览选择控制器名称，可以将此Banner放置该控制器中</span>
 						</div>
 						<div>
 							<span style="font-size:10px; font-weight:bold; color:#333">例:</span>输入控制器名称:org.opencomb.opencms.index.Index
 						</div>
-						<div >
-							<span style="font-size:10px; font-weight:bold; color:#333">被放置控制器名:</span><input type="text" name="controllername" style="width:300px" id="bannercontrollername{=$sKeyPath}"/>
-							<a href="javascript:viod(0)" onclick="testBrowserController('c','handle','{=$sKeyPath}')">浏览</a>
-							<input type="submit" value="放置"/>
-							<div><span style="font-size:10px; font-weight:bold; color:#333">参数:</span><input type="text" name="banner_controller_params" style="width:300px" id="bannercontrollerparams{=$sKeyPath}}"/></div>
+						<div>
+							<div>
+								<div style="float:left"><span style="font-size:10px; font-weight:bold; color:#333;">被放置控制器名:</span></div>
+								<div style="float:left"><input type="text" name="controllername" style="width:300px" id="bannercontrollername{=$sKeyPath}"/></div>
+								<a href="javascript:viod(0)"  onclick="testBrowserController('{=$sKeyPath}')" id="mergeCtl_pageToView_findPage_btn">浏览</a>
+								<input type="submit" value="放置"/>
+							</div>
+							<div>
+								<div style="float:left;text-align:justify;width:15%"><span style="font-size:10px; font-weight:bold; color:#333;">参  数:</span></div>
+								<div style="margin-left:90px;">
+								<input type="text" name="banner_controller_params" style="width:300px" id="bannercontrollerparams{=$sKeyPath}"/>
+								
+								</div>
+							</div>
 							<input type="hidden" id="{=$sKeyPath}hidden_Ad_Name" name="hidden_ad_Name"/>
 						</div>
 						<if"true">
@@ -69,13 +79,43 @@
 		</foreach>
 	</table>
 <script>
-	function testBrowserController(sClassType ,sSelectType,sBannerName)
+	function testBrowserController(sBannerName)
 	{
-		window.showModalDialog("?c=org.opencomb.bannermt.BannerStructBrowser&bannername="+sBannerName,
-				{parent:self,allowSelectClass:sClassType,selectType:sSelectType},
-				"dialogWidth=820px;dialogHeight=450px;status=0");
+			jquery.ajax({
+				url : '?c=org.opencomb.bannermt.BannerStructBrowser&rspn=noframe',
+				type: "POST",
+				data : {'allowSelectClass':'c'},
+				dataType : 'html',
+				success : function(html) {
+					jquery('body').append('<div id="mergeCtl_select_dialog" style="width:700px;height:500px;"></div>');
+					
+					jquery("#mergeCtl_select_dialog").append(html);
+					
+					var dialog = jquery("#mergeCtl_select_dialog").dialog({
+						width: 700
+						, height: 500
+						, title: '选择网页'
+						, zIndex:710
+						, maximize:false
+						, minimize:false
+						,resize: function(event, ui) {
+							structBrowser.resizeFrame(ui.size.width);
+						}
+					}) ;
+					structBrowser.resizeFrame(700 , 510);
+					
+					structBrowser.onSelectChange = function(data){
+						dialog.dialog('close');
+						//jquery("#mergeCtl_pageToView_page_span").html(data['class']);
+						
+						jquery("#bannercontrollername"+sBannerName).val(data['class'].replace(/\\/g,'.'));
+						jquery("#bannercontrollerparams"+sBannerName).val(data['params']);
+						
+					};
+				}
+			});
 	}
-
+	
 	function viewAdEdit(adName)
 	{
 		jquery("#"+adName+"viewAdEdit").toggle(function(){document.getElementById(adName+'hidden_Ad_Name').value=adName;});
@@ -85,4 +125,6 @@
 	{
 		document.getElementById(adName+'code').style.display="";
 	}
+	
+
 </script>

@@ -7,7 +7,6 @@ use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class BannerStructBrowser extends ControlPanel
 {
-	
 	protected $arrConfig = array(
 		'title'=>'浏览模板编制项',
 		'view'=>array(
@@ -24,8 +23,17 @@ class BannerStructBrowser extends ControlPanel
 
 	public function process()
 	{
-		$this->checkPermissions('您没有使用这个功能的权限,无法继续浏览',array()) ;
-		$this->view->variables()->set('bannername',$this->params->get('bannername'));
+		$sUrl = $this->params['url'];
+		$sAllowSelectClass = $this->params['allowSelectClass'];// 'c,v,w'
+		
+		if(empty($sAllowSelectClass)){
+			$sAllowSelectClass = 'v';
+		}
+		
+		$this->view()->variables()->set('sUrl',$sUrl);
+		$this->view()->variables()->set('sAllowSelectClass',$sAllowSelectClass);
+// 		$tmp = json_encode($arrExtensionInfo);
+// 		echo $tmp;
 	}
     protected function defaultFrameConfig()
     {

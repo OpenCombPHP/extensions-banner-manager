@@ -22,7 +22,7 @@ class EditAdvertisement extends ControlPanel
 								 array(
 										'id'=>'edit_name_text',
 										'class'=>'text',
-										'title'=>'广告名称',
+										'title'=>'Banner名称',
 								),
 								array(
 										'id'=>'edit_hide_oldname_text',
@@ -41,7 +41,7 @@ class EditAdvertisement extends ControlPanel
 								 array(
 										'id'=>'edit_title_text',
 										'class'=>'text',
-										'title'=>'广告内容',
+										'title'=>'Banner内容',
 								),
 								array(
 										'id'=>'edit_image_file',
@@ -81,7 +81,7 @@ class EditAdvertisement extends ControlPanel
 								array(
 										'id'=>'edit_forward_text',
 										'class'=>'text',
-										'title'=>'广告条转',
+										'title'=>'Banner条转',
 								)
 						
 							)
@@ -105,11 +105,11 @@ class EditAdvertisement extends ControlPanel
 			{
 				$arrAdvertisement = $arrABVOld[$aid];
 			}else{
-				$this->createMessage(Message::error,"%s",$sKey="无此广告");
+				$this->createMessage(Message::error,"%s",$sKey="无此Banner");
 				$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 			}
 		}else{
-			$this->createMessage(Message::error,"%s",$sKey="无此广告");
+			$this->createMessage(Message::error,"%s",$sKey="无此Banner");
 			$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 		}
 		
@@ -170,7 +170,7 @@ class EditAdvertisement extends ControlPanel
 			
 			if(empty($sEditAdName))
 			{
-				$sKey = "广告名称";
+				$sKey = "Banner名称";
 				$this->createMessage(Message::error,"%s 不能为空",$sKey);
 				$this->deleteImg();
 				return;
@@ -207,7 +207,7 @@ class EditAdvertisement extends ControlPanel
 				$arrABV[] = array();
 				if(empty($sEditForward))
 				{
-					$sKey = "广告跳转链接";
+					$sKey = "Banner跳转链接";
 					$this->createMessage(Message::error,"%s 不能为空",$sKey);
 					$this->deleteImg();
 					$this->initView();
@@ -299,7 +299,7 @@ class EditAdvertisement extends ControlPanel
 					$arrABV['code'] = $arrOldABV['code'];
 					$arrABVS[$nAid] = $arrABV;
 					$aSetting->setItem('/advertis','ad',$arrABVS);
-					$this->createMessage(Message::success,"编辑广告%s 成功",$sEditAdName);
+					$this->createMessage(Message::success,"编辑Banner%s 成功",$sEditAdName);
 					$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 				}else{
 					$arrABV=array(
@@ -376,7 +376,7 @@ class EditAdvertisement extends ControlPanel
 					$arrABV['code'] = $arrOldABV['code'];
 					$arrABVS[$nAid] = $arrABV;
 					$aSetting->setItem('/advertis','ad',$arrABVS);
-					$this->createMessage(Message::success,"编辑广告%s 成功",$sEditAdName);
+					$this->createMessage(Message::success,"编辑Banner%s 成功",$sEditAdName);
 					//$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 				}
 			}else if($this->params['advertisement_way']=='code'){
@@ -402,7 +402,7 @@ class EditAdvertisement extends ControlPanel
 					$aSetting->deleteItem('/advertis','ad');
 					$aSetting->setItem('/advertis','ad',$arrABVS);
 					$this->view->hideForm ();
-					$this->createMessage(Message::success,"编辑广告%s 成功",$sEditAdName);
+					$this->createMessage(Message::success,"编辑Banner%s 成功",$sEditAdName);
 					$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 				}else{
 					
@@ -413,7 +413,7 @@ class EditAdvertisement extends ControlPanel
 					$arrABVS[$nAid] = $arrABV;
 					$aSetting->deleteItem('/advertis','ad');
 					$aSetting->setItem('/advertis','ad',$arrABVS);
-					$this->view->createMessage(Message::success,"编辑广告%s 成功",$sEditAdName);
+					$this->view->createMessage(Message::success,"编辑Banner%s 成功",$sEditAdName);
 					$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 				}
 			};

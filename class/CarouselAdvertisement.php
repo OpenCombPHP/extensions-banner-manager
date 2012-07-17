@@ -87,7 +87,7 @@ class CarouselAdvertisement extends ControlPanel
 				{
 					if($arrABVOld[$this->params['advertisement_select'][$i]]['name'] == $arrABVOld[$this->params['advertisement_select'][$j]]['name'])
 					{
-						$this->createMessage(Message::error,"广告名称%s 重名",$this->params['advertisement_select'][$i]);
+						$this->createMessage(Message::error,"Banner名称%s 重名",$this->params['advertisement_select'][$i]);
 						return;
 					}
 				}
@@ -154,7 +154,7 @@ class CarouselAdvertisement extends ControlPanel
 				$aSetting->setItem('/'.'advertis','ad',$arrAds);
 			};
 			$this->view->hideForm();
-			$this->createMessage(Message::success,"随机播放广告%s 创建成功",$sName);
+			$this->createMessage(Message::success,"随机播放Banner%s 创建成功",$sName);
 			$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');	
 	}	
 }

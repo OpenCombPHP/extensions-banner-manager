@@ -18,4 +18,9 @@
 	
 	<require type="extension" item="coresystem"><![CDATA[ =0.2 ]]></require>
 	
+	<data>
+		<version>0.3</version>
+		<upgrader from="0.2" to="0.3">org\opencomb\bannermt\setup\upgrader2To3</upgrader>
+		<installer>org\opencomb\bannermt\setup\DataInstaller</installer>
+	</data>
 </Extension>
