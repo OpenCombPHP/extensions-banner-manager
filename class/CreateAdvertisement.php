@@ -209,5 +209,6 @@ class CreateAdvertisement extends ControlPanel
 		{
 			$file->delete();
 		}
+		$this->view->widget('image_file')->setValue(null);
 	}
 }
