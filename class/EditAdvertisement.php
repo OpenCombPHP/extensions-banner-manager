@@ -465,5 +465,6 @@ class EditAdvertisement extends ControlPanel
 		{
 			$file->delete();
 		}
+		$this->view()->widet('edit_image_file')->setValue(null);
 	}
 }
