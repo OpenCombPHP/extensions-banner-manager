@@ -6,7 +6,11 @@
 </head>
 <body>
 <div>
-<a href="{=$theWidget->forward()}"  target="{=$theWidget->window()}" ><img class="small" src="{=$theWidget->img()}" alt="{=$theWidget->title()}"/></a>
+<if '{=$theWidget->forward()}'>
+	<a href="{=$theWidget->forward()}"  target="{=$theWidget->window()}" ><img class="small" src="{=$theWidget->img()}" alt="{=$theWidget->title()}"/></a>
+	<else/>
+	<img class="small" src="{=$theWidget->img()}" alt="{=$theWidget->title()}"/>
+</if>
 <if '$theWidget->code()'>
 {=$theWidget->code()}
 </if>

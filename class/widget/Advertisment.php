@@ -173,7 +173,7 @@ class Advertisment extends Widget {
 	public function display(UI $aUI,IHashTable $aVariables=null,IOutputStream $aDevice=null)
 	{
 		$arrAttribute = $aVariables->get('attr');
-		$sName =  (integer)$arrAttribute['name'];
+		$sId =  (integer)$arrAttribute['id'];
 		//此方法$this->attribute('name')已废弃
 		//$sName = $this->attribute('name');
 		$aSetting = Extension::flyweight('bannermanager')->setting();
@@ -184,10 +184,10 @@ class Advertisment extends Widget {
 			$arrABVS = $aSetting->item('/advertis','ad');
 		}
 		
-		if(array_key_exists($sName,$arrABVS))
+		if(array_key_exists($sId,$arrABVS))
 		{	
 			$arrAdvertisement = array();
-			$arrAdvertisement = $arrABVS[$sName];
+			$arrAdvertisement = $arrABVS[$sId];
 			if($arrAdvertisement['type']=='普通')
 			{
 				
@@ -211,7 +211,7 @@ class Advertisment extends Widget {
 			}
 			else 
 			{
-				$arrCarousel = $arrABVS[$sName];
+				$arrCarousel = $arrABVS[$sId];
 				$arrCarouselImg = array();
 				$arrCarouselImgTest = array();
 				$iNum = 0;

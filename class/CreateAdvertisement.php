@@ -119,16 +119,6 @@ class CreateAdvertisement extends ControlPanel
 			
 			if($this->params['advertisement_way']=='pic')
 			{
-
-				
-				if(empty($sForward))
-				{
-					$sKey = "Banner跳转链接";
-					$this->createMessage(Message::error,"%s 不能为空",$sKey);
-					$this->deleteImg();
-					return;
-				}
-				
 				if($this->view->widget('image_radio')->isChecked())
 				{
 					$stitle = trim($this->view->widget('image_file')->getFileUrl());

@@ -70,7 +70,7 @@
 			<td colspan="3">
 				<div id="{=$sKeyPath}code" style="display:none;" class="hCode">
 					<span style="font-size:10px; font-weight:bold; color:#333">代码:</span>
-					&lt;widget type='advertisment' attr.name="{=$sKeyPath}" /><br/>
+					&lt;widget type='advertisment' attr.id="{=$sKeyPath}" /><br/>
 					<span style="font-size:10px; font-weight:bold; color:#333">说明:</span>可以将上述代码复制到网页中使用，例如模板编织可以使用此代码
 				</div>	
 			</td>
@@ -78,6 +78,7 @@
 		<tr style="height:5px"></tr>
 		</foreach>
 	</table>
+	<widget type='advertisment' attr.id='2'  />
 <script>
 	function testBrowserController(sBannerName)
 	{
