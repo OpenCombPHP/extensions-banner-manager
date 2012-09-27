@@ -5,7 +5,7 @@
 .hCode{ margin-top:5px;}
 .hViewEdit:hover{ background:#d8eaf8;}
 .hViewEdit:hover{ background:#d8eaf8;}
-
+a:hover{ text-decoration:none}
 /*
 .extensionSetup div{width:50px; float:left;}
 .extensionSetup div div{margin-left:60px;margin-bottom:6px;}
@@ -23,3 +23,48 @@
 .extensionSelect {float:left;}
 .extensionDescriptionMore span{overflow:hidden;}
 */
+
+.ad_button{ height:45px; line-height:45px; margin-bottom:20px;}
+.ad_button a{ height:26px; line-height:26px; border:#e1e1e1 1px solid; padding:0 20px; display:inline-block; background:url(../images/button.png) repeat-x;}
+
+.ad_line_title{ width:700px;background:#fbfbfb url(../images/button.png) repeat-x bottom; height:40px; line-height:40px; font-weight:700; color:#777; border:#e1e1e1 1px solid; margin-bottom:10px;}
+.ad_line{width:630px; border-bottom:#e1e1e1 1px solid; }
+.ad_title,.ad_type,.ad_operate{float:left; height:40px; line-height:40px; padding-left:10px;}
+.ad_title{width:260px;}
+.ad_type{ width:100px;}
+.ad_operate{ width:240px;}
+.ad_operate a{ padding:0 5px;}
+
+.hViewEdit{ padding:5px 0 10px 20px;}
+.ad_controller{margin-bottom:10px;}
+.ad_controller span{ display:block; float:left; width:100px; text-align:right; line-height:26px; height:26px;}
+.ad_controller_name,.ad_controller_parameter{ height:30px; line-height:30px;}
+.ad_controller_name .ad_fz,.ad_controller_name a{ display:inline-block; width:50px; border:#e1e1e1 1px solid; text-align:center; height:25px; line-height:25px; background:url(../images/button.png) repeat-x bottom;}
+.ad_controller_old{ height:30px; line-height:30px;margin-bottom:10px;}
+.ad_controller_name a{ height:23px; line-height:23px; margin-top:0}
+
+.hCode{ line-height:26px; padding:5px 0 10px 20px;}
+.hCode span{ color:#999}
+
+.advertisement{ padding:10px 0 5px; border-bottom:#e1e1e1 1px dashed; padding-left:20px}
+.ad_edit{text-align:left;width: 95%;margin: auto;color: #666;}
+.ad_edit br{ display:none}
+.ad_edit h2{ margin-top:20px; border-bottom:#ddd 1px solid; font-size:14px; color:#333; padding:20px 0 10px;}
+.ad_edit h1{height: 40px;line-height: 40px;color: #999;margin:10px 0 0; border-bottom:none; font-weight:normal}
+.ad_edit input.text{background: #FDFDFD;border: 1px solid #BBB;width: 50%;font-size: 14px;color: #666;padding: 7px;border-radius: 3px;outline: none;vertical-align: middle;_padding: 0px 7px;_height: 32px;_line-height: 32px;}
+.ad_edit input.textsmall{width: 50px;padding: 4px;_padding: 0px 7px;_height: 32px;_line-height: 32px;vertical-align:1px}
+.ad_edit select{font-size: 14px;padding: 3px;background: #FDFDFD;border: 1px solid #BBB;color: #666;border-radius: 3px;}
+.ad_edit textarea {background: #FDFDFD;height: 100px;border: 1px solid #BBB;width: 50%;font-size: 14px;color: #666;padding: 7px;border-radius: 3px;outline: none;vertical-align: middle;_padding: 7px 7px;}
+.ad_edit input.ad_button{background: url(../images/buttoninput.png) no-repeat;width: 101px;height: 30px;line-height: 30px;border: 0;font-weight: 700;color: #3C2200;margin-top:30px;cursor: hand;}
+.ad_button_banner{ margin:0px 0 40px;}
+.ad_button_banner a.add,.ad_button_banner a.del{display: inline-block; text-align:center;background: url(../images/buttoninputadd.png) no-repeat;width: 101px;height: 30px;line-height: 30px;border: 0;font-weight: 700;color: #fffb81;margin-top:30px;cursor: hand;}
+.ad_button_banner a.del{background: url(../images/buttoninputdel.png) no-repeat;color: #666; margin-right:25px;}
+
+.ad_pic_box{ padding-left:20px;}
+.ad_pic{ padding-bottom:10px; line-height:30px;}
+.ad_pic a{ padding:5px 0 5px 20px; background:url(../images/image.png) no-repeat 0 center;}
+
+.clr{ clear:both}
+
+.ad_del{ width:16px; height:16px; display:inline-block; margin-right:10px; background:url(../images/x.png) no-repeat}
+.ad_preview{ width:16px; height:16px; display:inline-block; margin-right:10px; background:url(../images/o.png) no-repeat}
