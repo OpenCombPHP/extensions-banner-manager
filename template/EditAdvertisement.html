@@ -1,5 +1,5 @@
 <lib name=jquery />
-<h2>{=$oAuthName}</h2>
+<css src="bannermanager:css/AdvertisementSetting.css" />
 <msgqueue />
 <script type="text/javascript">
 	jquery(function(){
@@ -35,38 +35,46 @@
 	}
 
 </script>
+<div class="ad_edit">
+	<h2>编辑广告位</h2>
 <form enctype="multipart/form-data"  method="post">
+	<h1>类型</h1>
 	<select class="advertisement_select_way" name="advertisement_way">
 		<option value="pic" >图片</option>
 		<option value="code">代码</option>
-	</select><br/>
-	<label>名称:<widget id="edit_name_text" /></label><br/>
-				<widget id="edit_hide_oldname_text" />
-				<widget id="edit_hide_aid_text" />
+	</select>
+	<h1>名称</h1>
+	<widget id="edit_name_text" class="text" />
+	<widget id="edit_hide_oldname_text" class="text" />
+	<widget id="edit_hide_aid_text" class="text" />
 	<div id="pic" style="display:{=$sAdDisplayType=='pic' ? '' : 'none'}">
-		<label>文本:<widget id="edit_title_text" /></label><br/><br/>
-		<label><widget id="edit_image_radio"/>上传图片:</label><widget id="edit_image_file" /><br/>
-		<label><widget id="edit_url_radio"/>URL引用:</label><widget id="edit_url_text" />
-		<div id="div_setup" style="margin-top:20px">
-			<label><widget id="edit_window_checkbox" />启用新窗口</label><br/>
-			<label>Banner链接:<widget id="edit_forward_text" attr.style="width:18%;"/></label><br/>
-		</div>
+	<h1>文本</h1>
+	<widget id="edit_title_text" class="text" />
+	<h1>添加图片</h1>
+	<div class="ad_pic_box">
+	<p class="ad_pic"><label><widget id="edit_image_radio"/>上传图片:<widget id="edit_image_file" /></label></p>
+	<label><widget id="edit_url_radio"/>URL引用:<widget id="edit_url_text" class="text" attr.style="width:40%;" /></label>
+	</div>
+	<h1>添加链接</h1>
+	<div id="div_setup">
+		<label><widget id="edit_forward_text" class="text" /></label><label><widget id="edit_window_checkbox" />启用新窗口</label>
+	</div>
 	</div>
 	
 	<div id="code" style="display:{=$sAdDisplayType=='pic' ? 'none' : ''}">
-		<label>代码:</label><br/>
-		<label><widget id="edit_code_text" attr.style="width:25%;height:100px"/></label><br/>
+	<h1>代码:</h1>
+	<widget id="edit_code_text"/>
 	</div>
 	
 
 	
-	<div id="edit_div_style" style="margin-top:20px">
-		<label>样式:</label><br/>
-		<label><widget id="edit_style_text"  attr.style="width:25%;height:100px"/></label><br/><br/>
-		<input type="submit" value="保存"  style="margin-left:18%"/>
+	<div id="edit_div_style">
+		<h1>样式</h1>
+		<label><widget id="edit_style_text"/></label>
+		<p><input type="submit" value="保存" class="ad_button" /></p>
 	</div>
 </form>
-
+</div>
 
 
 

@@ -1,23 +1,30 @@
 <lib name=jquery />
-<h2>新建随机Banner</h2>
+<css src="bannermanager:css/AdvertisementSetting.css" />
 <msgqueue />
+<div class="ad_edit">
+<h2>新建随机Banner</h2>
 <form  method="post">
-	<label>随机Banner名称:<input type="text" name="Carousel_name" /> </label><br/><br/>
+	<h1>随机Banner名称:</h1>
+	<input type="text" name="Carousel_name" class="text" />
+	<p>&nbsp;</p>
 	<div class='advertisement'>
 		<label>Banner:
 			<select name="advertisement_select[]">
 				<foreach for="$arrAdvertisementSelect" key='sKeyPath' item='arrcItemList'>
-					<option value="{=$sKeyPath}" size='10px'>{=$arrcItemList['name']}</option>
+					<option value="{=$sKeyPath}" size='10px' >{=$arrcItemList['name']}</option>
 				</foreach>
 			</select>
 		</label>&nbsp;&nbsp;
-		<label>权重:<input type="text" size="5" name="random_text[]" /></label>&nbsp;&nbsp;&nbsp;&nbsp;
-		<label>启用:<input class="advertisement_enable" type="checkbox" name="run_checkbox[]" value="1" /></label>		
+		<label>权重:<input type="text" size="5" name="random_text[]" class="text textsmall"/></label>&nbsp;&nbsp;&nbsp;&nbsp;
+		<label><input class="advertisement_enable" type="checkbox" name="run_checkbox[]" value="1" />启用</label>		
 	</div>
-	<a id='addAdvertisement' href='#'>添加</a>
-	<a id='deleteAdvertisement' href='#'>删除</a><br/><br/><br/>
-	<input type="submit" name="" value="保存" />
+	<div class="ad_button_banner">
+		<a id='addAdvertisement' href='#' class="add">添加一条</a>
+		<a id='deleteAdvertisement' href='#' class="del">删除一条</a>
+		<input type="submit" name="" value="保存" class="ad_button" />
+	</div>
 </form>
+</div>
 <script>
 jquery(function(){
 	//添加按钮功能

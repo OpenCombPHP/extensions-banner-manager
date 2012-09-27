@@ -1,5 +1,5 @@
 <lib name='jquery'/>
-<h2>新建Banner</h2>
+<css src="bannermanager:css/AdvertisementSetting.css" />
 <msgqueue />
 <script type="text/javascript">
 jQuery(document).ready(function(){
@@ -45,32 +45,43 @@ function disableUrl()
 //0.8不可用
 //<lib name='jquery'/>
 </script>
+<div class="ad_edit">
+<h2>新建Banner</h2>
 <form enctype="multipart/form-data"  method="post">
+	<h1>类型</h1>
 	<select class="advertisement_select_way" name="advertisement_way">
 		<option value="pic" >图片</option>
 		<option value="code">代码</option>
-	</select><br/>
-	<label>名称:<widget id="advertis_name_text" /></label><br/>
+	</select>
+	<h1>名称</h1>
+	<widget id="advertis_name_text" class="text" />
 	<div id="pic">
-		<label>文本:<widget id="title_text" /></label><br/><br/>
+	<h1>文本</h1>
+	<widget id="title_text" class="text" />
+	<h1>添加图片</h1>
+	<div class="ad_pic_box">
+	<p class="ad_pic">
 		<label><widget id="image_radio"/>上传图片:</label><widget id="image_file" />
-		<label><widget id="url_radio"/>URL引用:</label><widget id="url_text" />
-		<div id="div_setup" style="margin-top:20px">
-			<label><widget id="window_checkbox" />启用新窗口</label><br/>
-			<label>Banner链接:<widget id="forward_text" attr.style="width:18%;"/></label><br/>
+	</p>
+		<label><widget id="url_radio"/>URL引用:</label><widget id="url_text" class="text" attr.style="width:40%;" />
+	</div>
+	<h1>添加链接</h1>
+		<div id="div_setup">
+			<label><widget id="forward_text" class="text"/></label><label><widget id="window_checkbox" />启用新窗口</label><br/>
 		</div>
 	</div>
 	
 	<div id="code" style="display:none">
-		<label>代码:</label><br/>
-		<label><widget id="code_text" attr.style="width:25%;height:100px"/></label><br/>
+		<h1>代码:</h1>
+		<label><widget id="code_text" /></label><br/>
 	</div>
 	
 
 	
 	<div id="div_style" style="margin-top:20px">
-		<label>样式:</label><br/>
-		<label><widget id="style_text"  attr.style="width:25%;height:100px"/></label><br/><br/>
-		<input type="submit" value="保存"  style="margin-left:18%"/>
+		<h1>样式</h1>
+		<label><widget id="style_text" /></label>
+		<p><input type="submit" value="提交" class="ad_button" /></p>
 	</div>
 </form>
+</div>
