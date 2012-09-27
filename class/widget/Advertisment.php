@@ -183,6 +183,10 @@ class Advertisment extends Widget {
 		{
 			$arrABVS = $aSetting->item('/advertis','ad');
 		}
+		if($arrABVS == null)
+		{
+			return;
+		}
 		
 		if(array_key_exists($sId,$arrABVS))
 		{	
