@@ -88,7 +88,7 @@ class BannerManager extends Extension
 					{
 						$arrConfig['view:'.$arrControllerAdName[1]] = array(
 								"template"=> "bannermanager:ViewAdvertisement.html",
-								'vars'=> array('adName'=>$arrControllerAdName[1]),
+								'vars'=> array('aId'=>$arrControllerAdName[1]),
 								"class"=> "view",
 						);
 					}elseif(empty($arrViewAd['params'])){
