@@ -25,7 +25,7 @@ class DeleteAdvertisement extends ControlPanel
 		$aid = (integer)$this->params->get('aid');
 		$arrAdvertisement = array();
 		$aSetting = Extension::flyweight('bannermanager')->setting();
-		$arrViewAdSingle = $aSetting->keyIterator('/viewAd');
+		$arrViewAdSingle = $aSetting->keyList('/viewAd');
 		
 		//删除视图Banner
 		foreach ($arrViewAdSingle as $key=>$value) 
