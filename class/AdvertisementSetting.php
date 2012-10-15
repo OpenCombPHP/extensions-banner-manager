@@ -43,7 +43,7 @@ class AdvertisementSetting extends ControlPanel
 		//$aSingleViewAd = $aSetting->itemIterator('/'.'viewAd');
 		$arrSingleViewAd = $aSetting->keyList('/'.'viewAd');
 		$arrViewAdvertisement = array();
-		foreach ($aSingleViewAd as $key=>$value)
+		foreach ($arrSingleViewAd as $key=>$value)
 		{
 			$arrControllerNameAdName = explode('_',$value);
 			$arrViewAdvertisement[$value] = array('controllerName'=>$arrControllerNameAdName[0],'advertisementName'=>$arrControllerNameAdName[1]);
