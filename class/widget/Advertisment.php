@@ -177,7 +177,6 @@ class Advertisment extends Widget {
 		//此方法$this->attribute('name')已废弃
 		//$sName = $this->attribute('name');
 		$aSetting = Extension::flyweight('bannermanager')->setting();
-		$akey = $aSetting->key('/'.'advertis',true);
 		$arrABVS = array();
 		if($aSetting->hasValue('/advertis/ad'))
 		{

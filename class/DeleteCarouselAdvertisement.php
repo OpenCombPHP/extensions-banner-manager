@@ -23,26 +23,26 @@ class DeleteCarouselAdvertisement extends ControlPanel
 		$aid = $this->params->get('aid');
 		$aSetting = Extension::flyweight('bannermanager')->setting();
 
-		$aViewAdSingle = $aSetting->itemIterator('/viewAd');
+		$arrViewAdSingle = $aSetting->keyList('/viewAd');
 		//删除视图Banner
-		foreach ($aViewAdSingle as $key=>$value)
+		foreach ($arrViewAdSingle as $key=>$value)
 		{
 			$arrContorllerAd = explode('_',$value);
 			if($arrContorllerAd[1]==$aid)
 			{
-				$aSetting->deleteItem('/viewAd',$value);
+				$aSetting->deleteValue('/viewAd/'.$value);
 			}
 		}
 		
-		if($aSetting->hasItem('/advertis','ad'))
+		if($aSetting->hasValue('/advertis/'.'ad'))
 		{
-			$arrOldABV = $aSetting->item('/advertis','ad',array());
+			$arrOldABV = $aSetting->value('/advertis/'.'ad',array());
 			if(count($arrOldABV)>0)
 			{
 				$sAdName = $arrOldABV[$aid]['name'] ;
 				unset($arrOldABV[$aid]);
-				$aSetting->deleteItem('/'.'advertis','ad');
-				$aSetting->setItem('/'.'advertis','ad',$arrOldABV);
+				$aSetting->deleteValue('/'.'advertis/'.'ad');
+				$aSetting->setValue('/'.'advertis/'.'ad',$arrOldABV);
 				$this->createMessage(Message::success,"随机Banner%s 删除成功",$sAdName);
 				$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 			}

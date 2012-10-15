@@ -25,22 +25,22 @@ class DeleteAdvertisement extends ControlPanel
 		$aid = (integer)$this->params->get('aid');
 		$arrAdvertisement = array();
 		$aSetting = Extension::flyweight('bannermanager')->setting();
-		$aViewAdSingle = $aSetting->itemIterator('/viewAd');
+		$arrViewAdSingle = $aSetting->keyIterator('/viewAd');
 		
 		//删除视图Banner
-		foreach ($aViewAdSingle as $key=>$value) 
+		foreach ($arrViewAdSingle as $key=>$value) 
 		{
 			$arrContorllerAd = explode('_',$value);
 			
 			if($arrContorllerAd[1]==$aid)
 			{
-				$aSetting->deleteItem('/viewAd',$value);
+				$aSetting->deleteValue('/viewAd/'.$value);
 			}
 		}
 		
-		if($aSetting->hasItem('/advertis','ad'))
+		if($aSetting->hasValue('/advertis/'.'ad'))
 		{
-			$arrAdvertisement = $aSetting->item('/advertis','ad',array());
+			$arrAdvertisement = $aSetting->value('/advertis/'.'ad',array());
 			
 			if(array_key_exists($aid,$arrAdvertisement))
 			{
@@ -64,9 +64,9 @@ class DeleteAdvertisement extends ControlPanel
 		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$arrCarousel = array();
 		
-		if($aSetting->hasItem('/advertis','ad'))
+		if($aSetting->hasValue('/advertis/'.'ad'))
 		{
-			$arrCarousel = $aSetting->item('/advertis','ad',array());
+			$arrCarousel = $aSetting->value('/advertis/'.'ad',array());
 			foreach($arrCarousel as $key=>&$value)
 			{
 				if($value['type'] == '随机播放')
@@ -83,8 +83,8 @@ class DeleteAdvertisement extends ControlPanel
 			
 		}
 		
-		$aSetting->deleteItem('/advertis', 'ad');
-		$aSetting->setItem('/advertis', 'ad',$arrCarousel);	
+		$aSetting->deleteValue('/advertis/'.'ad');
+		$aSetting->setValue('/advertis/'.'ad',$arrCarousel);	
 	}
 	
 	public function deleteAdvertisement($arrAdvertisement,$aid)
@@ -101,7 +101,7 @@ class DeleteAdvertisement extends ControlPanel
 		}
 		
 		unset($arrAdvertisement[$aid]);
-		$aSetting->deleteItem('/advertis', 'ad');
-		$aSetting->setItem('/advertis', 'ad',$arrAdvertisement);
+		$aSetting->deleteValue('/advertis/'.'ad');
+		$aSetting->setValue('/advertis/'.'ad',$arrAdvertisement);
 	}
 }
