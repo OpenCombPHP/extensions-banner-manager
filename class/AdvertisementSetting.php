@@ -28,17 +28,20 @@ class AdvertisementSetting extends ControlPanel
 		if($this->params['dAdname'])
 		{
 			$aSingleViewAd = Extension::flyweight('bannermanager')->setting();
-			$aSingleViewAd->deleteItem('/'.'viewAd',$this->params['dAdname']);
+			//$aSingleViewAd->deleteItem('/'.'viewAd',$this->params['dAdname']);
+			$aSingleViewAd->deleteValue('/'.'viewAd'.$this->params['dAdname']);
 			$this->createMessage(Message::success,"%s ",$skey="删除成功") ;
 			$this->location("?c=org.opencomb.bannermt.AdvertisementSetting",3);
 		}
 	
 		$aSetting = Extension::flyweight('bannermanager')->setting();
-		$arrAdvertisement = $aSetting->item('/'.'advertis','ad',array());
+		//$arrAdvertisement = $aSetting->item('/'.'advertis','ad',array());
+		$arrAdvertisement = $aSetting->value('/'.'advertis/'.'ad',array());
 		$this->view->variables()->set('arrAdvertisement',$arrAdvertisement) ;
 	
-		$akeyViewAd = $aSetting->key('/'.'viewAd',true);
-		$aSingleViewAd = $aSetting->itemIterator('/'.'viewAd');
+		//$akeyViewAd = $aSetting->key('/'.'viewAd',true);
+		//$aSingleViewAd = $aSetting->itemIterator('/'.'viewAd');
+		$arrSingleViewAd = $aSetting->keyList('/'.'viewAd');
 		$arrViewAdvertisement = array();
 		foreach ($aSingleViewAd as $key=>$value)
 		{
@@ -67,10 +70,14 @@ class AdvertisementSetting extends ControlPanel
 	
 		$aSetting = Extension::flyweight('bannermanager')->setting();
 	
-		$aSetting->setItem('/viewAd', $sControllerName.'_'.$sAdvertisementId, array('adName'=>$sAdvertisementId,'params'=>$sControllerParams));
-		if($aSetting->hasItem('/advertis', 'ad'))
+		//$aSetting->setItem('/viewAd', $sControllerName.'_'.$sAdvertisementId, array('adName'=>$sAdvertisementId,'params'=>$sControllerParams));
+		$aSetting->setValue('/viewAd/'.$sControllerName.'_'.$sAdvertisementId, array('adName'=>$sAdvertisementId,'params'=>$sControllerParams));
+		
+		//if($aSetting->hasItem('/advertis', 'ad'))
+		if($aSetting->hasValue('/advertis/'.'ad'))
 		{
-			$arrAdTemp = $aSetting->item('/advertis', 'ad');
+			//$arrAdTemp = $aSetting->item('/advertis', 'ad');
+			$arrAdTemp = $aSetting->value('/advertis/'.'ad');
 			if(array_key_exists((integer)$sAdvertisementId,$arrAdTemp))
 			{
 				$sAdvertisementName = $arrAdTemp[(integer)$sAdvertisementId]['name'];
