@@ -32,9 +32,8 @@ class BannerStructBrowser extends ControlPanel
 		
 		$this->view()->variables()->set('sUrl',$sUrl);
 		$this->view()->variables()->set('sAllowSelectClass',$sAllowSelectClass);
-// 		$tmp = json_encode($arrExtensionInfo);
-// 		echo $tmp;
 	}
+	
     protected function defaultFrameConfig()
     {
     	return Controller::defaultFrameConfig() ;

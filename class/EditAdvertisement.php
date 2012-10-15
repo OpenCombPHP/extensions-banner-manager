@@ -98,21 +98,21 @@ class EditAdvertisement extends ControlPanel
 		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$arrABVOld = array();
 		
-		if($aSetting->hasItem('/advertis', 'ad'))
+		if($aSetting->hasValue('/advertis/ad'))
 		{
-			$arrABVOld = $aSetting->item('/advertis', 'ad',array());
+			$arrABVOld = $aSetting->value('/advertis/ad',array());
 			if(array_key_exists($aid,$arrABVOld))
 			{
 				$arrAdvertisement = $arrABVOld[$aid];
 			}else{
-				$this->createMessage(Message::error,"%s",$sKey="无此Banner");
+				$this->createMessage(Message::error,"%s","无此Banner");
 				$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 			}
 		}else{
-			$this->createMessage(Message::error,"%s",$sKey="无此Banner");
+			$this->createMessage(Message::error,"%s","无此Banner");
 			$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 		}
-		
+	
 		$this->view->widget('edit_name_text')->setValue($arrAdvertisement['name']);
 		$this->view->widget('edit_hide_oldname_text')->setValue($arrAdvertisement['name']);
 		$this->view->widget('edit_hide_aid_text')->setValue($aid);
@@ -148,7 +148,7 @@ class EditAdvertisement extends ControlPanel
 	public function form()
 	{
 			$aSetting = Extension::flyweight('bannermanager')->setting();
-			$akey = $aSetting->key('/'.'advertis',true);
+			$arrValue = $aSetting->value('/advertis/ad',array());
 			//表单提交
 			$aSetting = Extension::flyweight('bannermanager')->setting();
 			$this->view->loadWidgets( $this->params );
@@ -158,9 +158,9 @@ class EditAdvertisement extends ControlPanel
 			$sEditForward = trim($this->view->widget('edit_forward_text')->value());
 			$arrABVS = array();
 			
-			if($aSetting->hasItem('/advertis', 'ad'))
+			if($aSetting->hasValue('/advertis/ad'))
 			{
-				$arrABVS = $aSetting->item('/advertis', 'ad');
+				$arrABVS = $aSetting->value('/advertis/ad',array());
 				if(array_key_exists($nAid,$arrABVS))
 				{
 					$arrOldABV = $arrABVS[$nAid];
@@ -179,11 +179,10 @@ class EditAdvertisement extends ControlPanel
 				{
 					
 				}else{
-					if(count($akey->item('ad',array()))>0)
+					if(count($arrValue)>0)
 					{
 						$bRename = false ;
-						$arrAds = $akey->item('ad',array());
-						foreach($arrAds as $arrAd)
+						foreach($arrValue as $arrAd)
 						{
 							if($arrAd['name'] == $sEditAdName)
 							{
@@ -205,15 +204,15 @@ class EditAdvertisement extends ControlPanel
 			if($this->params['advertisement_way']=='pic')
 			{
 				$arrABV[] = array();
+				/*
 				if(empty($sEditForward))
 				{
-					$sKey = "Banner跳转链接";
-					$this->createMessage(Message::error,"%s 不能为空",$sKey);
+					$this->createMessage(Message::error,"%s 不能为空","Banner跳转链接");
 					$this->deleteImg();
 					$this->initView();
 					return;
 				}
-				
+				*/
 				if($this->view->widget('edit_hide_oldname_text')->value() == $sEditAdName)
 				{
 					if($this->view->widget('edit_url_radio')->isChecked())
@@ -222,8 +221,7 @@ class EditAdvertisement extends ControlPanel
 						$sEditUrlText = trim($this->view->widget('edit_url_text')->value());
 						if(empty($sEditUrlText))
 						{
-							$skey="URL引用";
-							$this->createMessage(Message::error,"%s 不能为空",$skey);
+							$this->createMessage(Message::error,"%s 不能为空","URL引用");
 							$this->initView();
 							return;
 						}
@@ -295,10 +293,10 @@ class EditAdvertisement extends ControlPanel
 						}
 					}
 					
-					$aSetting->deleteItem('/advertis','ad');
+					$aSetting->deleteValue('/advertis/ad');
 					$arrABV['code'] = $arrOldABV['code'];
 					$arrABVS[$nAid] = $arrABV;
-					$aSetting->setItem('/advertis','ad',$arrABVS);
+					$aSetting->setValue('/advertis/ad',$arrABVS);
 					$this->createMessage(Message::success,"编辑Banner%s 成功",$sEditAdName);
 					$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 				}else{
@@ -316,9 +314,6 @@ class EditAdvertisement extends ControlPanel
 							'style'=>$this->view->widget('edit_style_text')->value(),
 							'forward'=>$this->view->widget('edit_forward_text')->value(),
 					);
-					
-					$akey = $aSetting->key('/'.'advertis',true);
-					//$arrOldABV = $akey->item($sEditOldAdName,array());
 					
 					if($this->view->widget('edit_url_radio')->isChecked())
 					{
@@ -372,18 +367,14 @@ class EditAdvertisement extends ControlPanel
 					}
 					
 					
-					$aSetting->deleteItem('/advertis','ad');
+					$aSetting->deleteValue('/advertis/ad');
 					$arrABV['code'] = $arrOldABV['code'];
 					$arrABVS[$nAid] = $arrABV;
-					$aSetting->setItem('/advertis','ad',$arrABVS);
+					$aSetting->setValue('/advertis/ad',$arrABVS);
 					$this->createMessage(Message::success,"编辑Banner%s 成功",$sEditAdName);
-					//$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
+					$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 				}
 			}else if($this->params['advertisement_way']=='code'){
-				
-				$akey=$aSetting->key('/'.'advertis',true);
-				//$arrOldABV = $akey->item($sEditOldAdName,array());
-				
 				$sCode = $this->view->widget('edit_code_text')->value();
 				if(empty($sCode))
 				{
@@ -399,23 +390,19 @@ class EditAdvertisement extends ControlPanel
 					$arrABV['code'] = $sCode;
 					$arrABV['displaytype'] = 'code';
 					$arrABVS[$nAid] = $arrABV;
-					$aSetting->deleteItem('/advertis','ad');
-					$aSetting->setItem('/advertis','ad',$arrABVS);
-					$this->view->hideForm ();
-					$this->createMessage(Message::success,"编辑Banner%s 成功",$sEditAdName);
-					$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
+
 				}else{
-					
-					//$arrOldABV = $akey->item($sEditOldAdName,array());
 					$arrABV = $arrOldABV;
 					$arrABV['code'] = $sCode;
 					$arrABV['displaytype'] = 'code';
 					$arrABVS[$nAid] = $arrABV;
-					$aSetting->deleteItem('/advertis','ad');
-					$aSetting->setItem('/advertis','ad',$arrABVS);
-					$this->view->createMessage(Message::success,"编辑Banner%s 成功",$sEditAdName);
-					$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 				}
+				
+				$aSetting->deleteValue('/advertis/ad');
+				$aSetting->setValue('/advertis/ad',$arrABVS);
+				$this->view->hideForm ();
+				$this->createMessage(Message::success,"编辑Banner%s 成功",$sEditAdName);
+				$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 			};
 	}
 	
@@ -424,9 +411,9 @@ class EditAdvertisement extends ControlPanel
 		$aid = (integer)$this->params->get('aid');
 		$arrAdvertisement = array();
 		$aSetting = Extension::flyweight('bannermanager')->setting();
-		if($aSetting->hasItem('/advertis', 'ad'))
+		if($aSetting->hasValue('/advertis/ad'))
 		{
-			$arrAdvertisements = $aSetting->item('/advertis', 'ad',array());
+			$arrAdvertisements = $aSetting->value('/advertis/ad',array());
 			if(array_key_exists($aid,$arrAdvertisements))
 			{
 				$arrAdvertisement = $arrAdvertisements[$aid];
@@ -439,7 +426,7 @@ class EditAdvertisement extends ControlPanel
 		
 		$this->view->widget('edit_url_text')->setValue($arrAdvertisement['url']);
 		$this->view->widget('edit_window_checkbox')->setValue($arrAdvertisement['window']=="_blank"?1:0);
-		$this->view()->widget('edit_image_radio')->setChecked($arrAdvertisement['imageradio']);
+		$this->view->widget('edit_image_radio')->setChecked($arrAdvertisement['imageradio']);
 		$this->view->widget('edit_url_radio')->setChecked($arrAdvertisement['urlradio']);
 		$this->view->widget('edit_code_text')->setValue($arrAdvertisement['code']);
 		$this->view->widget('edit_style_text')->setValue($arrAdvertisement['style']);
@@ -453,18 +440,17 @@ class EditAdvertisement extends ControlPanel
 		}
 		$sAdDisplayType = $arrAdvertisement['displaytype'];
 		$this->view->variables()->set('sAdDisplayType',$sAdDisplayType);
-		
 	}
 	
 	public function deleteImg()
 	{
-		$stitle = trim($this->view->widget('image_file')->getFileUrl());
+		$stitle = trim($this->view->widget('edit_image_file')->getFileUrl());
 	
 		$file = new \org\jecat\framework\fs\File(\org\opencomb\platform\ROOT.'\\'.$stitle,0,$stitle);
 		if($file->exists())
 		{
 			$file->delete();
 		}
-		$this->view()->widet('edit_image_file')->setValue(null);
+		$this->view()->widget('edit_image_file')->setValue(null);
 	}
 }

@@ -22,8 +22,7 @@ class CarouselAdvertisement extends ControlPanel
 	{	
 		$this->doActions();
 		$aSetting = Extension::flyweight('bannermanager')->setting();
-		$akey = $aSetting->key('/'.'advertis',true);
-		$aAdvertisements = $aSetting->item('/'.'advertis','ad');
+		$aAdvertisements = $aSetting->value('/advertis/ad');
 		$arrAdvertisementSelect = array();
 		
 		foreach($aAdvertisements as $key=>$aAdvertisement) 
@@ -38,11 +37,10 @@ class CarouselAdvertisement extends ControlPanel
 	public function form()
 	{	
 			$aSetting = Extension::flyweight('bannermanager')->setting();
-			$akey = $aSetting->key('/'.'advertis',true);
 			$sName = $this->params['Carousel_name'];
-			if($akey->hasItem('ad'))
+			if($aSetting->hasValue('/advertis/ad'))
 			{
-				$arrABVOld = $akey->item('ad',array());
+				$arrABVOld = $aSetting->value('/advertis/ad',array());
 			}
 			 
 			
@@ -54,7 +52,7 @@ class CarouselAdvertisement extends ControlPanel
 				
 			}
 			else{
-				$arrCAdvs = $aSetting->item('/advertis','ad',array());
+				$arrCAdvs = $aSetting->value('/advertis/ad',array());
 				
 				if(count($arrCAdvs)>0)
 				{
@@ -96,7 +94,6 @@ class CarouselAdvertisement extends ControlPanel
 			foreach ($this->params['advertisement_select'] as $key=>$value)
 			{
 				$arrAdvertisement[] = $value;
-		
 			};
 			
 			
@@ -137,7 +134,6 @@ class CarouselAdvertisement extends ControlPanel
 						}
 					}
 				}
-				$akey = $aSetting->key('/'.'advertis',true);
 				$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['advertisement_url'] = $arrAdvertisement[$i];									
 				$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['random'] = $arrRandom[$i];
 				$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['adname'] = $arrABVOld[$arrAdvertisement[$i]]['name'];
@@ -147,11 +143,11 @@ class CarouselAdvertisement extends ControlPanel
 				$arrCarouselAdvertisement['name'] = $sName;
 			};
 			
-			if($aSetting->hasItem('/'.'advertis', 'ad')){
-				$arrAds = $aSetting->item('/'.'advertis','ad',array());
+			if($aSetting->hasValue('/'.'advertis/ad')){
+				$arrAds = $aSetting->value('/advertis/ad',array());
 				$arrAds[] = $arrCarouselAdvertisement;
-				$aSetting->deleteItem('/'.'advertis','ad');
-				$aSetting->setItem('/'.'advertis','ad',$arrAds);
+				$aSetting->deleteValue('/advertis/ad');
+				$aSetting->setValue('/advertis/ad',$arrAds);
 			};
 			$this->view->hideForm();
 			$this->createMessage(Message::success,"随机播放Banner%s 创建成功",$sName);

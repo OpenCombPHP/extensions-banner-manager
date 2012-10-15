@@ -1,10 +1,6 @@
-<html>
-<head>
 <if '$theWidget->style()'>
 	{=$theWidget->style()}
 </if>
-</head>
-<body>
 <div>
 <if '{=$theWidget->forward()}'>
 	<a href="{=$theWidget->forward()}"  target="{=$theWidget->window()}" ><img class="small" src="{=$theWidget->img()}" alt="{=$theWidget->title()}"/></a>
@@ -15,8 +11,6 @@
 {=$theWidget->code()}
 </if>
 </div>
-</body>
-</html>
 
 
 

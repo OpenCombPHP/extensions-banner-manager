@@ -23,9 +23,9 @@ class EditCarouselAdvertisement extends ControlPanel
 	{	
 		$this->doActions();
 		$aSetting = Extension::flyweight('bannermanager')->setting();
-		if($aSetting->hasItem('/advertis', 'ad'))
+		if($aSetting->hasValue('/advertis/ad'))
 		{
-			$aAdvertisements = $aSetting->item('/'.'advertis','ad');
+			$aAdvertisements = $aSetting->value('/advertis/ad');
 		}
 		
 		$arrAdvertisementSelect = array();
@@ -39,7 +39,6 @@ class EditCarouselAdvertisement extends ControlPanel
 		};
 		$this->view->variables()->set('arrAdvertisementSelect',$arrAdvertisementSelect) ;
 		
-		
 		//随机Banner遍历
 		$aid = $this->params->get('aid');
 		if(array_key_exists($aid,$aAdvertisements));
@@ -50,7 +49,6 @@ class EditCarouselAdvertisement extends ControlPanel
 				if(array_key_exists($key,$aAdvertisements)){
 					$arrAd['advertisement_url'] = $aAdvertisements[$key];
 				}
-				
 			}
 		}
 		
@@ -73,12 +71,11 @@ class EditCarouselAdvertisement extends ControlPanel
 	public function form()
 	{	
 		$aSetting = Extension::flyweight('bannermanager')->setting();
-		$aMkey = $aSetting->key('/advertis',true);
 		$sName = $this->params['randName'];
 		$nAid = (integer)$this->params['randId'];
-		if($aSetting->hasItem('/advertis', 'ad'))
+		if($aSetting->hasValue('/advertis/ad'))
 		{
-			$arrABVOld = $aSetting->item('/advertis', 'ad',array());
+			$arrABVOld = $aSetting->value('/advertis/ad',array());
 		}
 		$arrABVS = array();
 		
@@ -110,9 +107,7 @@ class EditCarouselAdvertisement extends ControlPanel
 		{
 			if(!preg_match('/^\+?[1-9][0-9]*$/',(int)$value))
 			{
-				
-				$skey="权重值";
-				$this->createMessage(Message::error,"%s 为一位以上非零的数字",$skey) ;
+				$this->createMessage(Message::error,"%s 为一位以上非零的数字","权重值") ;
 				return;
 			}
 			$arrRandom[]=$value;
@@ -141,7 +136,6 @@ class EditCarouselAdvertisement extends ControlPanel
 					}
 				}
 			}
-			$aSkey=$aSetting->key('/'.'advertis',true);
 			$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['advertisement_url'] = $arrAdvertisement[$i];
 			$arrCarouselAdvertisement['advertisements'][$arrAdvertisement[$i]]['random']=$arrRandom[$i];
 			$arrCarouselAdvertisement['type']='随机播放';
@@ -150,8 +144,8 @@ class EditCarouselAdvertisement extends ControlPanel
 			$arrCarouselAdvertisement['name']=$sName;
 		};
 		$arrABVOld[$nAid] = $arrCarouselAdvertisement;
-		$aSetting->deleteItem('/advertis','ad');
-		$aSetting->setItem('/advertis','ad',$arrABVOld);
+		$aSetting->deleteValue('/advertis/ad');
+		$aSetting->setValue('/advertis/ad',$arrABVOld);
 		$this->view->hideForm ();
 		$this->createMessage(Message::success,"随机播放Banner%s 编辑成功",$sName);
 		$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);

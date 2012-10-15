@@ -83,7 +83,7 @@ class CreateAdvertisement extends ControlPanel
 	public function form()
 	{	
 		$aSetting = Extension::flyweight('bannermanager')->setting();
-		$akey = $aSetting->key('/'.'advertis',true);
+		$arrValue = $aSetting->value('/advertis/ad',true);//var_dump($arrValue);exit;
 		
 			$this->view->loadWidgets ( $this->params );
 			$sAdvertisName = trim($this->view->widget('advertis_name_text')->value());
@@ -96,11 +96,10 @@ class CreateAdvertisement extends ControlPanel
 				$this->deleteImg();
 				return;
 			}else{
-				if(count($akey->item('ad',array()))>0)
+				if(count($arrValue)>0)
 				{
 					$bRename = false ;
-					$arrAds = $akey->item('ad',array());
-					foreach($arrAds as $arrAd)
+					foreach($arrValue as $arrAd)
 					{
 						if($arrAd['name'] == $sAdvertisName)
 						{
@@ -142,7 +141,6 @@ class CreateAdvertisement extends ControlPanel
 						return;
 					}
 				}
-				
 			}else if($this->params['advertisement_way']=='code'){
 				$sCode = $this->view->widget('code_text')->value();
 				if(empty($sCode))
@@ -180,16 +178,17 @@ class CreateAdvertisement extends ControlPanel
 				$arrABV['ulr'] = $sUrl;
 			}
 
-			$arrAds = $aSetting->item('/'.'advertis','ad',array());
+			$arrAds = $aSetting->value('/advertis/ad',array());
 			$arrAds[] = $arrABV;
-			$aSetting->deleteItem('/'.'advertis','ad');
-			$aSetting->setItem('/'.'advertis','ad',$arrAds);	
-			$sSuccess="成功";
+			$aSetting->deleteValue('/advertis/ad');
+			$aSetting->setValue('/advertis/ad',$arrAds);	
 			$this->view->hideForm ();
-			$this->createMessage(Message::success,"新建告广%s ",$sSuccess);
-			$this->location('?c=org.opencomb.bannermt.AdvertisementSetting',2);
+			$this->createMessage(Message::success,"新建告广%s ",'成功');
+			$this->location('?c=org.opencomb.bannermt.AdvertisementSetting');
 	}
 	
+	
+	//删除上传图片
 	public function deleteImg()
 	{
 		$stitle = trim($this->view->widget('image_file')->getFileUrl());

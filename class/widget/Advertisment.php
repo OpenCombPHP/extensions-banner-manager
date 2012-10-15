@@ -179,9 +179,13 @@ class Advertisment extends Widget {
 		$aSetting = Extension::flyweight('bannermanager')->setting();
 		$akey = $aSetting->key('/'.'advertis',true);
 		$arrABVS = array();
-		if($aSetting->hasItem('/advertis','ad'))
+		if($aSetting->hasValue('/advertis/ad'))
 		{
-			$arrABVS = $aSetting->item('/advertis','ad');
+			$arrABVS = $aSetting->value('/advertis/ad');
+		}
+		if($arrABVS == null)
+		{
+			return;
 		}
 		
 		if(array_key_exists($sId,$arrABVS))
@@ -221,7 +225,6 @@ class Advertisment extends Widget {
 					{
 						$iNum = $iNum + (int)$value['random'];
 						$arrCarouselImgTest[$akey] = $iNum;
-
 					}
 				}
 				
@@ -242,9 +245,9 @@ class Advertisment extends Widget {
 				};
 				
 				$arrAdvertisement = array();
-				if($aSetting->hasItem('/advertis', 'ad'))
+				if($aSetting->hasValue('/advertis/ad'))
 				{
-					$arrAdvertisements = $aSetting->item('/advertis', 'ad') ;//var_dump($arrAdvertisements);exit;
+					$arrAdvertisements = $aSetting->value('/advertis/ad') ;
 					if(array_key_exists((integer)$adId,$arrAdvertisements))
 					{
 						$arrAdvertisement = $arrAdvertisements[$adId];
@@ -252,7 +255,7 @@ class Advertisment extends Widget {
 				}
 				 
 				if(count($arrAdvertisement)>0)
-				{//var_dump($arrAdvertisement);exit;
+				{
 					if($arrAdvertisement['displaytype']=='code')
 					{
 						$this->setTitle($arrAdvertisement['title']);
@@ -274,8 +277,6 @@ class Advertisment extends Widget {
 				}else{
 					return;
 				}
-
-			
 			}
 		}
 		else 
