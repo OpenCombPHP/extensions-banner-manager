@@ -93,7 +93,30 @@ class BannerManager extends Extension
 				//老版本
 				//$arrViewAd = $aSetting->item('/'.'viewAd',$value,array());
 				$arrViewAd = $aSetting->value('/viewAd/'.$value,array());
-
+				
+				if(array_key_exists('params',$arrViewAd)){
+					if(array_intersect(  explode('&', $arrViewAd['params']) , $arrTargetParms ) == explode('&', $arrViewAd['params']))
+					{
+						$arrConfig['view:'.$arrControllerAdName[1]] = array(
+								"template"=> "bannermanager:ViewAdvertisement.html",
+								'vars'=> array('adName'=>$arrControllerAdName[1]),
+								"class"=> "view",
+						);
+					}elseif(empty($arrViewAd['params'])){
+						$arrConfig['view:'.$arrControllerAdName[1]] = array(
+								"template"=> "bannermanager:ViewAdvertisement.html",
+								'vars'=> array('aId'=>$arrControllerAdName[1]),
+								"class"=> "view",
+						);
+					}
+				}else{
+					$arrConfig['view:'.$arrControllerAdName[1]] = array(
+							"template"=> "bannermanager:ViewAdvertisement.html",
+							'vars'=> array('aId'=>$arrControllerAdName[1]),
+							"class"=> "view",
+					);
+				}
+				/*
 					if(array_intersect(  explode('&', $arrViewAd['params']) , $arrTargetParms ) == explode('&', $arrViewAd['params']))
 					{
 						$arrConfig['view:'.$arrControllerAdName[1]] = array(
@@ -108,7 +131,7 @@ class BannerManager extends Extension
 								"class"=> "view",
 						);
 					}
-				
+				*/
 				
 
 			}
